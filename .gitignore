@@ -1,0 +1,27 @@
+# Project specific
+**/tests/*.pdf
+
+# Logs 
+log/
+*.log
+*.coverage
+
+# Mac specific
+.DS_Store
+.DS_Store?
+
+# R
+*.Rproj.user
+
+# Open cached files 
+*.m~
+*.*swp
+*.*swo
+
+# Compiled sources
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so

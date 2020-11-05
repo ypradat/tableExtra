@@ -1,12 +1,11 @@
 ## Note: this functions is modified copy of gtable_table from the gridExtra package.
 
-
-#' Build a table with text grobs.
+#' Build a table with foreground and background grobs.
 #'
 #' This function is a copy of the internal function \code{gtable_table} of gridExtra package. 
 #'
 #' @param d data.frame or matrix
-#' @param width optional \code{unit.list} specifying the grob widths
+#' @param widths optional \code{unit.list} specifying the grob widths
 #' @param heights optional \code{unit.list} specifying the grob heights
 #' @param fg_fun grob-drawing function
 #' @param fg_params  named list of params passed to fg_fun
@@ -15,58 +14,44 @@
 #' @param padding \code{unit.list} object specifying the padding between adjacent cells.
 #' @param name optional name of the grob
 #' @param vp optional viewport
+#' @param ... additional parameters passed to add_table_params.
 #' @return A gtable.
 #'
 #' @importFrom gtable gtable_matrix gtable_add_grob
 #'
 #' @author Yoann Pradat
 #' @keywords internal
-gtable_text <- function(d, widths, heights,
-                        fg_fun = text_grob, fg_params = list(),
-                        bg_fun = rect_grob, bg_params = list(),
-                        padding = unit(c(4, 4), "mm"),
-                        name = "table", vp = NULL){
-  
-  label_matrix <- as.matrix(d)
-  
-  nc <- ncol(label_matrix)
-  nr <- nrow(label_matrix)
-  n <- nc*nr
-  
-  ## formatting parameters will be recycled iff 
-  ## there are fewer elements than needed
-  rep_ifshort <- function(x, n, nc, nr){
-      if(length(x) >= n){
-        return(x[1:n]) 
-      } else # recycle 
-        return(rep(rep(x, length.out = nr), length.out= n)) 
-  }
-  
-  fg_params <- lapply(fg_params, rep_ifshort, n = n, nc = nc, nr = nr)
-  bg_params <- lapply(bg_params, rep_ifshort, n = n, nc = nc, nr = nr)
-  
-  fg_params <- data.frame(fg_params, 
-                          label = as.vector(label_matrix), # colwise
-                          stringsAsFactors=FALSE)
-  
-  bg_params <- data.frame(bg_params, stringsAsFactors=FALSE)
-  
-  labels <- do.call(mapply, c(fg_params, list(FUN = fg_fun, 
-                                              SIMPLIFY=FALSE)))
-  bkgds <- do.call(mapply, c(bg_params, list(FUN = bg_fun, 
-                                             SIMPLIFY=FALSE)))
+gtable_table <- function(d, widths, heights,
+                         fg_fun = text_grob, fg_params = list(),
+                         bg_fun = rect_grob, bg_params = list(),
+                         padding = unit(c(4, 4), "mm"),
+                         name = "table", vp = NULL, ...){
 
-  label_grobs <- matrix(labels, ncol = nc, byrow = FALSE)
+  d <- as.matrix(d)
+
+  nc <- ncol(d)
+  nr <- nrow(d)
+  n <- nc*nr
+
+  table_params <- table_params(d, fg_params, bg_params)
+  bg_params <- table_params[["bg_params"]]
+  fg_params <- table_params[["fg_params"]]
+  fg_params <- add_table_params(d, fg_params, fg_fun, ...)
+
+  frgds <- do.call(mapply, c(fg_params, list(FUN = fg_fun, SIMPLIFY=FALSE)))
+  bkgds <- do.call(mapply, c(bg_params, list(FUN = bg_fun, SIMPLIFY=FALSE)))
+
+  frgds_grobs <- matrix(frgds, ncol = nc, byrow = FALSE)
   bkgds_grobs <- matrix(bkgds, ncol = nc, byrow = FALSE)
 
   if(missing(widths))
-    widths <- col_widths(label_grobs) + 2 * padding[1]
+    widths <- col_widths(frgds_grobs) + padding[1]
   if(missing(heights))
-    heights <- row_heights(label_grobs) + 2 * padding[2]
+    heights <- row_heights(frgds_grobs) + padding[2]
 
-  ## place labels in a gtable
+  ## make the gtable matrix of foreground
   g <- gtable_matrix(paste0(name, "-fg"), 
-                     grobs = label_grobs, 
+                     grobs = frgds_grobs, 
                      widths = widths, 
                      heights = heights, vp=vp)
   
@@ -83,98 +68,278 @@ gtable_text <- function(d, widths, heights,
   g
 }
 
-#' Build a table with circle grobs.
-#'
-#' This function is a copy of the internal function \code{gtable_table} of gridExtra package. 
-#'
-#' @param d data.frame or matrix
-#' @param width optional \code{unit.list} specifying the grob widths
-#' @param heights optional \code{unit.list} specifying the grob heights
-#' @param fg_fun grob-drawing function
-#' @param fg_params  named list of params passed to fg_fun
-#' @param bg_fun grob-drawing function 
-#' @param bg_params  named list of params passed to bg_fun
-#' @param padding \code{unit.list} object specifying the padding between adjacent cells.
-#' @param name optional name of the grob
-#' @param vp optional viewport
-#' @return A gtable.
-#'
-#' @importFrom gtable gtable_matrix gtable_add_grob
-#'
-#' @author Yoann Pradat
-#' @keywords internal
-gtable_circle <- function(d, widths, heights,
-                          fg_fun = text_grob, fg_params = list(),
-                          bg_fun = rect_grob, bg_params = list(),
-                          padding = unit(c(0.01, 0.01), "npc"),
-                          name = "table", vp = NULL){
-
-  label_matrix <- as.matrix(d)
-  
-  nc <- ncol(label_matrix)
-  nr <- nrow(label_matrix)
-  n <- nc*nr
-  
-  ## formatting parameters will be recycled iff 
-  ## there are fewer elements than needed
-  rep_ifshort <- function(x, n, nc, nr){
-      if(length(x) >= n){
-        return(x[1:n]) 
-      } else # recycle 
-        return(rep(rep(x, length.out = nr), length.out= n)) 
-  }
-  
-  fg_params <- lapply(fg_params, rep_ifshort, n = n, nc = nc, nr = nr)
-  bg_params <- lapply(bg_params, rep_ifshort, n = n, nc = nc, nr = nr)
-                          
-  fg_params <- data.frame(fg_params, 
-                          r = as.vector(label_matrix), # colwise
-                          stringsAsFactors=FALSE)
-  
-  bg_params <- data.frame(bg_params, stringsAsFactors=FALSE)
-  
-  labels <- do.call(mapply, c(fg_params, list(FUN = fg_fun, 
-                                              SIMPLIFY=FALSE)))
-  bkgds <- do.call(mapply, c(bg_params, list(FUN = bg_fun, 
-                                             SIMPLIFY=FALSE)))
-
-  label_grobs <- matrix(labels, ncol = nc, byrow = FALSE)
-  bkgds_grobs <- matrix(bkgds, ncol = nc, byrow = FALSE)
-
-  # if(missing(widths))
-  #   #widths <- rep(max(col_widths(label_grobs)), nc) + padding[1]
-  #   widths <- rep(max(col_widths(label_grobs)), nc) + padding[1]
-  # if(missing(heights))
-  #   #heights <- rep(max(row_heights(label_grobs)), nr) + padding[2]
-  #   heights <- rep(max(row_heights(label_grobs)), nr) + padding[2]
-
-  widths  <- rep(unit(1/max(nc,nr), "npc"), nc) - padding[1]
-  heights <- rep(unit(1/max(nc,nr), "npc"), nr) - padding[2]
-
-  ## place labels in a gtable
-  g <- gtable_matrix(paste0(name, "-fg"), 
-                     grobs = label_grobs, 
-                     widths = widths, 
-                     heights = heights, vp=vp)
-
-  
-  ## add the background
-  g <- gtable_add_grob(g, bkgds_grobs, 
-                       t=rep(seq_len(nr), length.out = n), 
-                       l=rep(seq_len(nc), each = nr), z=0, 
-                       name=paste0(name, "-bg"))
-  ## add padding
-  g <- gtable::gtable_add_col_space(g, padding[1])
-  g <- gtable::gtable_add_row_space(g, padding[2])
-  
-  g
-}
-
+# library(grid)
+# library(gtable)
+# suppressMessages(library(SummarizedExperiment))
+# load("../tests/testthat/testdata/DBS.rda")
 # 
+# theme <- ttheme_awesome(base_size=8)
+# cols  <- t(colnames(DBS))
+# 
+# name="colhead"
+# fg_fun = theme$colhead$fg_fun 
+# bg_fun = theme$colhead$bg_fun 
+# fg_params = theme$colhead$fg_params 
+# bg_params = theme$colhead$bg_params 
+# padding=theme$colhead$padding
+# 
+# d <- cols
+# 
+# nc <- ncol(d)
+# nr <- nrow(d)
+# n <- nc*nr
+# 
+# table_params <- table_params(d, fg_params, bg_params)
+# bg_params <- table_params[["bg_params"]]
+# fg_params <- table_params[["fg_params"]]
+# fg_params <- add_table_params(d, fg_params, fg_fun)
+# 
+# frgds <- do.call(mapply, c(fg_params, list(FUN = fg_fun, SIMPLIFY=FALSE)))
+# bkgds <- do.call(mapply, c(bg_params, list(FUN = bg_fun, SIMPLIFY=FALSE)))
+# 
+# frgds_grobs <- matrix(frgds, ncol = nc, byrow = FALSE)
+# bkgds_grobs <- matrix(bkgds, ncol = nc, byrow = FALSE)
+# 
+# pdf("testplot.pdf", width=6, height=6)
+# 
+# widths <- col_widths(frgds_grobs) + padding[1]
+# heights <- row_heights(frgds_grobs) + padding[2]
+# 
+# ## make the gtable matrix of foreground
+# g <- gtable_matrix(paste0(name, "-fg"), 
+#                    grobs = frgds_grobs, 
+#                    widths = widths, 
+#                    heights = heights, vp=vp)
+# 
+# ## add the background
+# g <- gtable_add_grob(g, bkgds_grobs, 
+#                      t=rep(seq_len(nr), length.out = n), 
+#                      l=rep(seq_len(nc), each = nr), z=0, 
+#                      name=paste0(name, "-bg"))
+# 
+# # add padding
+# g <- gtable::gtable_add_col_space(g, padding[1])
+# g <- gtable::gtable_add_row_space(g, padding[2])
+# 
+# grid.draw(g)
+# 
+# dev.off()
+# 
+# gc <- gtable_table(t(cols), name="colhead",
+#                    fg_fun = theme$colhead$fg_fun, 
+#                    bg_fun = theme$colhead$bg_fun, 
+#                    fg_params = theme$colhead$fg_params, 
+#                    bg_params = theme$colhead$bg_params, 
+#                    padding=theme$colhead$padding)
+# 
+# gr <- gtable_table(rowData(DBS)$name, name="colhead",
+#                    fg_fun = theme$rowhead$fg_fun, 
+#                    bg_fun = theme$rowhead$bg_fun, 
+#                    fg_params = theme$rowhead$fg_params, 
+#                    bg_params = theme$rowhead$bg_params, 
+#                    padding=theme$rowhead$padding)
+# 
+# 
+# d = t(cols)
+# d <- rowData(DBS)$name
+# 
+# nc <- ncol(d)
+# nr <- nrow(d)
+# n <- nc*nr
+# 
+# 
+# 
+# table_params <- table_params(d, fg_params, bg_params)
+# bg_params <- table_params[["bg_params"]]
+# fg_params <- table_params[["fg_params"]]
+# fg_params <- add_table_params(d, fg_params, fg_fun)
+# 
+# frgds <- do.call(mapply, c(fg_params, list(FUN = fg_fun, SIMPLIFY=FALSE)))
+# bkgds <- do.call(mapply, c(bg_params, list(FUN = bg_fun, SIMPLIFY=FALSE)))
+# 
+# frgds_grobs <- matrix(frgds, ncol = nc, byrow = FALSE)
+# bkgds_grobs <- matrix(bkgds, ncol = nc, byrow = FALSE)
+# 
+# 
+# all.equal(fg_fun, text_grob)
+
+
+
+# #' Build a table with text grobs.
+# #'
+# #' This function is a copy of the internal function \code{gtable_table} of gridExtra package. 
+# #'
+# #' @param d data.frame or matrix
+# #' @param width optional \code{unit.list} specifying the grob widths
+# #' @param heights optional \code{unit.list} specifying the grob heights
+# #' @param fg_fun grob-drawing function
+# #' @param fg_params  named list of params passed to fg_fun
+# #' @param bg_fun grob-drawing function 
+# #' @param bg_params  named list of params passed to bg_fun
+# #' @param padding \code{unit.list} object specifying the padding between adjacent cells.
+# #' @param name optional name of the grob
+# #' @param vp optional viewport
+# #' @return A gtable.
+# #'
+# #' @importFrom gtable gtable_matrix gtable_add_grob
+# #'
+# #' @author Yoann Pradat
+# #' @keywords internal
+# gtable_text <- function(d, widths, heights,
+#                         fg_fun = text_grob, fg_params = list(),
+#                         bg_fun = rect_grob, bg_params = list(),
+#                         padding = unit(c(4, 4), "mm"),
+#                         name = "table", vp = NULL){
+#   
+#   label_matrix <- as.matrix(d)
+#   
+#   nc <- ncol(label_matrix)
+#   nr <- nrow(label_matrix)
+#   n <- nc*nr
+#   
+#   ## formatting parameters will be recycled iff 
+#   ## there are fewer elements than needed
+#   rep_ifshort <- function(x, n, nc, nr){
+#       if(length(x) >= n){
+#         return(x[1:n]) 
+#       } else # recycle 
+#         return(rep(rep(x, length.out = nr), length.out= n)) 
+#   }
+#   
+#   fg_params <- lapply(fg_params, rep_ifshort, n = n, nc = nc, nr = nr)
+#   bg_params <- lapply(bg_params, rep_ifshort, n = n, nc = nc, nr = nr)
+#   
+#   fg_params <- data.frame(fg_params, 
+#                           label = as.vector(label_matrix), # colwise
+#                           stringsAsFactors=FALSE)
+#   
+#   bg_params <- data.frame(bg_params, stringsAsFactors=FALSE)
+#   
+#   labels <- do.call(mapply, c(fg_params, list(FUN = fg_fun, 
+#                                               SIMPLIFY=FALSE)))
+#   bkgds <- do.call(mapply, c(bg_params, list(FUN = bg_fun, 
+#                                              SIMPLIFY=FALSE)))
+# 
+#   label_grobs <- matrix(labels, ncol = nc, byrow = FALSE)
+#   bkgds_grobs <- matrix(bkgds, ncol = nc, byrow = FALSE)
+# 
+#   if(missing(widths))
+#     widths <- col_widths(label_grobs) +  padding[1]
+#   if(missing(heights))
+#     heights <- row_heights(label_grobs) +  padding[2]
+# 
+#   ## place labels in a gtable
+#   g <- gtable_matrix(paste0(name, "-fg"), 
+#                      grobs = label_grobs, 
+#                      widths = widths, 
+#                      heights = heights, vp=vp)
+#   
+#   ## add the background
+#   g <- gtable_add_grob(g, bkgds_grobs, 
+#                        t=rep(seq_len(nr), length.out = n), 
+#                        l=rep(seq_len(nc), each = nr), z=0, 
+#                        name=paste0(name, "-bg"))
+#   
+#   # add padding
+#   g <- gtable::gtable_add_col_space(g, padding[1])
+#   g <- gtable::gtable_add_row_space(g, padding[2])
+# 
+#   g
+# }
+# 
+# #' Build a table with circle grobs.
+# #'
+# #' This function is a copy of the internal function \code{gtable_table} of gridExtra package. 
+# #'
+# #' @param d data.frame or matrix
+# #' @param width optional \code{unit.list} specifying the grob widths
+# #' @param heights optional \code{unit.list} specifying the grob heights
+# #' @param fg_fun grob-drawing function
+# #' @param fg_params  named list of params passed to fg_fun
+# #' @param bg_fun grob-drawing function 
+# #' @param bg_params  named list of params passed to bg_fun
+# #' @param padding \code{unit.list} object specifying the padding between adjacent cells.
+# #' @param name optional name of the grob
+# #' @param vp optional viewport
+# #' @return A gtable.
+# #'
+# #' @importFrom gtable gtable_matrix gtable_add_grob
+# #'
+# #' @author Yoann Pradat
+# #' @keywords internal
+# gtable_circle <- function(d, widths, heights,
+#                           fg_fun = text_grob, fg_params = list(),
+#                           bg_fun = rect_grob, bg_params = list(),
+#                           core_size = unit(10, "mm"),
+#                           padding = unit(c(1, 1), "mm"),
+#                           name = "table", vp = NULL){
+# 
+#   d <- as.matrix(d)
+#   nc <- ncol(d)
+#   nr <- nrow(d)
+#   n <- nc*nr
+# 
+#   fg_fun <- rect_grob()
+# 
+# 
+#   theme <- ttheme_awesome()
+#   fg_params <- theme$core$fg_params
+# 
+#   fg_params <- list(r=do.call(unit.c, lapply(sizes, function(x) x*core_size)))
+#   
+#   
+#   fg_params <- lapply(fg_params, rep_ifshort, n = n, nc = nc, nr = nr)
+#   bg_params <- lapply(bg_params, rep_ifshort, n = n, nc = nc, nr = nr)
+#                           
+#   fg_params <- data.frame(fg_params, 
+#                           r = do.call(unit.c, do.call(as.vector(d_matrix), # colwise
+#                           stringsAsFactors=FALSE)
+#   
+#   bg_params <- data.frame(bg_params, stringsAsFactors=FALSE)
+#   
+#   labels <- do.call(mapply, c(fg_params, list(FUN = fg_fun, 
+#                                               SIMPLIFY=FALSE)))
+#   bkgds <- do.call(mapply, c(bg_params, list(FUN = bg_fun, 
+#                                              SIMPLIFY=FALSE)))
+# 
+#   label_grobs <- matrix(labels, ncol = nc, byrow = FALSE)
+#   bkgds_grobs <- matrix(bkgds, ncol = nc, byrow = FALSE)
+# 
+#   # if(missing(widths))
+#   #   #widths <- rep(max(col_widths(label_grobs)), nc) + padding[1]
+#   #   widths <- rep(max(col_widths(label_grobs)), nc) + padding[1]
+#   # if(missing(heights))
+#   #   #heights <- rep(max(row_heights(label_grobs)), nr) + padding[2]
+#   #   heights <- rep(max(row_heights(label_grobs)), nr) + padding[2]
+# 
+#   widths  <- rep(core_size, nc) - padding[1]
+#   heights <- rep(core_size, nr) - padding[2]
+# 
+#   ## place labels in a gtable
+#   g <- gtable_matrix(paste0(name, "-fg"), 
+#                      grobs = label_grobs, 
+#                      widths = widths, 
+#                      heights = heights, vp=vp)
+# 
+#   
+#   ## add the background
+#   g <- gtable_add_grob(g, bkgds_grobs, 
+#                        t=rep(seq_len(nr), length.out = n), 
+#                        l=rep(seq_len(nc), each = nr), z=0, 
+#                        name=paste0(name, "-bg"))
+#   ## add padding
+#   g <- gtable::gtable_add_col_space(g, padding[1])
+#   g <- gtable::gtable_add_row_space(g, padding[2])
+#   
+#   g
+# }
+
 # library(grid)
 # library(gtable)
 # load("../tests/testthat/testdata/DBS.rda")
 # 
+# 
+# apply(d, 1:2, function(x) x * unit(1, "mm"))
 # 
 # d <- SummarizedExperiment::assays(DBS)$proportion
 # d <- norm_and_cat(d,ncat=theme$core$ncircle, vmax=0.5)
@@ -209,6 +374,11 @@ gtable_circle <- function(d, widths, heights,
 # 
 # dev.off()
 # 
+# col_widths <- function(m){
+#   do.call(grid::unit.c, apply(m, 2, function(l)
+#     max(do.call(grid::unit.c, lapply(l, grid::grobWidth)))))
+# }
+
 
 
 # library(gtable)

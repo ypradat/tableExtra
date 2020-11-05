@@ -68,8 +68,8 @@ rect_grob <- function(fill = "white",
                       just = "centre",
                       hjust = 0.5,
                       vjust = 0.5, 
-                      width = unit(1,"npc") - unit(2, "scaledpts"), 
-                      height = unit(1,"npc") - unit(2, "scaledpts"), 
+                      width = unit(10, "mm"), 
+                      height = unit(10, "mm"),  
                       x = 0.5, 
                       y = 0.5,
                       default.units = "npc"){
@@ -100,7 +100,7 @@ rect_grob <- function(fill = "white",
 #'
 #' @import grid
 #' @return a \code{grob} from the grid package.
-circle_grob <- function(r=unit(0.48, "npc"),
+circle_grob <- function(r=unit(5, "mm"),
                         fill = "black", 
                         col = "black", 
                         lty = "solid", 
@@ -116,7 +116,7 @@ circle_grob <- function(r=unit(0.48, "npc"),
                         y = 0.5,
                         default.units = "npc"){
   
-  circleGrob(r = unit(r, "npc"),
+  circleGrob(r = r,
              x = x,
              y = y,
              default.units = default.units,

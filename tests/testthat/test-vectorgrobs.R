@@ -36,8 +36,8 @@ test_that("circle grob", {
   expect_true(out$plot.success)
 })
 
-test_that("circle square grob", {
-  gc <- circle_grob(r=0.5,
+test_that("circle rect grob", {
+  gc <- circle_grob(r=unit(5, "mm"),
                     lwd=0,
                     fill="grey80",
                     col="black",
@@ -45,8 +45,8 @@ test_that("circle square grob", {
                     cex=1)
 
   gr <- rect_grob(fill="white",
-                  x = 1,
-                  y = 1,
+                  x = 0.5,
+                  y = 0.5,
                   col="black",
                   lty="solid",
                   cex=1)
@@ -56,5 +56,28 @@ test_that("circle square grob", {
   expect_true(is(g, "grob"))
 
   out <- plot_grob(g, name="rect_circle_grob.pdf", width=1, height=1)
+  expect_true(out$plot.success)
+})
+
+test_that("circle rect grob small", {
+  gc <- circle_grob(r=unit(5, "mm"),
+                    lwd=0,
+                    fill="grey80",
+                    col="black",
+                    lty="solid",
+                    cex=1)
+
+  gr <- rect_grob(fill="white",
+                  x = 0.5,
+                  y = 0.5,
+                  col="black",
+                  lty="solid",
+                  cex=1)
+
+  g <- grid::gTree(children=grid::gList(gr, gc))
+
+  expect_true(is(g, "grob"))
+
+  out <- plot_grob(g, name="rect_circle_grob_small.pdf", width=4, height=4)
   expect_true(out$plot.success)
 })

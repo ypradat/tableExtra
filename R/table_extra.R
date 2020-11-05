@@ -8,7 +8,6 @@
 #' @param se \code{SummarizedExperiment} object with rownames, colnames, rowData, colData.
 #' @param theme list of theme parameters
 #' @param vp optional viewport
-#' @param ... further arguments to control the gtable
 #'
 #' @importFrom gtable gtable_add_rows 
 #'
@@ -20,19 +19,20 @@
 #' @examples
 #' library(tableExtra)
 extra_table_grob <- function(d, rows=rownames(d), cols=colnames(d), 
-                            theme = ttheme_awesome(), vp = NULL,...){
+                            theme = ttheme_awesome(), vp = NULL){
 
-  d <- norm_and_cat(d, ncat=theme$core$ncircle, vmax=0.5)
-
-  g <- gtable_circle(d, name="core",
+  
+  g <- gtable_table(d, name="core",
                     fg_fun = theme$core$fg_fun, 
                     bg_fun = theme$core$bg_fun, 
                     fg_params = theme$core$fg_params, 
                     bg_params = theme$core$bg_params, 
-                    padding=theme$core$padding, ...)
-  
+                    padding = theme$core$padding,
+                    n_cat = theme$core$n_cat,
+                    r_max = theme$core$size - pmax(theme$core$padding))
+
   if(!is.null(cols)){
-    gc <- gtable_text(t(cols), name="colhead",
+    gc <- gtable_table(t(cols), name="colhead",
                        fg_fun = theme$colhead$fg_fun, 
                        bg_fun = theme$colhead$bg_fun, 
                        fg_params = theme$colhead$fg_params, 
@@ -79,16 +79,19 @@ extra_table_grob <- function(d, rows=rownames(d), cols=colnames(d),
 ttheme_awesome <- function(base_size=12, 
                            base_colour="black", 
                            base_family="",
-                           ncircle=10,
+                           core_size=unit(10,"mm"),
+                           core_n_cat=10,
                            parse=FALSE, 
                            padding = unit(c(1, 1), "mm"), ...){
   
   core <- list(fg_fun = circle_grob, 
                fg_params = list(fill = c("#6767f8"), col="white", lwd=0),
                bg_fun = rect_grob, 
-               bg_params = list(fill = c("#f2f2f2","#e5e5e5"), 
+               bg_params = list(x = core_size, y = core_size,
+                                fill = c("#f2f2f2","#e5e5e5"), 
                                 lwd=0, col="white"),
-               ncircle = ncircle,
+               n_cat = core_n_cat,
+               size = core_size,
                padding = padding)
   
   colhead <- list(fg_fun = text_grob, 
@@ -100,7 +103,8 @@ ttheme_awesome <- function(base_size=12,
                                    y = 0.05,
                                    rot = 90),
                   bg_fun = rect_grob, 
-                  bg_params = list(fill = c("grey95"), lwd=0, col="white"),
+                  bg_params = list(x = core_size, fill = c("black"), 
+                                   lwd=0, col="black"),
                   padding = padding)
   
   rowhead <- list(fg_fun = text_grob, 
@@ -111,7 +115,8 @@ ttheme_awesome <- function(base_size=12,
                                    hjust = 1, 
                                    x = 0.95),
                   bg_fun = rect_grob, 
-                  bg_params = list(fill=c("grey95"), lwd=0, col="white"),
+                  bg_params = list(y = core_size, fill=c("grey95"), 
+                                   lwd=0, col="white"),
                   padding = padding)
   
   default <- list(

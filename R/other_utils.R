@@ -16,7 +16,7 @@ col_widths <- function(m){
     max(do.call(grid::unit.c, lapply(l, grid::grobWidth)))))
 }
 
-norm_and_cat <- function(m, ncat=10, vmax=0.5){
+scalecat <- function(m, n_cat=10, vmax=0.5){
   if (min(m) == max(m)){
     if (min(m) != 0){
       m <- m/max(m)
@@ -27,6 +27,13 @@ norm_and_cat <- function(m, ncat=10, vmax=0.5){
     m <- (m-min(m))/(max(m) - min(m))
   }
   
-  m <- apply(m, 1:2, function(x) round(x*ncat)/(ncat/vmax))
+  m <- apply(m, 1:2, function(x) round(x*n_cat)/(n_cat/vmax))
   m
+}
+
+rep_ifshort <- function(x, n, nc, nr){
+    if(length(x) >= n){
+      return(x[1:n]) 
+    } else # recycle 
+      return(rep(rep(x, length.out = nr), length.out= n)) 
 }

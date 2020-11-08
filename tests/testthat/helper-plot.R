@@ -5,5 +5,5 @@ plot_grob <- function(g, name, width=NULL, height=NULL){
                  onefile=T)
   grid::grid.draw(g)
   grDevices::dev.off()
-  invisible(list(plot.success=T))
+  invisible(list(plot_success=T))
 }

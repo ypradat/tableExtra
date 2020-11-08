@@ -8,12 +8,12 @@ rep_along <- function(x, y) {
 
 row_heights <- function(m){
   do.call(grid::unit.c, apply(m, 1, function(l)
-    max(do.call(grid::unit.c, lapply(l, grid::grobHeight)))))
+    1.1*max(do.call(grid::unit.c, lapply(l, grid::grobHeight)))))
 }
 
 col_widths <- function(m){
   do.call(grid::unit.c, apply(m, 2, function(l)
-    max(do.call(grid::unit.c, lapply(l, grid::grobWidth)))))
+    1.1*max(do.call(grid::unit.c, lapply(l, grid::grobWidth)))))
 }
 
 scalecat <- function(m, n_cat=10, vmax=0.5){

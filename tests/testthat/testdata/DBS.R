@@ -55,12 +55,12 @@ assays[["median"]] <- data
 
 rows.desc <- c("Ultraviolet light exposure", "Tobacco Smokin and other", "POLE mutation", "", "Platinum treatment", "",
                "Defective DNA repair", "", "", "Defective DNA repair", "APOBEC activity")
-rowData <- data.frame(name=rows, description=rows.desc)
+rowData <- data.frame(name=rows, description=rows.desc, stringsAsFactors=F)
 
 # col data for SummarizedExperiment object =============================================================================
 
 cols.desc <- c(8, 10, 0, 0, 18, 0, 2, 0, 0, 0, 13, 1)
-colData <- data.frame(name=cols, description=cols.desc)
+colData <- data.frame(name=cols, description=cols.desc, stringsAsFactors=F)
 
 # SummarizedExperiment object ==========================================================================================
 

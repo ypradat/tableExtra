@@ -7,11 +7,13 @@ test_that("text grob", {
   expect_true(is(g, "text"))
 
   out <- plot_grob(g, name="text_grob.pdf", width=1, height=1)
-  expect_true(out$plot.success)
+  expect_true(out$plot_success)
 })
 
 test_that("rect grob", {
-  g <- rect_grob(fill="grey80",
+  g <- rect_grob(width=unit(10, "mm"),
+                 height=unit(10, "mm"),
+                 fill="grey80",
                  col="black",
                  lty="solid",
                  cex=1)
@@ -20,11 +22,29 @@ test_that("rect grob", {
   expect_true(is(g, "rect"))
 
   out <- plot_grob(g, name="rect_grob.pdf", width=1, height=1)
-  expect_true(out$plot.success)
+  expect_true(out$plot_success)
+})
+
+test_that("rect grob", {
+  g <- rect_grob(x=unit(0.5, "mm"),
+                 y=unit(0.5, "mm"),
+                 width=unit(10,"mm"),
+                 height=unit(10,"mm"),
+                 fill="grey80",
+                 col="black",
+                 lty="solid",
+                 cex=1)
+
+  expect_true(is(g, "grob"))
+  expect_true(is(g, "rect"))
+
+  out <- plot_grob(g, name="rect_grob_xy.pdf", width=1, height=1)
+  expect_true(out$plot_success)
 })
 
 test_that("circle grob", {
-  g <- circle_grob(fill="grey80",
+  g <- circle_grob(r=unit(5, "mm"),
+                   fill="grey80",
                    col="black",
                    lty="solid",
                    cex=1)
@@ -33,7 +53,7 @@ test_that("circle grob", {
   expect_true(is(g, "circle"))
 
   out <- plot_grob(g, name="circle_grob.pdf", width=1, height=1)
-  expect_true(out$plot.success)
+  expect_true(out$plot_success)
 })
 
 test_that("circle rect grob", {
@@ -44,9 +64,9 @@ test_that("circle rect grob", {
                     lty="solid",
                     cex=1)
 
-  gr <- rect_grob(fill="white",
-                  x = 0.5,
-                  y = 0.5,
+  gr <- rect_grob(width=unit(10,"mm"),
+                  height=unit(10,"mm"),
+                  fill="white",
                   col="black",
                   lty="solid",
                   cex=1)
@@ -56,7 +76,7 @@ test_that("circle rect grob", {
   expect_true(is(g, "grob"))
 
   out <- plot_grob(g, name="rect_circle_grob.pdf", width=1, height=1)
-  expect_true(out$plot.success)
+  expect_true(out$plot_success)
 })
 
 test_that("circle rect grob small", {
@@ -67,9 +87,9 @@ test_that("circle rect grob small", {
                     lty="solid",
                     cex=1)
 
-  gr <- rect_grob(fill="white",
-                  x = 0.5,
-                  y = 0.5,
+  gr <- rect_grob(width=unit(10,"mm"),
+                  height=unit(10,"mm"),
+                  fill="white",
                   col="black",
                   lty="solid",
                   cex=1)
@@ -79,5 +99,5 @@ test_that("circle rect grob small", {
   expect_true(is(g, "grob"))
 
   out <- plot_grob(g, name="rect_circle_grob_small.pdf", width=4, height=4)
-  expect_true(out$plot.success)
+  expect_true(out$plot_success)
 })

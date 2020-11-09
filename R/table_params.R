@@ -19,7 +19,7 @@ table_params <- function(d, fg_params, bg_params){
   return(list(fg_params=fg_params, bg_params=bg_params))
 }
 
-#' Add circle parameters
+#' Add circle scale parameters
 #'
 #' @param d data.frame or matrix
 #' @param n_cat integer indicating the number of differently-sized circles
@@ -29,10 +29,67 @@ table_params <- function(d, fg_params, bg_params){
 #'
 #' @author Yoann Pradat
 #' @keywords internal
-table_params_circle <- function(d, n_cat=10, r_max=unit(10, "mm")){
+table_params_circle_scale <- function(d, n_cat=10, r_max=unit(10, "mm")){
   d <- scalecat(d, n_cat=n_cat, vmax=1)
   d <- as.vector(d)
   params <- list(r=do.call(unit.c, lapply(d, function(x) x*r_max)))
+  return(params)
+}
+
+#' Add circle color parameters
+#'
+#' @param d data.frame or matrix
+#' @param pal a character vector of color names
+#' @param pal_breaks a numeric vector of break points
+#'
+#' @importFrom methods is
+#'
+#' @author Yoann Pradat
+#' @keywords internal
+table_params_circle_color <- function(d, pal, pal_breaks=NULL){
+  if (is.null(d)){
+    return(list())
+  } else {
+    if (is.null(pal_breaks)){
+      pal_breaks <- length(pal)
+    }
+    if (is(pal_breaks,"integer")){
+      if (pal_breaks==1){
+        d <- as.matrix(pal, nrow=nrow(d), ncol=ncol(d))
+      }
+      else {
+        d <- cut(d, breaks=pal_breaks, right=F)
+      }
+    } else {
+      d <- cut(d, breaks=pal_breaks, right=F)
+      levels(d) <- pal
+    }
+    params <- list(fill=as.vector(d))
+    return(params)
+  }
+}
+
+#' Add circle parameters
+#'
+#' @param d data.frame or matrix
+#' @param n_cat integer indicating the number of differently-sized circles
+#' @param r_max unit object indicating the maximum radius
+#' @param pal a character vector of color names
+#' @param pal_breaks a numeric vector of break points
+#'
+#' @importFrom grid unit.c 
+#'
+#' @author Yoann Pradat
+#' @keywords internal
+table_params_circle <- function(dscale, dcolor, n_cat, r_max, pal, pal_breaks){
+  params_scale <- table_params_circle_scale(d=dscale, n_cat=n_cat, r_max=r_max)
+
+  if(!missing(dcolor)){
+    params_color <- table_params_circle_color(d=dcolor, pal=pal, pal_breaks=pal_breaks)
+    params <- c(params_scale, params_color)
+  } else {
+    params <- params_scale
+  }
   return(params)
 }
 

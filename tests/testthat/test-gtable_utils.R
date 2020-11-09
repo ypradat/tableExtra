@@ -1,6 +1,4 @@
 test_that("rbind_2 on text row", {
-  load("testdata/DBS.rda")
-
   theme <- ttheme_awesome()
   d <- t(SummarizedExperiment::colData(DBS)$description)
 
@@ -25,8 +23,6 @@ test_that("rbind_2 on text row", {
 })
 
 test_that("rbind_2 on text mat", {
-  load("testdata/DBS.rda")
-
   theme <- ttheme_awesome()
   d <- SummarizedExperiment::rowData(DBS)$name
   d <- matrix(rep(d, 5), nrow=5, byrow=T)
@@ -53,8 +49,6 @@ test_that("rbind_2 on text mat", {
 
 
 test_that("cbind_2 on table circle", {
-  load("testdata/DBS.rda")
-
   theme <- ttheme_awesome()
   d <- SummarizedExperiment::assays(DBS)$proportion
   widths <- rep(theme$core$size, ncol(d))
@@ -68,6 +62,7 @@ test_that("cbind_2 on table circle", {
                      fg_params = theme$core$fg_params, 
                      bg_params = theme$core$bg_params, 
                      padding=theme$core$padding,
+                     n_cat=theme$core$n_cat,
                      r_max=0.5*theme$core$size)
 
   g2 <- gtable_table(d, name="circle",
@@ -78,6 +73,7 @@ test_that("cbind_2 on table circle", {
                      fg_params = theme$core$fg_params, 
                      bg_params = theme$core$bg_params, 
                      padding=theme$core$padding,
+                     n_cat=theme$core$n_cat,
                      r_max=0.5*theme$core$size)
 
   g <- cbind_2(g1, g2, "max", width=theme$core$padding[2])
@@ -87,8 +83,6 @@ test_that("cbind_2 on table circle", {
 })
  
 test_that("rbind_2 on table text - circle", {
-  load("testdata/DBS.rda")
-
   theme <- ttheme_awesome()
   d <- SummarizedExperiment::assays(DBS)$proportion
   col <- t(colnames(d))
@@ -112,6 +106,7 @@ test_that("rbind_2 on table text - circle", {
                      fg_params = theme$core$fg_params, 
                      bg_params = theme$core$bg_params, 
                      padding=theme$core$padding,
+                     n_cat=theme$core$n_cat,
                      r_max=0.5*theme$core$size)
 
   g <- rbind_2(g1, g2, size="last", height=theme$core$padding[1])

@@ -5,7 +5,7 @@
 \title{Vectorised version of circleGrob}
 \usage{
 circle_grob(
-  r = unit(0.48, "npc"),
+  r = unit(5, "mm"),
   fill = "black",
   col = "black",
   lty = "solid",
@@ -18,9 +18,9 @@ circle_grob(
   lex = 1,
   name = NULL,
   vp = NULL,
-  x = 0.5,
-  y = 0.5,
-  default.units = "npc"
+  x = unit(0.5, "npc"),
+  y = unit(0.5, "npc"),
+  default.units = "mm"
 )
 }
 \value{

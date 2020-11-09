@@ -5,10 +5,14 @@
 #'
 #' @describeIn circleTableGrog  return a grob
 #' @description Create a gtable containing circle grobs representing a numeric matrix.
-#' @param se \code{SummarizedExperiment} object with rownames, colnames, rowData, colData.
+#' @param dscale a matrix
+#' @param dcolor (optional) a matrix
+#' @param rows (optional) a character vector
+#' @param cols (optional) a character vector
 #' @param theme list of theme parameters
 #' @param vp optional viewport
 #'
+#' @import gtable
 #' @importFrom gtable gtable_add_rows 
 #'
 #' @return A gtable.
@@ -18,15 +22,16 @@
 #' @export
 #' @examples
 #' library(tableExtra)
-extra_table_grob <- function(d, rows=rownames(d), cols=colnames(d), 
+extra_table_grob <- function(dscale, dcolor=NULL,
+                             rows=rownames(dscale), cols=colnames(dscale), 
                              rows_more=NULL, cols_more=NULL,
                              rows_more_title="", cols_more_title="",
                              theme=ttheme_awesome(), vp=NULL){
 
-  widths <- rep(theme$core$size, ncol(d))
-  heights <- rep(theme$core$size, nrow(d))
+  widths <- rep(theme$core$size, ncol(dscale))
+  heights <- rep(theme$core$size, nrow(dscale))
 
-  g <- gtable_table(d, name="circle",
+  g <- gtable_table(dscale, name="circle",
                     widths=widths,
                     heights=heights,
                     fg_fun=theme$core$fg_fun, 
@@ -34,7 +39,12 @@ extra_table_grob <- function(d, rows=rownames(d), cols=colnames(d),
                     fg_params=theme$core$fg_params, 
                     bg_params=theme$core$bg_params, 
                     padding=theme$core$padding,
-                    r_max=0.5*theme$core$size)
+                    n_cat=theme$core$n_cat,
+                    r_max=0.5*theme$core$size,
+                    pal=theme$core$pal,
+                    pal_breaks=theme$core$pal_breaks,
+                    dcolor=dcolor)
+
 
   if(!is.null(cols)){
     if (!is.null(cols_more)){
@@ -79,7 +89,6 @@ extra_table_grob <- function(d, rows=rownames(d), cols=colnames(d),
           rows_more <- c("", rows_more)
         }
       }
-      print(rows_more)
 
       gr <- gtable_table(rows_more, name="rowmore",
                          fg_fun=theme$rowmore$fg_fun, 
@@ -105,8 +114,13 @@ extra_table_grob <- function(d, rows=rownames(d), cols=colnames(d),
 #' @param base_size default font size
 #' @param base_colour default font colour
 #' @param base_family default font family
+#' @param core_size cell size for core background grobs
+#' @param n_cat number of size categories for core foreground grobs
+#' @param pal color palette for core foreground grobs
+#' @param pal_breaks breaks for color palette for core foreground grobs
 #' @param parse logical, default behaviour for parsing text as plotmath
 #' @param padding length-2 unit vector specifying the horizontal and vertical padding of text within each cell
+#' @param ... extra parameters added to the theme list
 #'
 #' @importFrom utils modifyList
 #'
@@ -117,7 +131,9 @@ ttheme_awesome <- function(base_size=8,
                            base_colour="black", 
                            base_family="",
                            core_size=unit(10, "mm"),
-                           core_n_cat=10,
+                           n_cat=10,
+                           pal="black",
+                           pal_breaks=NULL,
                            parse=FALSE, 
                            padding=unit(c(0.3,0.3), "mm"), ...){
 
@@ -127,15 +143,17 @@ ttheme_awesome <- function(base_size=8,
   core_size_value <- as.numeric(core_size)
   core_size_unit <- attr(core_size, "unit")
   core <- list(fg_fun=circle_grob, 
-               fg_params=list(fill=c("#6767f8"), col="white", lwd=0),
+               fg_params=list(col="white", lwd=0),
                bg_fun=rect_grob, 
                bg_params=list(fill=c("#f2f2f2","#e5e5e5"),
                               width=core_size_value, 
                               height=core_size_value,
                               default.units=core_size_unit,
                               lwd=0, col="white"),
-               n_cat=core_n_cat,
                size=core_size,
+               n_cat=n_cat,
+               pal=pal,
+               pal_breaks=pal_breaks,
                padding=padding)
 
   colhead <- list(fg_fun=text_grob, 

@@ -73,6 +73,5 @@ DBS <- SummarizedExperiment(
 
 # save data ============================================================================================================
 
-library(usethis)
-proj_activate(".")
-use_data(DBS)
+dir.create("inst/testdata", showWarnings=F, recursive=T)
+save(DBS, file="inst/testdata/DBS.rda")

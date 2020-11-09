@@ -5,12 +5,15 @@
 \title{Define theme for awesome table plot.}
 \usage{
 ttheme_awesome(
-  base_size = 12,
+  base_size = 8,
   base_colour = "black",
   base_family = "",
-  n_circle = 10,
+  core_size = unit(10, "mm"),
+  n_cat = 10,
+  pal = "black",
+  pal_breaks = NULL,
   parse = FALSE,
-  padding = unit(c(0.005, 0.005), "npc"),
+  padding = unit(c(0.3, 0.3), "mm"),
   ...
 )
 }
@@ -21,9 +24,19 @@ ttheme_awesome(
 
 \item{base_family}{default font family}
 
+\item{core_size}{cell size for core background grobs}
+
+\item{n_cat}{number of size categories for core foreground grobs}
+
+\item{pal}{color palette for core foreground grobs}
+
+\item{pal_breaks}{breaks for color palette for core foreground grobs}
+
 \item{parse}{logical, default behaviour for parsing text as plotmath}
 
 \item{padding}{length-2 unit vector specifying the horizontal and vertical padding of text within each cell}
+
+\item{...}{extra parameters added to the theme list}
 }
 \description{
 Define theme for awesome table plot.

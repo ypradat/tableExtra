@@ -8,22 +8,30 @@
 Builds on top of \code{tableGrob} from gridExtra R package.}
 \usage{
 extra_table_grob(
-  d,
-  rows = rownames(d),
-  cols = colnames(d),
+  dscale,
+  dcolor = NULL,
+  rows = rownames(dscale),
+  cols = colnames(dscale),
+  rows_more = NULL,
+  cols_more = NULL,
+  rows_more_title = "",
+  cols_more_title = "",
   theme = ttheme_awesome(),
-  vp = NULL,
-  ...
+  vp = NULL
 )
 }
 \arguments{
+\item{dscale}{a matrix}
+
+\item{dcolor}{(optional) a matrix}
+
+\item{rows}{(optional) a character vector}
+
+\item{cols}{(optional) a character vector}
+
 \item{theme}{list of theme parameters}
 
 \item{vp}{optional viewport}
-
-\item{...}{further arguments to control the gtable}
-
-\item{se}{\code{SummarizedExperiment} object with rownames, colnames, rowData, colData.}
 }
 \value{
 A gtable.

@@ -1,6 +1,4 @@
 test_that("gtable text row no padding", {
-  load("testdata/DBS.rda")
-
   theme <- ttheme_awesome(padding=unit(c(0,0), "mm"))
   d <- t(SummarizedExperiment::colData(DBS)$description)
   widths <- rep(theme$core$size, ncol(d))
@@ -21,8 +19,6 @@ test_that("gtable text row no padding", {
 })
 
 test_that("gtable text row with padding", {
-  load("testdata/DBS.rda")
-
   theme <- ttheme_awesome(padding=unit(c(2,0), "mm"))
   d <- t(SummarizedExperiment::colData(DBS)$description)
   widths <- rep(theme$core$size, ncol(d))
@@ -42,10 +38,8 @@ test_that("gtable text row with padding", {
 })
 
 test_that("gtable text col", {
-  load("testdata/DBS.rda")
-
   theme <- ttheme_awesome(padding=unit(c(0,0), "mm"))
-  d <- as.matrix(SummarizedExperiment::rowData(DBS))
+  d <- SummarizedExperiment::rowData(DBS)["name"]
   heights <- rep(theme$core$size, nrow(d))
 
   gr <- gtable_table(d, name="rowhead",
@@ -61,8 +55,6 @@ test_that("gtable text col", {
 })
 
 test_that("gtable text mat no padding", {
-  load("testdata/DBS.rda")
-
   theme <- ttheme_awesome(padding=unit(c(0,0), "mm"))
   d <- SummarizedExperiment::rowData(DBS)$name
   d <- matrix(rep(d, 5), nrow=5, byrow=T)
@@ -83,8 +75,6 @@ test_that("gtable text mat no padding", {
 })
 
 test_that("gtable text mat with padding", {
-  load("testdata/DBS.rda")
-
   theme <- ttheme_awesome(padding=unit(c(1,1), "mm"))
   d <- SummarizedExperiment::rowData(DBS)$name
   d <- matrix(rep(d, 5), nrow=5, byrow=T)
@@ -106,8 +96,6 @@ test_that("gtable text mat with padding", {
 
 
 test_that("gtable circle", {
-  load("testdata/DBS.rda")
-
   theme <- ttheme_awesome()
   d <- SummarizedExperiment::assays(DBS)$proportion
   widths <- rep(theme$core$size, ncol(d))
@@ -121,7 +109,8 @@ test_that("gtable circle", {
                      fg_params=theme$core$fg_params, 
                      bg_params=theme$core$bg_params, 
                      padding=theme$core$padding,
-                     r_max=unit(5, "mm"))
+                     n_cat=theme$core$n_cat,
+                     r_max=0.5*theme$core$size)
 
   out <- plot_grob(g, name="gtable_circle.pdf")
   expect_true(out$plot_success)

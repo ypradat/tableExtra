@@ -20,11 +20,11 @@ rect_grob(
   just = "centre",
   hjust = 0.5,
   vjust = 0.5,
-  width = unit(1, "npc") - unit(2, "scaledpts"),
-  height = unit(1, "npc") - unit(2, "scaledpts"),
-  x = 0.5,
-  y = 0.5,
-  default.units = "npc"
+  width = unit(100, "mm"),
+  height = unit(100, "mm"),
+  x = unit(0.5, "npc"),
+  y = unit(0.5, "npc"),
+  default.units = "mm"
 )
 }
 \value{

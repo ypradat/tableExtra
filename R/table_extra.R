@@ -25,7 +25,7 @@
 extra_table_grob <- function(dscale, dcolor=NULL,
                              rows=rownames(dscale), cols=colnames(dscale), 
                              rows_more=NULL, cols_more=NULL,
-                             rows_more_title="", cols_more_title="",
+                             rows_more_title="",
                              theme=ttheme_awesome(), vp=NULL){
 
   widths <- rep(theme$core$size, ncol(dscale))
@@ -48,13 +48,16 @@ extra_table_grob <- function(dscale, dcolor=NULL,
 
   if(!is.null(cols)){
     if (!is.null(cols_more)){
-      gc <- gtable_table(t(cols_more), name="colmore",
-                         fg_fun=theme$colmore$fg_fun, 
-                         bg_fun=theme$colmore$bg_fun, 
-                         fg_params=theme$colmore$fg_params, 
-                         bg_params=theme$colmore$bg_params, 
-                         padding=theme$colmore$padding)
-      g <- rbind_2(gc, g, "max", height=theme$colmore$padding[1])
+      for (cols_m_name in names(cols_more)){
+        cols_m <- cols_more[[cols_m_name]]
+        gc <- gtable_table(t(cols_m), name="colmore",
+                           fg_fun=theme$colmore$fg_fun, 
+                           bg_fun=theme$colmore$bg_fun, 
+                           fg_params=theme$colmore$fg_params, 
+                           bg_params=theme$colmore$bg_params, 
+                           padding=theme$colmore$padding)
+        g <- rbind_2(gc, g, "max", height=theme$colmore$padding[1])
+      }
     }
 
     gc <- gtable_table(t(cols), name="colhead",
@@ -69,7 +72,7 @@ extra_table_grob <- function(dscale, dcolor=NULL,
   if(!is.null(rows)){
     if(!is.null(cols)){
       if(!is.null(cols_more))
-        rows <- c("", cols_more_title, rows)
+        rows <- c("", names(cols_more), rows)
       else
         rows <- c("", rows)
       }

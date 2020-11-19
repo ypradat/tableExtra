@@ -1,4 +1,4 @@
-repository <- "viz"
+repository <- "visualisation"
 
 if (grepl(repository, getwd())){
   path <- unlist(strsplit(getwd(), repository))[1]

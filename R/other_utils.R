@@ -16,15 +16,23 @@ col_widths <- function(m){
     1.1*max(do.call(grid::unit.c, lapply(l, grid::grobWidth)))))
 }
 
-scalecat <- function(m, n_cat=10, vmax=0.5){
-  if (min(m) == max(m)){
-    if (min(m) != 0){
-      m <- m/max(m)
+scalecat <- function(m, m_min=NULL, m_max=NULL, n_cat=10, vmax=0.5){
+  if (is.null(m_min)){
+    m_min = min(m)
+  }
+
+  if (is.null(m_max)){
+    m_max = max(m)
+  }
+
+  if (m_min == m_max){
+    if (m_min != 0){
+      m <- m/m_max
     } else {
       m <- m
     }
   } else {
-    m <- (m-min(m))/(max(m) - min(m))
+    m <- (m-m_min)/(m_max - m_min)
   }
   
   m <- apply(m, 1:2, function(x) round(x*n_cat)/(n_cat/vmax))

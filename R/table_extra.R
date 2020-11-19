@@ -23,6 +23,7 @@
 #' @examples
 #' library(tableExtra)
 extra_table_grob <- function(dscale, dcolor=NULL,
+                             dscale_min=NULL, dscale_max=NULL,
                              rows=rownames(dscale), cols=colnames(dscale), 
                              rows_more=NULL, cols_more=NULL,
                              rows_more_title="",
@@ -41,6 +42,8 @@ extra_table_grob <- function(dscale, dcolor=NULL,
                     padding=theme$core$padding,
                     n_cat=theme$core$n_cat,
                     r_max=0.5*theme$core$size,
+                    dscale_min=dscale_min,
+                    dscale_max=dscale_max,
                     pal=theme$core$pal,
                     pal_breaks=theme$core$pal_breaks,
                     dcolor=dcolor)

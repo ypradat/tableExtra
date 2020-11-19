@@ -12,6 +12,7 @@ log/
 
 # R
 *.Rproj.user
+*.Rprofile
 
 # Open cached files 
 *.m~

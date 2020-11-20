@@ -22,47 +22,55 @@ table_params <- function(d, fg_params, bg_params){
 #' Add circle scale parameters
 #'
 #' @param d data.frame or matrix
-#' @param n_cat integer indicating the number of differently-sized circles
+#' @param scale_breaks integer indicating the number of differently-sized circles
 #' @param r_max unit object indicating the maximum radius
 #'
 #' @importFrom grid unit.c 
 #'
 #' @author Yoann Pradat
 #' @keywords internal
-table_params_circle_scale <- function(d, n_cat=10, r_max=unit(10, "mm"), d_min=NULL, d_max=NULL){
-  d <- scalecat(d, d_min, d_max, n_cat=n_cat, vmax=1)
+table_params_circle_scale <- function(d, scale_breaks=10, r_min=unit(4, "mm"), r_max=unit(10, "mm"), d_min=NULL, 
+                                      d_max=NULL){
+  d <- breaks_scale(d=d, d_min=d_min, d_max=d_max, breaks=scale_breaks)
   d <- as.vector(d)
-  params <- list(r=do.call(unit.c, lapply(d, function(x) x*r_max)))
+  r_func <- function(x){
+    if (x==0){
+      return(unit(0,"mm"))
+    } else {
+      return(r_min + x*(r_max-r_min))
+    }
+  }
+  params <- list(r=do.call(unit.c, lapply(d, r_func)))
   return(params)
 }
 
 #' Add circle color parameters
 #'
 #' @param d data.frame or matrix
-#' @param pal a character vector of color names
-#' @param pal_breaks a numeric vector of break points
+#' @param color_palette a character vector of color names
+#' @param color_breaks a numeric vector of break points
 #'
 #' @importFrom methods is
 #'
 #' @author Yoann Pradat
 #' @keywords internal
-table_params_circle_color <- function(d, pal, pal_breaks=NULL){
+table_params_circle_color <- function(d, color_palette, color_breaks=NULL){
   if (is.null(d)){
     return(list())
   } else {
-    if (is.null(pal_breaks)){
-      pal_breaks <- length(pal)
+    if (is.null(color_breaks)){
+      color_breaks <- length(color_palette)
     }
-    if (is(pal_breaks,"integer")){
-      if (pal_breaks==1){
-        d <- as.matrix(pal, nrow=nrow(d), ncol=ncol(d))
+    if (is(color_breaks,"integer")){
+      if (color_breaks==1){
+        d <- as.matrix(color_palette, nrow=nrow(d), ncol=ncol(d))
       }
       else {
-        d <- cut(d, breaks=pal_breaks, right=F)
+        d <- cut(d, breaks=color_breaks, right=F)
       }
     } else {
-      d <- cut(d, breaks=pal_breaks, right=F)
-      levels(d) <- pal
+      d <- cut(d, breaks=color_breaks, right=F)
+      levels(d) <- color_palette
     }
     params <- list(fill=as.vector(d))
     return(params)
@@ -72,23 +80,22 @@ table_params_circle_color <- function(d, pal, pal_breaks=NULL){
 #' Add circle parameters
 #'
 #' @param d data.frame or matrix
-#' @param n_cat integer indicating the number of differently-sized circles
+#' @param scale_breaks integer indicating the number of differently-sized circles
 #' @param r_max unit object indicating the maximum radius
-#' @param pal a character vector of color names
-#' @param pal_breaks a numeric vector of break points
+#' @param color_palette a character vector of color names
+#' @param color_breaks a numeric vector of break points
 #'
 #' @importFrom grid unit.c 
 #'
 #' @author Yoann Pradat
 #' @keywords internal
-table_params_circle <- function(dscale, dcolor, n_cat, r_max, pal, pal_breaks, dscale_min=NULL, dscale_max=NULL){
-  if (missing(dscale_min)){
-    print("dscale is missing")
-  }
-  params_scale <- table_params_circle_scale(d=dscale, n_cat=n_cat, r_max=r_max, d_min=dscale_min, d_max=dscale_max)
+table_params_circle <- function(dscale, dcolor, scale_breaks, r_min, r_max,  color_palette, color_breaks, 
+                                dscale_min=NULL, dscale_max=NULL){
+  params_scale <- table_params_circle_scale(d=dscale, scale_breaks=scale_breaks, r_min=r_min, r_max=r_max, 
+                                            d_min=dscale_min, d_max=dscale_max)
 
   if(!missing(dcolor)){
-    params_color <- table_params_circle_color(d=dcolor, pal=pal, pal_breaks=pal_breaks)
+    params_color <- table_params_circle_color(d=dcolor, color_palette=color_palette, color_breaks=color_breaks)
     params <- c(params_scale, params_color)
   } else {
     params <- params_scale

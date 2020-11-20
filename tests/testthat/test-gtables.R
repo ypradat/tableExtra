@@ -109,7 +109,9 @@ test_that("gtable circle", {
                      fg_params=theme$core$fg_params, 
                      bg_params=theme$core$bg_params, 
                      padding=theme$core$padding,
-                     n_cat=theme$core$n_cat,
+                     scale_breaks=theme$core$scale_breaks,
+                     dscale_min=NULL,
+                     dscale_max=NULL,
                      r_max=0.5*theme$core$size)
 
   out <- plot_grob(g, name="gtable_circle.pdf")

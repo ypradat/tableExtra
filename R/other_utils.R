@@ -16,32 +16,45 @@ col_widths <- function(m){
     1.1*max(do.call(grid::unit.c, lapply(l, grid::grobWidth)))))
 }
 
-scalecat <- function(m, m_min=NULL, m_max=NULL, n_cat=10, vmax=0.5){
-  if (is.null(m_min)){
-    m_min = min(m)
-  }
-
-  if (is.null(m_max)){
-    m_max = max(m)
-  }
-
-  if (m_min == m_max){
-    if (m_min != 0){
-      m <- m/m_max
-    } else {
-      m <- m
-    }
-  } else {
-    m <- (m-m_min)/(m_max - m_min)
-  }
-  
-  m <- apply(m, 1:2, function(x) round(x*n_cat)/(n_cat/vmax))
-  m
-}
-
 rep_ifshort <- function(x, n, nc, nr){
     if(length(x) >= n){
       return(x[1:n]) 
     } else # recycle 
       return(rep(rep(x, length.out = nr), length.out= n)) 
+}
+
+breaks_scale <- function(d, d_min=NULL, d_max=NULL, breaks=10){
+  if (is.null(d_min)){
+    d_min = min(d)
+  }
+
+  if (is.null(d_max)){
+    d_max = max(d)
+  }
+
+  if (d_min == d_max){
+    if (d_min != 0){
+      d <- d/d_max
+    } else {
+      d <- d
+    }
+  } else {
+    d <- (d-d_min)/(d_max - d_min)
+  }
+
+  if (length(breaks)==1){
+    breaks <- seq(from=0, to=1, length.out=breaks+1)
+  } else {
+    breaks <- (breaks-d_min)/(d_max-d_min)
+  }
+
+  dint <- cut(d, labels=F, breaks=breaks, left.open=T)
+  dint <- (breaks[dint] + breaks[dint+1])/2
+  dint[is.na(dint)] <- 0
+  dcut <- matrix(dint, nrow=nrow(d), byrow=F)
+
+  # set max scale is 1
+  dcut <- dcut/max(dcut)
+
+  dcut
 }

@@ -1,6 +1,6 @@
 Package: tableExtra
 Title: Draws an awesome table
-Version: 0.0.0.9000
+Version: 0.99.0
 Authors@R: 
     person(given = "Yoann",
            family = "Pradat",

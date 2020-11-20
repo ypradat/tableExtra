@@ -1,3 +1,9 @@
+suppressMessages(library(SummarizedExperiment))
+suppressMessages(library(dplyr))
+
+load("testdata/DBS.rda")
+load("testdata/DEXP.rda")
+
 plot_grob <- function(g, name, width=NULL, height=NULL){
   grDevices::pdf(file=file.path("pdfs_plots", name),
                  width=width,
@@ -7,3 +13,6 @@ plot_grob <- function(g, name, width=NULL, height=NULL){
   grDevices::dev.off()
   invisible(list(plot_success=T))
 }
+
+# Aetiologies for PCAWG
+

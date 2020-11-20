@@ -4,16 +4,26 @@
 \alias{table_params_circle}
 \title{Add circle parameters}
 \usage{
-table_params_circle(dscale, dcolor, n_cat, r_max, pal, pal_breaks)
+table_params_circle(
+  dscale,
+  dcolor,
+  scale_breaks,
+  r_min,
+  r_max,
+  color_palette,
+  color_breaks,
+  dscale_min = NULL,
+  dscale_max = NULL
+)
 }
 \arguments{
-\item{n_cat}{integer indicating the number of differently-sized circles}
+\item{scale_breaks}{integer indicating the number of differently-sized circles}
 
 \item{r_max}{unit object indicating the maximum radius}
 
-\item{pal}{a character vector of color names}
+\item{color_palette}{a character vector of color names}
 
-\item{pal_breaks}{a numeric vector of break points}
+\item{color_breaks}{a numeric vector of break points}
 
 \item{d}{data.frame or matrix}
 }

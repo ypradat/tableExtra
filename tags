@@ -26,6 +26,8 @@ bg_params	tests/testthat/test-gtable_utils.R	/^                     bg_params = 
 bg_params	tests/testthat/test-gtable_utils.R	/^                     bg_params = theme$rowhead$bg_params, $/;"	v
 bg_params	tests/testthat/test-gtable_utils.R	/^                    bg_params = theme$colhead$bg_params, $/;"	v
 bkgds_grobs	R/gtables.R	/^  bkgds_grobs <- matrix(bkgds, ncol = nc, byrow = FALSE)$/;"	v
+breaks	R/other_utils.R	/^    breaks <- (breaks-d_min)\/(d_max-d_min)$/;"	v
+breaks_scale	R/other_utils.R	/^breaks_scale <- function(d, d_min=NULL, d_max=NULL, breaks=10){$/;"	f
 cbind_2	R/gtable_utils.R	/^cbind_2 <- function(x, y, size = "max", width=NULL) {$/;"	f
 circle_grob	R/vectorgrobs.R	/^circle_grob <- function(r=unit(5, "mm"),$/;"	f
 col	R/test.R	/^# col <- matrix(list(a, b, c), ncol = 1)$/;"	v
@@ -38,25 +40,32 @@ colData	tests/testthat/testdata/DBS.R	/^colData <- data.frame(name=cols, descrip
 colData	tests/testthat/testdata/DEXP.R	/^  colData = colData,$/;"	v
 colData	tests/testthat/testdata/DEXP.R	/^colData <- data.frame(name=cols, description=cols.desc, stringsAsFactors=F)$/;"	g
 col_widths	R/other_utils.R	/^col_widths <- function(m){$/;"	f
-colhead	R/table_extra.R	/^  colhead <- list(fg_fun=text_grob, $/;"	v
 colhead	R/test.R	/^#     colhead = colhead,$/;"	v
 colhead	R/test.R	/^#   colhead <- list(fg_fun = text_grob, $/;"	v
-colmore	R/table_extra.R	/^  colmore <- list(fg_fun=text_grob, $/;"	v
+colhead	R/theme_awesome.R	/^  colhead <- list(fg_fun=text_grob, $/;"	v
+colmore	R/theme_awesome.R	/^  colmore <- list(fg_fun=text_grob, $/;"	v
 colnames	R/gtable_utils.R	/^        colnames = missing)$/;"	v
+color_breaks	tests/testthat/test-table_extra_grob.R	/^  color_breaks <- c(-2, 0, 2)$/;"	v
+color_breaks	tests/testthat/test-table_extra_grob.R	/^  color_breaks <- c(0, 0.001,0.005,0.008,0.01,0.02,0.03,0.05,0.1,0.5,1)$/;"	v
+color_breaks	tests/testthat/test-table_extra_grob.R	/^  color_breaks <- c(0, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10, 25, 1e6)$/;"	v
+color_palette	tests/testthat/test-table_extra_grob.R	/^  color_palette <- c("#6e0d25", "#c6ca53")$/;"	v
+color_palette	tests/testthat/test-table_extra_grob.R	/^  color_palette <- c("#ffc651", "#ffa759", "#ff8962", "#ff6b6b", "#cc6999", "#9968c8", "#6767f8", "#4459ce", "#224ba5", $/;"	v
 cols	R/test.R	/^#   cols = colnames(DBS)$/;"	v
 cols	tests/testthat/testdata/DBS.R	/^cols <- c("Biliary-AdenoCA", "Bladder-TCC", "Bone-Osteosarc", "Bone-Other", "Breast", "Cervix", "CNS-GBM", $/;"	g
 cols	tests/testthat/testdata/DEXP.R	/^cols <- c("Biliary-AdenoCA", "Bladder-TCC", "Bone-Osteosarc", "Bone-Other", "Breast", "Cervix", "CNS-GBM", $/;"	g
 cols.desc	tests/testthat/testdata/DBS.R	/^cols.desc <- c(8, 10, 0, 0, 18, 0, 2, 0, 0, 0, 13, 1)$/;"	g
 cols.desc	tests/testthat/testdata/DEXP.R	/^cols.desc <- c(8, 10, 0, 0, 18, 0, 2, 0, 0, 0, 13, 1)$/;"	g
+cols_more	tests/testthat/test-table_extra_grob.R	/^  cols_more <- list("n="=SummarizedExperiment::colData(DBS)$description)$/;"	v
+cols_more	tests/testthat/test-table_extra_grob.R	/^  cols_more <- list("n="=dscale$n)$/;"	v
 combine	R/gtable_utils.R	/^combine <- function (..., along = 1L, join = "outer") {$/;"	f
 combine_2	R/gtable_utils.R	/^combine_2 <- function(x, y, along = 1L, join = "outer") {$/;"	f
-core	R/table_extra.R	/^  core <- list(fg_fun=circle_grob, $/;"	v
 core	R/test.R	/^#   core <- list(fg_fun = text_grob, $/;"	v
-core_size_value	R/table_extra.R	/^  core_size_value <- as.numeric(core_size)$/;"	v
+core	R/theme_awesome.R	/^  core <- list(fg_fun=circle_grob, $/;"	v
+core_size_value	R/theme_awesome.R	/^  core_size_value <- as.numeric(core_size)$/;"	v
 d	R/gtables.R	/^  d <- as.matrix(d)$/;"	v
-d	R/table_params.R	/^        d <- as.matrix(pal, nrow=nrow(d), ncol=ncol(d))$/;"	v
+d	R/table_params.R	/^        d <- as.matrix(color_palette, nrow=nrow(d), ncol=ncol(d))$/;"	v
 d	R/table_params.R	/^  d <- as.vector(d)$/;"	v
-d	R/table_params.R	/^  d <- scalecat(d, d_min, d_max, n_cat=n_cat, vmax=1)$/;"	v
+d	R/table_params.R	/^  d <- breaks_scale(d=d, d_min=d_min, d_max=d_max, breaks=scale_breaks)$/;"	v
 d	R/test.R	/^#   d = assays(DBS)$proportion,$/;"	v
 d	tests/testthat/test-gtable_utils.R	/^  d <- matrix(rep(d, 5), nrow=5, byrow=T)$/;"	v
 d	tests/testthat/test-gtable_utils.R	/^  d <- t(SummarizedExperiment::colData(DBS)$description)$/;"	v
@@ -65,13 +74,22 @@ d	tests/testthat/test-gtables.R	/^  d <- t(SummarizedExperiment::colData(DBS)$de
 data	tests/testthat/testdata/DBS.R	/^data <- matrix(c(rep(0., 12),$/;"	g
 data	tests/testthat/testdata/DEXP.R	/^data <- matrix(runif(length(rows)*length(cols), min=0, max=1), nrow=length(rows))$/;"	g
 data	tests/testthat/testdata/DEXP.R	/^data <- matrix(sample(c(-1,1), size=length(rows)*length(cols), replace=T), nrow=length(rows))$/;"	g
+dcolor	tests/testthat/test-table_extra_grob.R	/^  dcolor <- column_to_rownames(.data=dcolor, var="Cancer.Types")$/;"	v
+dcolor	tests/testthat/test-table_extra_grob.R	/^  dcolor <- pcawg_counts %>%$/;"	v
+dcolor	tests/testthat/test-table_extra_grob.R	/^  dcolor <- t(as.matrix(dcolor))$/;"	v
+dcut	R/other_utils.R	/^  dcut <- dcut\/max(dcut)$/;"	v
+dcut	R/other_utils.R	/^  dcut <- matrix(dint, nrow=nrow(d), byrow=F)$/;"	v
 default.units	R/vectorgrobs.R	/^             default.units = default.units,$/;"	v
 default.units	R/vectorgrobs.R	/^           default.units = default.units,$/;"	v
+dint	R/other_utils.R	/^  dint <- (breaks[dint] + breaks[dint+1])\/2$/;"	v
+dscale	tests/testthat/test-table_extra_grob.R	/^  dscale <- -log10(SummarizedExperiment::assays(DEXP)$pvalue) + 1$/;"	v
+dscale	tests/testthat/test-table_extra_grob.R	/^  dscale <- column_to_rownames(.data=dscale, var="Cancer.Types")$/;"	v
+dscale	tests/testthat/test-table_extra_grob.R	/^  dscale <- pcawg_counts %>%$/;"	v
+dscale	tests/testthat/test-table_extra_grob.R	/^  dscale <- t(as.matrix(dscale))$/;"	v
 each	R/gtables.R	/^                       l=rep(seq_len(nc), each = nr), z=0, $/;"	v
 error	R/vectorgrobs.R	/^                      error = function(e) label)$/;"	f
 extra_params	R/table_params.R	/^    extra_params <- table_params_circle(d, ...)$/;"	v
 extra_params	R/table_params.R	/^    extra_params <- table_params_text(d)$/;"	v
-extra_table_grob	R/table_extra.R	/^extra_table_grob <- function(dscale, dcolor=NULL,$/;"	f
 fg_fun	R/gtables.R	/^                         fg_fun = text_grob, fg_params = list(),$/;"	v
 fg_fun	tests/testthat/test-gtable_utils.R	/^                     fg_fun = theme$colhead$fg_fun, $/;"	v
 fg_fun	tests/testthat/test-gtable_utils.R	/^                     fg_fun = theme$core$fg_fun, $/;"	v
@@ -99,18 +117,18 @@ g	R/gtables.R	/^  g <- gtable_add_col_space(g, padding[1])$/;"	v
 g	R/gtables.R	/^  g <- gtable_add_grob(g, bkgds_grobs, $/;"	v
 g	R/gtables.R	/^  g <- gtable_add_row_space(g, padding[2])$/;"	v
 g	R/gtables.R	/^  g <- gtable_matrix(paste0(name, "-fg"), $/;"	v
-g	R/table_extra.R	/^        g <- rbind_2(gc, g, "max", height=theme$colmore$padding[1])$/;"	v
-g	R/table_extra.R	/^      g <- cbind_2(g, gr, "max", width=theme$rowmore$padding[2])$/;"	v
-g	R/table_extra.R	/^    g <- cbind_2(gr, g, "max", width=theme$rowhead$padding[2])$/;"	v
-g	R/table_extra.R	/^    g <- rbind_2(gc, g, "max", height=theme$colhead$padding[1])$/;"	v
-g	R/table_extra.R	/^  g <- gtable_table(dscale, name="circle",$/;"	v
-g	tests/testthat/test-extra_table_grob.R	/^  g <- extra_table_grob(d, rows=rownames(d), cols=colnames(d),$/;"	v
-g	tests/testthat/test-extra_table_grob.R	/^  g <- extra_table_grob(dscale=dscale, dcolor=dcolor, $/;"	v
+g	R/table_extra_grob.R	/^        g <- cbind_2(g, gr, "max", width=theme$rowmore$padding[2])$/;"	v
+g	R/table_extra_grob.R	/^        g <- rbind_2(gc, g, "max", height=theme$colmore$padding[1])$/;"	v
+g	R/table_extra_grob.R	/^    g <- cbind_2(gr, g, "max", width=theme$rowhead$padding[2])$/;"	v
+g	R/table_extra_grob.R	/^    g <- rbind_2(gc, g, "max", height=theme$colhead$padding[1])$/;"	v
+g	R/table_extra_grob.R	/^  g <- gtable_table(dscale, name="circle",$/;"	v
 g	tests/testthat/test-gtable_utils.R	/^  g <- cbind_2(g1, g2, "max", width=theme$core$padding[2])$/;"	v
 g	tests/testthat/test-gtable_utils.R	/^  g <- rbind_2(g1, g2, "max", height=theme$core$padding[1])$/;"	v
 g	tests/testthat/test-gtable_utils.R	/^  g <- rbind_2(g1, g2, size="first", height=theme$rowhead$padding[1])$/;"	v
 g	tests/testthat/test-gtable_utils.R	/^  g <- rbind_2(g1, g2, size="last", height=theme$core$padding[1])$/;"	v
 g	tests/testthat/test-gtables.R	/^  g <- gtable_table(d, name="circle",$/;"	v
+g	tests/testthat/test-table_extra_grob.R	/^  g <- table_extra_grob(d, rows=rownames(d), cols=colnames(d),$/;"	v
+g	tests/testthat/test-table_extra_grob.R	/^  g <- table_extra_grob(dscale=dscale, dcolor=dcolor, $/;"	v
 g	tests/testthat/test-vectorgrobs.R	/^  g <- grid::gTree(children=grid::gList(gr, gc))$/;"	v
 g	tests/testthat/test-vectorgrobs.R	/^  g <- rect_grob(width=unit(10, "mm"),$/;"	v
 g	tests/testthat/test-vectorgrobs.R	/^  g <- rect_grob(x=unit(0.5, "mm"),$/;"	v
@@ -122,11 +140,11 @@ g1	tests/testthat/test-gtable_utils.R	/^  g1 <- gtable_table(d, name="rowhead-1"
 g2	tests/testthat/test-gtable_utils.R	/^  g2 <- gtable_table(d, name="circle",$/;"	v
 g2	tests/testthat/test-gtable_utils.R	/^  g2 <- gtable_table(d, name="colhead-2",$/;"	v
 g2	tests/testthat/test-gtable_utils.R	/^  g2 <- gtable_table(d, name="rowhead-2",$/;"	v
-gc	R/table_extra.R	/^        gc <- gtable_table(t(cols_m), name="colmore",$/;"	v
-gc	R/table_extra.R	/^    gc <- gtable_table(t(cols), name="colhead",$/;"	v
+gc	R/table_extra_grob.R	/^        gc <- gtable_table(t(cols_m), name="colmore",$/;"	v
+gc	R/table_extra_grob.R	/^    gc <- gtable_table(t(cols), name="colhead",$/;"	v
 gc	tests/testthat/test-gtables.R	/^  gc <- gtable_table(d, name="colhead",$/;"	v
-gr	R/table_extra.R	/^      gr <- gtable_table(rows_more, name="rowmore",$/;"	v
-gr	R/table_extra.R	/^    gr <- gtable_table(rows, name="rowhead",$/;"	v
+gr	R/table_extra_grob.R	/^        gr <- gtable_table(rows_m, name="rowmore",$/;"	v
+gr	R/table_extra_grob.R	/^    gr <- gtable_table(rows, name="rowhead",$/;"	v
 gr	tests/testthat/test-gtables.R	/^  gr <- gtable_table(d, name="rowhead",$/;"	v
 gr	tests/testthat/test-vectorgrobs.R	/^  gr <- rect_grob(width=unit(10,"mm"),$/;"	v
 gtable_cbind	R/gtable_utils.R	/^gtable_cbind <- function(..., size = "max", z = NULL) {$/;"	f
@@ -162,7 +180,6 @@ linejoin	R/vectorgrobs.R	/^                        linejoin = "round", $/;"	v
 linejoin	R/vectorgrobs.R	/^                      linejoin = "round", $/;"	v
 lty	R/vectorgrobs.R	/^                        lty = "solid", $/;"	v
 lty	R/vectorgrobs.R	/^                      lty = "solid", $/;"	v
-m	R/other_utils.R	/^  m <- apply(m, 1:2, function(x) round(x*n_cat)\/(n_cat\/vmax))$/;"	v
 mat	R/test.R	/^# mat <- matrix(list(a, b, c, nullGrob()), nrow = 2)$/;"	v
 mat.lo	R/test.R	/^#     mat.lo <- matrix(data = c(1,2,3), nrow = 3, ncol = 1, byrow = TRUE)$/;"	v
 mat.lo	R/test.R	/^#     mat.lo <- matrix(data = c(1,2,3,4), nrow = 4, ncol = 1, byrow = TRUE)$/;"	v
@@ -185,11 +202,6 @@ name	R/vectorgrobs.R	/^           name = name, vp = vp,$/;"	v
 names_x	R/gtable_utils.R	/^  names_x <- dimnames(x)[[along]]$/;"	v
 names_y	R/gtable_utils.R	/^  names_y <- dimnames(y)[[along]]$/;"	v
 old_index	R/gtable_utils.R	/^  old_index <- switch(along, rownames(x), colnames(x))$/;"	v
-out	tests/testthat/test-extra_table_grob.R	/^  out <- plot_grob(g, name="extra_table_grob.pdf", width=4, height=4)$/;"	v
-out	tests/testthat/test-extra_table_grob.R	/^  out <- plot_grob(g, name="extra_table_grob_cols_more.pdf", width=4, height=4)$/;"	v
-out	tests/testthat/test-extra_table_grob.R	/^  out <- plot_grob(g, name="extra_table_grob_cols_more_rows_more_no_color.pdf", width=5, height=4)$/;"	v
-out	tests/testthat/test-extra_table_grob.R	/^  out <- plot_grob(g, name="extra_table_grob_cols_more_rows_more_with_color.pdf", width=5, height=4)$/;"	v
-out	tests/testthat/test-extra_table_grob.R	/^  out <- plot_grob(g, name="extra_table_grob_cols_more_with_color_genes.pdf", width=5, height=12)$/;"	v
 out	tests/testthat/test-gtable_utils.R	/^  out <- plot_grob(g, name="gtable_circle_cbind.pdf", width=10, height=6)$/;"	v
 out	tests/testthat/test-gtable_utils.R	/^  out <- plot_grob(g, name="gtable_rbind_2_text_circle.pdf")$/;"	v
 out	tests/testthat/test-gtable_utils.R	/^  out <- plot_grob(g, name="gtable_rbind_2_text_mat.pdf", width=4, height=3)$/;"	v
@@ -200,6 +212,14 @@ out	tests/testthat/test-gtables.R	/^  out <- plot_grob(gc, name="gtable_text_row
 out	tests/testthat/test-gtables.R	/^  out <- plot_grob(gr, name="gtable_text_col.pdf", width=1, height=4.5)$/;"	v
 out	tests/testthat/test-gtables.R	/^  out <- plot_grob(gr, name="gtable_text_mat_no_padding.pdf")$/;"	v
 out	tests/testthat/test-gtables.R	/^  out <- plot_grob(gr, name="gtable_text_mat_with_padding.pdf")$/;"	v
+out	tests/testthat/test-table_extra_grob.R	/^  out <- plot_grob(g, name="table_extra_grob.pdf", width=4, height=4)$/;"	v
+out	tests/testthat/test-table_extra_grob.R	/^  out <- plot_grob(g, name="table_extra_grob_cols_more.pdf", width=4, height=4)$/;"	v
+out	tests/testthat/test-table_extra_grob.R	/^  out <- plot_grob(g, name="table_extra_grob_cols_more_rows_more_no_color.pdf", width=5, height=4)$/;"	v
+out	tests/testthat/test-table_extra_grob.R	/^  out <- plot_grob(g, name="table_extra_grob_cols_more_rows_more_with_color.pdf", width=5, height=4)$/;"	v
+out	tests/testthat/test-table_extra_grob.R	/^  out <- plot_grob(g, name="table_extra_grob_genes.pdf", width=5, height=12)$/;"	v
+out	tests/testthat/test-table_extra_grob.R	/^  out <- plot_grob(g, name="table_extra_grob_genes_dmin_dmax.pdf", width=5, height=12)$/;"	v
+out	tests/testthat/test-table_extra_grob.R	/^  out <- plot_grob(g, name="table_extra_grob_genes_dmin_dmax_with_scale_breaks.pdf", width=5, height=12)$/;"	v
+out	tests/testthat/test-table_extra_grob.R	/^  out <- plot_grob(g, name="table_extra_grob_pcawg.pdf", width=12, height=16)$/;"	v
 out	tests/testthat/test-vectorgrobs.R	/^  out <- plot_grob(g, name="circle_grob.pdf", width=1, height=1)$/;"	v
 out	tests/testthat/test-vectorgrobs.R	/^  out <- plot_grob(g, name="rect_circle_grob.pdf", width=1, height=1)$/;"	v
 out	tests/testthat/test-vectorgrobs.R	/^  out <- plot_grob(g, name="rect_circle_grob_small.pdf", width=4, height=4)$/;"	v
@@ -211,18 +231,15 @@ padding	R/gtables.R	/^                         padding = unit(c(4, 4), "mm"),$/;
 padding	R/test.R	/^#                            padding = unit(c(4, 4), "mm"), ...){$/;"	v
 padding	R/test.R	/^#                   padding = padding)$/;"	v
 padding	R/test.R	/^#                padding = padding)$/;"	v
-pal	tests/testthat/test-extra_table_grob.R	/^  pal <- c("#6e0d25", "#c6ca53")$/;"	v
-pal	tests/testthat/test-extra_table_grob.R	/^  pal <- c("#ffc651", "#ffa759", "#ff8962", "#ff6b6b", "#cc6999", "#9968c8", "#6767f8", "#4459ce", "#224ba5", "#013d7c")$/;"	v
-pal_breaks	tests/testthat/test-extra_table_grob.R	/^  pal_breaks <- c(-2, 0, 2)$/;"	v
-pal_breaks	tests/testthat/test-extra_table_grob.R	/^  pal_breaks <- c(0, 0.001,0.005,0.008,0.01,0.02,0.03,0.05,0.1,0.5,1)$/;"	v
 params	R/table_params.R	/^    params <- c(params_scale, params_color)$/;"	v
 params	R/table_params.R	/^    params <- list(fill=as.vector(d))$/;"	v
 params	R/table_params.R	/^    params <- params_scale$/;"	v
 params	R/table_params.R	/^  params <- list(label=d)$/;"	v
-params	R/table_params.R	/^  params <- list(r=do.call(unit.c, lapply(d, function(x) x*r_max)))$/;"	v
-params_color	R/table_params.R	/^    params_color <- table_params_circle_color(d=dcolor, pal=pal, pal_breaks=pal_breaks)$/;"	v
-params_scale	R/table_params.R	/^  params_scale <- table_params_circle_scale(d=dscale, n_cat=n_cat, r_max=r_max)$/;"	v
-plot_grob	tests/testthat/helper-plot.R	/^plot_grob <- function(g, name, width=NULL, height=NULL){$/;"	f
+params	R/table_params.R	/^  params <- list(r=do.call(unit.c, lapply(d, r_func)))$/;"	v
+params_color	R/table_params.R	/^    params_color <- table_params_circle_color(d=dcolor, color_palette=color_palette, color_breaks=color_breaks)$/;"	v
+params_scale	R/table_params.R	/^  params_scale <- table_params_circle_scale(d=dscale, scale_breaks=scale_breaks, r_min=r_min, r_max=r_max, $/;"	v
+plot_grob	tests/testthat/helper.R	/^plot_grob <- function(g, name, width=NULL, height=NULL){$/;"	f
+r_func	R/table_params.R	/^  r_func <- function(x){$/;"	f
 rbind_2	R/gtable_utils.R	/^rbind_2 <- function(x, y, size = "max", height=NULL) {$/;"	f
 rect_grob	R/vectorgrobs.R	/^rect_grob <- function(fill = "white", $/;"	f
 rep_along	R/other_utils.R	/^rep_along <- function(x, y) {$/;"	f
@@ -235,43 +252,46 @@ rowData	tests/testthat/testdata/DBS.R	/^rowData <- data.frame(name=rows, descrip
 rowData	tests/testthat/testdata/DEXP.R	/^  rowData = rowData,$/;"	v
 rowData	tests/testthat/testdata/DEXP.R	/^rowData <- data.frame(name=rows, stringsAsFactors=F)$/;"	g
 row_heights	R/other_utils.R	/^row_heights <- function(m){$/;"	f
-rowhead	R/table_extra.R	/^  rowhead <- list(fg_fun=text_grob, $/;"	v
 rowhead	R/test.R	/^#   rowhead <- list(fg_fun = text_grob, $/;"	v
-rowmore	R/table_extra.R	/^  rowmore <- list(fg_fun=text_grob, $/;"	v
+rowhead	R/theme_awesome.R	/^  rowhead <- list(fg_fun=text_grob, $/;"	v
+rowmore	R/theme_awesome.R	/^  rowmore <- list(fg_fun=text_grob, $/;"	v
 rownames	R/gtable_utils.R	/^        rownames = missing)$/;"	v
-rows	R/table_extra.R	/^        rows <- c("", names(cols_more), rows)$/;"	v
-rows	R/table_extra.R	/^        rows <- c("", rows)$/;"	v
+rows	R/table_extra_grob.R	/^        rows <- c("", names(cols_more), rows)$/;"	v
+rows	R/table_extra_grob.R	/^        rows <- c("", rows)$/;"	v
 rows	R/test.R	/^#   rows = rownames(DBS),$/;"	v
 rows	tests/testthat/testdata/DBS.R	/^rows <- sapply(1:11, function(i) paste0("DBS",i))$/;"	g
 rows	tests/testthat/testdata/DEXP.R	/^rows <- sapply(1:50, function(i) paste0("ENSG00000",i))$/;"	g
 rows.desc	tests/testthat/testdata/DBS.R	/^rows.desc <- c("Ultraviolet light exposure", "Tobacco Smokin and other", "POLE mutation", "", "Platinum treatment", "",$/;"	g
-rows_more	R/table_extra.R	/^          rows_more <- c("", rows_more)$/;"	v
-rows_more	R/table_extra.R	/^          rows_more <- c("", rows_more_title, rows_more)$/;"	v
-scalecat	R/other_utils.R	/^scalecat <- function(m, m_min=NULL, m_max=NULL, n_cat=10, vmax=0.5){$/;"	f
+rows_m	R/table_extra_grob.R	/^            rows_m <- c("", names(rows_more), rows_more[[rows_m_name]])$/;"	v
+rows_m	R/table_extra_grob.R	/^            rows_m <- c("", rows_more[[rows_m_name]])$/;"	v
+rows_more	tests/testthat/test-table_extra_grob.R	/^  rows_more <- list("Proposed aetiology"=SummarizedExperiment::rowData(DBS)$description)$/;"	v
+scale_breaks	tests/testthat/test-table_extra_grob.R	/^  scale_breaks <- c(1, 2, 5)$/;"	v
 size	R/gtable_utils.R	/^  Reduce(function(x, y) cbind_2(x, y, size = size), gtables)$/;"	v
 size	R/gtable_utils.R	/^  Reduce(function(x, y) rbind_2(x, y, size = size), gtables)$/;"	v
 size	R/gtable_utils.R	/^cbind_2 <- function(x, y, size = "max", width=NULL) {$/;"	v
 size	R/gtable_utils.R	/^gtable_cbind <- function(..., size = "max", z = NULL) {$/;"	v
 size	R/gtable_utils.R	/^gtable_rbind <- function(..., size = "max", z = NULL) {$/;"	v
 size	R/gtable_utils.R	/^rbind_2 <- function(x, y, size = "max", height=NULL) {$/;"	v
-str.gtable	R/gtable_utils.R	/^str.gtable <- function(object, ...){$/;"	f
+table_extra_grob	R/table_extra_grob.R	/^table_extra_grob <- function(dscale, dcolor=NULL,$/;"	f
 table_params	R/table_params.R	/^table_params <- function(d, fg_params, bg_params){$/;"	f
-table_params_circle	R/table_params.R	/^table_params_circle <- function(dscale, dcolor, n_cat, r_max, pal, pal_breaks){$/;"	f
-table_params_circle_color	R/table_params.R	/^table_params_circle_color <- function(d, pal, pal_breaks=NULL){$/;"	f
-table_params_circle_scale	R/table_params.R	/^table_params_circle_scale <- function(d, n_cat=10, r_max=unit(10, "mm"), d_min=NULL, d_max=NULL){$/;"	f
+table_params_circle	R/table_params.R	/^table_params_circle <- function(dscale, dcolor, scale_breaks, r_min, r_max,  color_palette, color_breaks, $/;"	f
+table_params_circle_color	R/table_params.R	/^table_params_circle_color <- function(d, color_palette, color_breaks=NULL){$/;"	f
+table_params_circle_scale	R/table_params.R	/^table_params_circle_scale <- function(d, scale_breaks=10, r_min=unit(4, "mm"), r_max=unit(10, "mm"), d_min=NULL, $/;"	f
 table_params_text	R/table_params.R	/^table_params_text <- function(d){$/;"	f
 tb_params	R/gtables.R	/^  tb_params <- table_params(d, fg_params, bg_params)$/;"	v
 text_grob	R/vectorgrobs.R	/^text_grob <- function(label, $/;"	f
-theme	tests/testthat/test-extra_table_grob.R	/^  theme <- ttheme_awesome(core_size=unit(5, "mm"))$/;"	v
-theme	tests/testthat/test-extra_table_grob.R	/^  theme <- ttheme_awesome(core_size=unit(5, "mm"), pal=pal, pal_breaks=pal_breaks)$/;"	v
 theme	tests/testthat/test-gtable_utils.R	/^  theme <- ttheme_awesome()$/;"	v
 theme	tests/testthat/test-gtables.R	/^  theme <- ttheme_awesome()$/;"	v
 theme	tests/testthat/test-gtables.R	/^  theme <- ttheme_awesome(padding=unit(c(0,0), "mm"))$/;"	v
 theme	tests/testthat/test-gtables.R	/^  theme <- ttheme_awesome(padding=unit(c(1,1), "mm"))$/;"	v
 theme	tests/testthat/test-gtables.R	/^  theme <- ttheme_awesome(padding=unit(c(2,0), "mm"))$/;"	v
+theme	tests/testthat/test-table_extra_grob.R	/^  theme <- ttheme_awesome(base_size=12,$/;"	v
+theme	tests/testthat/test-table_extra_grob.R	/^  theme <- ttheme_awesome(core_size=unit(5, "mm"))$/;"	v
+theme	tests/testthat/test-table_extra_grob.R	/^  theme <- ttheme_awesome(core_size=unit(5, "mm"), $/;"	v
+theme	tests/testthat/test-table_extra_grob.R	/^  theme <- ttheme_awesome(core_size=unit(5, "mm"), color_palette=color_palette, color_breaks=color_breaks)$/;"	v
 ties.method	R/gtable_utils.R	/^  x$layout$z <- rank(x$layout$z, ties.method = "first") + i - $/;"	v
 tokeep	R/gtable_utils.R	/^  tokeep <- setdiff(seq_len(length(x)), matches[which])$/;"	v
-ttheme_awesome	R/table_extra.R	/^ttheme_awesome <- function(base_size=8, $/;"	f
+ttheme_awesome	R/theme_awesome.R	/^ttheme_awesome <- function(base_size=8, $/;"	f
 width	R/vectorgrobs.R	/^                      width = unit(100, "mm"), $/;"	v
 widths	R/gtable_utils.R	/^        widths = unit(rep(0, ncol(x)), "cm"), $/;"	v
 widths	R/gtables.R	/^                     widths = widths, $/;"	v

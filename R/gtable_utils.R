@@ -1,43 +1,18 @@
 ## Misc. gtable functions
 ## Note: these functions were copied from the gridExtra package.
 
-##'Prints summary information on gtable objects
-##'@param object a gtable
-##'@param ... unused
-##'@importFrom utils str
-##'@method str gtable
-##' @noRd
-##'@export
-str.gtable <- function(object, ...){
-  cat(c("gtable, containing \ngrobs (", 
-        length(object[["grobs"]]), ") :"), sep="")
-  utils::str(vapply(object$grobs, as.character, character(1)))
-  cat("layout :\n")
-  utils::str(object[["layout"]])
-  cat("widths :\nunit vector of length", 
-      length(object[["widths"]]), "\n")
-  cat("heights :\nunit vector of length", 
-      length(object[["heights"]]), "\n")
-  for(element in c("respect", "rownames", 
-                   "name", "gp", "vp")){
-    cat(element, ":\n")
-    utils::str(object[[element]])
-  }
-}
-
-
-##'Combine gtables based on row/column names.
-##'@param ... gtables
-#' @aliases combine
-##'@rdname combine
-##'@param along dimension to align along, \code{1} = rows,
-##'\code{2} = cols. 
-##'@param join when x and y have different names, how should the difference be resolved? 
-##'\code{inner} keep names that appear in both, 
-##'\code{outer} keep names that appear in either, 
-##'\code{left} keep names from \code{x}, 
-##'and \code{right} keep names from \code{y}.
-##'@export
+#'Combine gtables based on row/column names.
+#'@param ... gtables
+#'@aliases combine
+#'@rdname combine
+#'@param along dimension to align along, \code{1} = rows,
+#'\code{2} = cols. 
+#'@param join when x and y have different names, how should the difference be resolved? 
+#'\code{inner} keep names that appear in both, 
+#'\code{outer} keep names that appear in either, 
+#'\code{left} keep names from \code{x}, 
+#'and \code{right} keep names from \code{y}.
+#'@export
 gtable_combine <- function (..., along = 1L, join = "outer") 
 {
   gtables <- list(...)

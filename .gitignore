@@ -1,6 +1,9 @@
 # Project specific
 **/tests/*.pdf
 
+# Tags
+*tags
+
 # Logs 
 log/
 *.log

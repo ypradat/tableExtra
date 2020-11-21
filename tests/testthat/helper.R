@@ -1,5 +1,6 @@
 suppressMessages(library(SummarizedExperiment))
 suppressMessages(library(dplyr))
+suppressMessages(library(tibble))
 
 load("testdata/DBS.rda")
 load("testdata/DEXP.rda")

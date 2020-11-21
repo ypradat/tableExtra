@@ -137,7 +137,9 @@ test_that("extra table grob on pcawg works", {
 
   dcolor <- pcawg_counts %>%
     group_by(Cancer.Types) %>%
-    summarize_at(vars(-Sample.Names, -Accuracy), ~median(.x*1e6/3.2e9))
+    summarize_at(vars(-Sample.Names, -Accuracy), ~median(.[.!=0]*1e6/3.2e9)) %>%
+    replace(is.na(.),0)
+
   dcolor <- column_to_rownames(.data=dcolor, var="Cancer.Types")
   dcolor <- t(as.matrix(dcolor))
 

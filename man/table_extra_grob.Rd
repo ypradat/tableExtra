@@ -4,7 +4,7 @@
 \alias{table_extra_grob}
 \title{Graphical display of a table with circles of varying scales and colours.
 
-The code is inspired by the \code{\link[gridExtra:tableGrob]{gridExtra::tableGrob()}} function.}
+The code is inspired by the \code{tableGrob} function \code{gridExtra}}
 \usage{
 table_extra_grob(
   dscale,

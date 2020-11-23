@@ -1,6 +1,6 @@
 #' @title Graphical display of a table with circles of varying scales and colours.
 #'
-#' The code is inspired by the [gridExtra::tableGrob()] function.
+#' The code is inspired by the \code{tableGrob} function \code{gridExtra}
 #'
 #' @description Create a gtable containing circle grobs representing a numeric matrix.
 #' @param dscale a matrix

@@ -19,6 +19,9 @@ check:
   image: gitlab-research.centralesupelec.fr:4567/2019pradaty/tableextra_docker
   script:
     - Rscript -e 'if (!identical(devtools::check(document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
+  only:
+    refs:
+      - master
 
 test: 
   stage: test
@@ -26,6 +29,9 @@ test:
   script:
     - Rscript -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
     - Rscript -e 'covr::codecov()'
+  only:
+    refs:
+      - master
 
 install:
   stage: check
@@ -33,3 +39,6 @@ install:
   script:
     - Rscript -e 'devtools::build(binary=T)'
     - Rscript -e 'devtools::install()'
+  only:
+    refs:
+      - master

@@ -23,14 +23,8 @@ cache:
     - ${RENV_PATHS_LIBRARY}
 
 before_script:
-  - Rscript -e "renv::paths$root()"
+  - Rscript -e "cat(paste('path renv root:', renv::paths\$root()))"
   - echo ${CI_PROJECT_DIR}
-  - apt-get update
-  - apt-get install --yes libcurl4-openssl-dev # required for installing R package "curl"
-  - apt-get install --yes libgit2-dev # required for R package "git2r"
-  - apt-get install --yes libssl-dev # required for R packages "git2r" and "openssl"
-  - apt-get install --yes libssh2-1-dev # required for R package "git2r"
-  - apt-get install --yes libxml2-dev # required for R package "xml2"
     
 install_dependencies:
   stage: dependencies

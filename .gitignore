@@ -1,6 +1,3 @@
-# Project specific
-**/tests/*.pdf
-
 # Tags
 *tags
 
@@ -16,6 +13,7 @@ log/
 # R
 *.Rproj.user
 *.Rprofile
+renv/
 
 # Open cached files 
 *.m~

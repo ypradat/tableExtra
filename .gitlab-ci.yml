@@ -8,8 +8,21 @@ stages:
   - test
   - install 
 
+default:
+  tags:
+    - docker
+
 variables:
+  RENV_CONFIG_REPOS_OVERRIDE: "http://cran.r-project.org"
+  RENV_PATHS_CACHE: ${CI_PROJECT_DIR}/cache
+  RENV_PATHS_LIBRARY: ${CI_PROJECT_DIR}/renv/library
   CODECOV_TOKEN: "b524d434-9189-48fc-a919-72e40de8cd22"
+
+cache:
+  key: ${CI_JOB_NAME}
+  paths:
+    - ${RENV_PATHS_CACHE}
+    - ${RENV_PATHS_LIBRARY}
 
 before_script:
   - apt-get update
@@ -17,8 +30,9 @@ before_script:
 install_dependencies:
   stage: dependencies
   script:
-    - apt-get install --yes --no-install-recommends r-cran-devtools
-    - R -e 'devtools::install_deps(dependencies=c("Depends", "Imports", "Suggests"))'
+    - Rscript -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv')"
+    - Rscript -e "renv::restore()"
+    - Rscript -e 'devtools::install_deps(dependencies=c("Depends", "Imports", "Suggests"))'
 
 buildbinary:
   stage: build

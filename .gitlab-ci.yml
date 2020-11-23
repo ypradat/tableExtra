@@ -11,10 +11,8 @@ default:
     - docker
 
 variables:
-  Rscript -e "renv::paths$root()"
   RENV_CONFIG_REPOS_OVERRIDE: "http://cran.r-project.org"
   RENV_PATHS_CACHE: ${CI_PROJECT_DIR}/cache
-  echo ${CI_PROJECT_DIR}
   RENV_PATHS_LIBRARY: ${CI_PROJECT_DIR}/renv/library
   CODECOV_TOKEN: "b524d434-9189-48fc-a919-72e40de8cd22"
 
@@ -25,6 +23,8 @@ cache:
     - ${RENV_PATHS_LIBRARY}
 
 before_script:
+  - Rscript -e "renv::paths$root()"
+  - echo ${CI_PROJECT_DIR}
   - apt-get update
   - apt-get install --yes libcurl4-openssl-dev # required for installing R package "curl"
   - apt-get install --yes libgit2-dev # required for R package "git2r"

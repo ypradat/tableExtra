@@ -1,5 +1,3 @@
-image: rocker/r-base
-
 stages:
   - dependencies
   - build
@@ -34,6 +32,7 @@ before_script:
     
 install_dependencies:
   stage: dependencies
+  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
   script:
     - Rscript -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")'
     - Rscript -e 'renv::restore()'
@@ -41,30 +40,36 @@ install_dependencies:
 
 buildbinary:
   stage: build
+  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
   script:
     - R -e 'devtools::build(binary=T)'
 
 documentation:
   stage: document
+  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
   script:
     - R -e 'devtools::document()'
 
 checkerrors:
   stage: check
+  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
   script:
     - R -e 'if (!identical(devtools::check(document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
 
 unittests:
   stage: test
+  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
   script:
     - R -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
 
 codecov:
   stage: test
+  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
   script:
     - R -e 'covr::codecov()'
     
 install:
   stage: install
+  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
   script:
     - R -e 'devtools::install()'

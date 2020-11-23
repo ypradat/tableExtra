@@ -30,8 +30,9 @@ before_script:
 install_dependencies:
   stage: dependencies
   script:
-    - Rscript -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv')"
-    - Rscript -e "renv::restore()"
+    - Rscript -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")'
+    - Rscript -e 'renv::restore()'
+    - Rscript -e 'if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")'
     - Rscript -e 'devtools::install_deps(dependencies=c("Depends", "Imports", "Suggests"))'
 
 buildbinary:

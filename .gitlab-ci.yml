@@ -6,28 +6,19 @@ default:
     - docker
 
 variables:
-  RENV_CONFIG_REPOS_OVERRIDE: "http://cran.r-project.org"
-  RENV_PATHS_CACHE: ${CI_PROJECT_DIR}/cache
-  RENV_PATHS_LIBRARY: ${CI_PROJECT_DIR}/renv/library
   CODECOV_TOKEN: "b524d434-9189-48fc-a919-72e40de8cd22"
-
-cache:
-  key: ${CI_JOB_NAME}
-  paths:
-    - ${RENV_PATHS_CACHE}
-    - ${RENV_PATHS_LIBRARY}
 
 check:
   stage: check
   image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
   script:
     - Rscript -e "cat(paste('path renv root:', renv::paths\$root()), '\\n')"
-    - Rscript -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")'
-    - Rscript -e 'renv::restore()'
-    - Rscript -e 'if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")'
-    - Rscript -e 'devtools::build(binary=T)'
-    - Rscript -e 'devtools::document()'
-    - Rscript -e 'if (!identical(devtools::check(document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
-    - Rscript -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
-    - Rscript -e 'covr::codecov()'
-    - Rscript -e 'devtools::install()'
+      # - Rscript -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")'
+      # - Rscript -e 'renv::restore()'
+      # - Rscript -e 'if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")'
+      # - Rscript -e 'devtools::build(binary=T)'
+      # - Rscript -e 'devtools::document()'
+      # - Rscript -e 'if (!identical(devtools::check(document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
+      # - Rscript -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
+      # - Rscript -e 'covr::codecov()'
+      # - Rscript -e 'devtools::install()'

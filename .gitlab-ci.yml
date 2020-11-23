@@ -28,7 +28,6 @@ test:
   image: gitlab-research.centralesupelec.fr:4567/2019pradaty/tableextra_docker
   script:
     - Rscript -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
-    - Rscript -e 'covr::codecov(token="${CODECOV_TOKEN}")'
   only:
     refs:
       - master

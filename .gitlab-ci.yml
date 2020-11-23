@@ -11,8 +11,10 @@ default:
     - docker
 
 variables:
+  Rscript -e "renv::paths$root()"
   RENV_CONFIG_REPOS_OVERRIDE: "http://cran.r-project.org"
   RENV_PATHS_CACHE: ${CI_PROJECT_DIR}/cache
+  echo ${CI_PROJECT_DIR}
   RENV_PATHS_LIBRARY: ${CI_PROJECT_DIR}/renv/library
   CODECOV_TOKEN: "b524d434-9189-48fc-a919-72e40de8cd22"
 

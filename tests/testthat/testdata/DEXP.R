@@ -1,12 +1,10 @@
 # R code for producing synthetic data for tests
 
-suppressMessages(library(SummarizedExperiment))
-
 rows <- sapply(1:50, function(i) paste0("ENSG00000",i))
 cols <- c("Biliary-AdenoCA", "Bladder-TCC", "Bone-Osteosarc", "Bone-Other", "Breast", "Cervix", "CNS-GBM", 
           "CNS-Medullo", "CNS-Oligo", "CNS-PiloAstro", "Colorect-AdenoCA", "Eso-AdenoCA")
 
-assays <- SimpleList()
+assays <- list()
 
 # metadata =============================================================================================================
 
@@ -31,18 +29,18 @@ colnames(data) <- cols
 
 assays[["sign"]] <- data
 
-# row data for SummarizedExperiment object =============================================================================
+# row data for list object =============================================================================
 
 rowData <- data.frame(name=rows, stringsAsFactors=F)
 
-# col data for SummarizedExperiment object =============================================================================
+# col data for list object =============================================================================
 
 cols.desc <- c(8, 10, 0, 0, 18, 0, 2, 0, 0, 0, 13, 1)
 colData <- data.frame(name=cols, description=cols.desc, stringsAsFactors=F)
 
-# SummarizedExperiment object ==========================================================================================
+# list object ==========================================================================================
 
-DEXP <- SummarizedExperiment(
+DEXP <- list(
   assays = assays,
   colData = colData,
   rowData = rowData,
@@ -51,5 +49,5 @@ DEXP <- SummarizedExperiment(
 
 # save data ============================================================================================================
 
-dir.create("inst/testdata", showWarnings=F, recursive=T)
-save(DEXP, file="inst/testdata/DEXP.rda")
+dir.create("tests/testthat/testdata", showWarnings=F, recursive=T)
+save(DEXP, file="tests/testthat/testdata/DEXP.rda")

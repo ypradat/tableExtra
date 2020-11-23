@@ -50,8 +50,6 @@ table_params_circle_scale <- function(d, scale_breaks=10, r_min=unit(4, "mm"), r
 #' @param color_palette a character vector of color names
 #' @param color_breaks a numeric vector of break points
 #'
-#' @importFrom methods is
-#'
 #' @author Yoann Pradat
 #' @keywords internal
 table_params_circle_color <- function(d, color_palette, color_breaks=NULL){
@@ -61,7 +59,7 @@ table_params_circle_color <- function(d, color_palette, color_breaks=NULL){
     if (is.null(color_breaks)){
       color_breaks <- length(color_palette)
     }
-    if (is(color_breaks,"integer")){
+    if (length(color_breaks)==1){
       if (color_breaks==1){
         d <- as.matrix(color_palette, nrow=nrow(d), ncol=ncol(d))
       }

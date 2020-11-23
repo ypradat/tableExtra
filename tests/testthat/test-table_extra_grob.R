@@ -1,6 +1,6 @@
 test_that("extra table grob", {
   theme <- ttheme_awesome(core_size=unit(5, "mm"))
-  d <- SummarizedExperiment::assays(DBS)$proportion
+  d <- DBS$assays$proportion
 
   g <- table_extra_grob(d, rows=rownames(d), cols=colnames(d),
                         theme=theme)
@@ -11,10 +11,10 @@ test_that("extra table grob", {
 
 test_that("extra table grob cols more", {
   theme <- ttheme_awesome(core_size=unit(5, "mm"))
-  d <- SummarizedExperiment::assays(DBS)$proportion
+  d <- DBS$assays$proportion
 
   g <- table_extra_grob(d, rows=rownames(d), cols=colnames(d),
-                        cols_more=list("n="=SummarizedExperiment::colData(DBS)$description),
+                        cols_more=list("n="=DBS$colData$description),
                         theme=theme)
 
   out <- plot_grob(g, name="table_extra_grob_cols_more.pdf", width=4, height=4)
@@ -23,9 +23,9 @@ test_that("extra table grob cols more", {
 
 test_that("extra table grob cols more rows more no color", {
   theme <- ttheme_awesome(core_size=unit(5, "mm"))
-  d <- SummarizedExperiment::assays(DBS)$proportion
-  cols_more <- list("n="=SummarizedExperiment::colData(DBS)$description)
-  rows_more <- list("Proposed aetiology"=SummarizedExperiment::rowData(DBS)$description)
+  d <- DBS$assays$proportion
+  cols_more <- list("n="=DBS$colData$description)
+  rows_more <- list("Proposed aetiology"=DBS$rowData$description)
 
   g <- table_extra_grob(d, rows=rownames(d), cols=colnames(d),
                         cols_more=cols_more, rows_more=rows_more,
@@ -41,10 +41,10 @@ test_that("extra table grob cols more rows more with color", {
   color_breaks <- c(0, 0.001,0.005,0.008,0.01,0.02,0.03,0.05,0.1,0.5,1)
 
   theme <- ttheme_awesome(core_size=unit(5, "mm"), color_palette=color_palette, color_breaks=color_breaks)
-  dscale <- SummarizedExperiment::assays(DBS)$proportion
-  dcolor <- SummarizedExperiment::assays(DBS)$median
-  cols_more <- list("n="=SummarizedExperiment::colData(DBS)$description)
-  rows_more <- list("Proposed aetiology"=SummarizedExperiment::rowData(DBS)$description)
+  dscale <- DBS$assays$proportion
+  dcolor <- DBS$assays$median
+  cols_more <- list("n="=DBS$colData$description)
+  rows_more <- list("Proposed aetiology"=DBS$rowData$description)
 
   g <- table_extra_grob(dscale=dscale, dcolor=dcolor, 
                         rows=rownames(dscale), cols=colnames(dscale),
@@ -60,13 +60,13 @@ test_that("extra table grob genes work", {
   color_breaks <- c(-2, 0, 2)
 
   theme <- ttheme_awesome(core_size=unit(5, "mm"), color_palette=color_palette, color_breaks=color_breaks)
-  dscale <- -log10(SummarizedExperiment::assays(DEXP)$pvalue) + 1
-  dcolor <- SummarizedExperiment::assays(DEXP)$sign
+  dscale <- -log10(DEXP$assays$pvalue) + 1
+  dcolor <- DEXP$assays$sign
 
   g <- table_extra_grob(dscale=dscale, dcolor=dcolor, 
                         rows=rownames(dscale), cols=colnames(dscale),
-                        cols_more=list("n1="=SummarizedExperiment::colData(DBS)$description, 
-                                       "n2="=SummarizedExperiment::colData(DBS)$description), 
+                        cols_more=list("n1="=DBS$colData$description, 
+                                       "n2="=DBS$colData$description), 
                         rows_more=NULL,
                         theme=theme)
 
@@ -81,12 +81,12 @@ test_that("extra table grob genes with dscale_min and dscale_max works", {
   theme <- ttheme_awesome(core_size=unit(5, "mm"), 
                           color_palette=color_palette, 
                           color_breaks=color_breaks)
-  dscale <- -log10(SummarizedExperiment::assays(DEXP)$pvalue) + 1
-  dcolor <- SummarizedExperiment::assays(DEXP)$sign
+  dscale <- -log10(DEXP$assays$pvalue) + 1
+  dcolor <- DEXP$assays$sign
 
   g <- table_extra_grob(dscale=dscale, dcolor=dcolor, 
                         rows=rownames(dscale), cols=colnames(dscale),
-                        cols_more=list("n1="=SummarizedExperiment::colData(DBS)$description), 
+                        cols_more=list("n1="=DBS$colData$description), 
                         rows_more=NULL,
                         dscale_min=-log10(0.05),
                         dscale_max=NULL,
@@ -105,12 +105,12 @@ test_that("extra table grob genes with scale breaks works", {
                           scale_breaks=scale_breaks,
                           color_palette=color_palette, 
                           color_breaks=color_breaks)
-  dscale <- -log10(SummarizedExperiment::assays(DEXP)$pvalue) + 1
-  dcolor <- SummarizedExperiment::assays(DEXP)$sign
+  dscale <- -log10(DEXP$assays$pvalue) + 1
+  dcolor <- DEXP$assays$sign
 
   g <- table_extra_grob(dscale=dscale, dcolor=dcolor, 
                         rows=rownames(dscale), cols=colnames(dscale),
-                        cols_more=list("n1="=SummarizedExperiment::colData(DBS)$description), 
+                        cols_more=list("n1="=DBS$colData$description), 
                         rows_more=NULL,
                         dscale_min=NULL,
                         dscale_max=NULL,

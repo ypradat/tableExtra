@@ -1,12 +1,10 @@
 # R code for producing synthetic data for tests
 
-suppressMessages(library(SummarizedExperiment))
-
 rows <- sapply(1:11, function(i) paste0("DBS",i))
 cols <- c("Biliary-AdenoCA", "Bladder-TCC", "Bone-Osteosarc", "Bone-Other", "Breast", "Cervix", "CNS-GBM", 
           "CNS-Medullo", "CNS-Oligo", "CNS-PiloAstro", "Colorect-AdenoCA", "Eso-AdenoCA")
 
-assays <- SimpleList()
+assays <- list()
 
 # metadata =============================================================================================================
 
@@ -51,20 +49,20 @@ colnames(data) <- cols
 
 assays[["median"]] <- data
 
-# row data for SummarizedExperiment object =============================================================================
+# row data for list object =============================================================================
 
 rows.desc <- c("Ultraviolet light exposure", "Tobacco Smokin and other", "POLE mutation", "", "Platinum treatment", "",
                "Defective DNA repair", "", "", "Defective DNA repair", "APOBEC activity")
 rowData <- data.frame(name=rows, description=rows.desc, stringsAsFactors=F)
 
-# col data for SummarizedExperiment object =============================================================================
+# col data for list object =============================================================================
 
 cols.desc <- c(8, 10, 0, 0, 18, 0, 2, 0, 0, 0, 13, 1)
 colData <- data.frame(name=cols, description=cols.desc, stringsAsFactors=F)
 
-# SummarizedExperiment object ==========================================================================================
+# list object ==========================================================================================
 
-DBS <- SummarizedExperiment(
+DBS <- list(
   assays = assays,
   colData = colData,
   rowData = rowData,
@@ -73,5 +71,5 @@ DBS <- SummarizedExperiment(
 
 # save data ============================================================================================================
 
-dir.create("inst/testdata", showWarnings=F, recursive=T)
-save(DBS, file="inst/testdata/DBS.rda")
+dir.create("tests/testthat/testdata", showWarnings=F, recursive=T)
+save(DBS, file="tests/testthat/testdata/DBS.rda")

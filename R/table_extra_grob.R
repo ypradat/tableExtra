@@ -4,16 +4,24 @@
 #'
 #' @description Create a gtable containing circle grobs representing a numeric matrix.
 #' @param dscale a matrix
+#' @param dscale_min value for setting the minimum scale size of foreground grobs. Entries in the \code{dscale} matrix
+#' below \code{dscale_min} will have a scale of 0 (no grob).
+#' @param dscale_max value for setting the maximum scale size of foreground grobs. Entries in the \code{dscale} matrix
+#' above \code{dscale_max} will have a scale of 0 (no grob).
 #' @param dcolor (optional) a matrix
 #' @param rows (optional) a character vector
 #' @param cols (optional) a character vector
+#' @param rows_more (optional) a named list of additional columns (right-part) of the plot for describing the rows. The
+#' list names will be used as column headers.
+#' @param cols_more (optional) a named list of additional rows (top-part) of the plot for describing the columns The
+#' list names will be used as row headers.
 #' @param theme list of theme parameters
 #' @param vp optional viewport
 #'
 #' @import gtable
 #' @importFrom gtable gtable_add_rows 
 #'
-#' @seealso [theme_awesome()]
+#' @seealso [ttheme_awesome()]
 #'
 #' @return An R object of class \code{grob}
 #'
@@ -58,7 +66,7 @@ table_extra_grob <- function(dscale, dcolor=NULL,
                            fg_params=theme$colmore$fg_params, 
                            bg_params=theme$colmore$bg_params, 
                            padding=theme$colmore$padding)
-        g <- rbind_2(gc, g, "max", height=theme$colmore$padding[1])
+        g <- gtable_rbind(gc, g, size="max", height=theme$colmore$padding[1])
       }
     }
 
@@ -84,7 +92,7 @@ table_extra_grob <- function(dscale, dcolor=NULL,
                        fg_params=theme$rowhead$fg_params, 
                        bg_params=theme$rowhead$bg_params,
                        padding=theme$rowhead$padding)
-    g <- cbind_2(gr, g, "max", width=theme$rowhead$padding[2])
+    g <- gtable_cbind(gr, g, size="max", width=theme$rowhead$padding[2])
 
     if(!is.null(rows_more)){
       for (rows_m_name in names(rows_more)){
@@ -102,7 +110,7 @@ table_extra_grob <- function(dscale, dcolor=NULL,
                            fg_params=theme$rowmore$fg_params, 
                            bg_params=theme$rowmore$bg_params,
                            padding=theme$rowmore$padding)
-        g <- cbind_2(g, gr, "max", width=theme$rowmore$padding[2])
+        g <- gtable_cbind(g, gr, size="max", width=theme$rowmore$padding[2])
       }
     }
   }

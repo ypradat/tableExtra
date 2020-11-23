@@ -24,9 +24,21 @@ table_extra_grob(
 
 \item{dcolor}{(optional) a matrix}
 
+\item{dscale_min}{value for setting the minimum scale size of foreground grobs. Entries in the \code{dscale} matrix
+below \code{dscale_min} will have a scale of 0 (no grob).}
+
+\item{dscale_max}{value for setting the maximum scale size of foreground grobs. Entries in the \code{dscale} matrix
+above \code{dscale_max} will have a scale of 0 (no grob).}
+
 \item{rows}{(optional) a character vector}
 
 \item{cols}{(optional) a character vector}
+
+\item{rows_more}{(optional) a named list of additional columns (right-part) of the plot for describing the rows. The
+list names will be used as column headers.}
+
+\item{cols_more}{(optional) a named list of additional rows (top-part) of the plot for describing the columns The
+list names will be used as row headers.}
 
 \item{theme}{list of theme parameters}
 
@@ -42,7 +54,7 @@ Create a gtable containing circle grobs representing a numeric matrix.
 library(tableExtra)
 }
 \seealso{
-\code{\link[=theme_awesome]{theme_awesome()}}
+\code{\link[=ttheme_awesome]{ttheme_awesome()}}
 }
 \author{
 Yoann Pradat

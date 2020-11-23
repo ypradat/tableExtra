@@ -1,4 +1,3 @@
-suppressMessages(library(SummarizedExperiment))
 suppressMessages(library(dplyr))
 suppressMessages(library(tibble))
 

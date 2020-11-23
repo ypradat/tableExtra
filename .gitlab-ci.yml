@@ -1,0 +1,51 @@
+image: rocker/r-base
+
+stages:
+  - dependencies
+  - build
+  - document
+  - check
+  - test
+  - install 
+
+variables:
+  CODECOV_TOKEN: "b524d434-9189-48fc-a919-72e40de8cd22"
+
+before_script:
+  - apt-get update
+
+install_dependencies:
+  stage: dependencies
+  script:
+    - apt-get install --yes --no-install-recommends r-cran-devtools
+    - R -e 'devtools::install_deps(dependencies=c("Depends", "Imports", "Suggests"))'
+
+buildbinary:
+  stage: build
+  script:
+    - R -e 'devtools::build(binary=T)'
+
+documentation:
+  stage: document
+  script:
+    - R -e 'devtools::document()'
+
+checkerrors:
+  stage: check
+  script:
+    - R -e 'if (!identical(devtools::check(document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
+
+unittests:
+  stage: test
+  script:
+    - R -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
+
+codecov:
+  stage: test
+  script:
+    - R -e 'covr::codecov()'
+    
+install:
+  stage: install
+  script:
+    - R -e 'devtools::install()'

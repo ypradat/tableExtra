@@ -12,8 +12,8 @@
 #'   \item{Cancer.Types}{37 different cancer types}
 #'   \item{Sample.Names}{Unique tumour identifiers}
 #'   \item{Accuracy}{Cosine similarity between the tumour's mutational profile and the reconstructed mutational profile}
-#'   \item{SBSXXX}{Each SBSXXX variable represents the counts attributed to the signature SBSXXX in the corresponding
-#'     tumour}
+#'   \item{SBS1}{Single-base-substitution signature 1. See <https://cancer.sanger.ac.uk/cosmic/signatures/SBS/SBS1.tt>}
+#'   ...
 #' }
 #'
 #' @docType data

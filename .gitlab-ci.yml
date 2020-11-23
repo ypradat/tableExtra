@@ -1,10 +1,5 @@
 stages:
-  - dependencies
-  - build
-  - document
   - check
-  - test
-  - install 
 
 default:
   tags:
@@ -22,50 +17,17 @@ cache:
     - ${RENV_PATHS_CACHE}
     - ${RENV_PATHS_LIBRARY}
 
-before_script:
-  - Rscript -e "cat(paste('path renv root:', renv::paths\$root()))"
-  - echo ${CI_PROJECT_DIR}
-    
-install_dependencies:
-  stage: dependencies
-  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
-  script:
-    - Rscript -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")'
-    - Rscript -e 'renv::restore()'
-    - Rscript -e 'if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")'
-
-buildbinary:
-  stage: build
-  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
-  script:
-    - R -e 'devtools::build(binary=T)'
-
-documentation:
-  stage: document
-  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
-  script:
-    - R -e 'devtools::document()'
-
-checkerrors:
+check:
   stage: check
   image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
   script:
-    - R -e 'if (!identical(devtools::check(document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
-
-unittests:
-  stage: test
-  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
-  script:
-    - R -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
-
-codecov:
-  stage: test
-  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
-  script:
-    - R -e 'covr::codecov()'
-    
-install:
-  stage: install
-  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
-  script:
-    - R -e 'devtools::install()'
+    - Rscript -e 'cat(paste("path renv root:", renv::paths\$root()), "\\n")'
+    - Rscript -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")'
+    - Rscript -e 'renv::restore()'
+    - Rscript -e 'if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")'
+    - Rscript -e 'devtools::build(binary=T)'
+    - Rscript -e 'devtools::document()'
+    - Rscript -e 'if (!identical(devtools::check(document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
+    - Rscript -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
+    - Rscript -e 'covr::codecov()'
+    - Rscript -e 'devtools::install()'

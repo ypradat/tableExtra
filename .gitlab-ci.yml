@@ -21,7 +21,7 @@ check:
   stage: check
   image: gitlab-research.centralesupelec.fr:4567/2019pradaty/rcached
   script:
-    - Rscript -e 'cat(paste("path renv root:", renv::paths\$root()), "\\n")'
+    - Rscript -e "cat(paste('path renv root:', renv::paths\$root()), '\\n')"
     - Rscript -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")'
     - Rscript -e 'renv::restore()'
     - Rscript -e 'if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")'

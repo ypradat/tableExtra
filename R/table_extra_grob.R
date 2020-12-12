@@ -82,7 +82,7 @@ table_extra_grob <- function(dscale, dcolor=NULL,
   if(!is.null(rows)){
     if(!is.null(cols)){
       if(!is.null(cols_more))
-        rows <- c("", names(cols_more), rows)
+        rows <- c("", rev(names(cols_more)), rows)
       else
         rows <- c("", rows)
       }
@@ -96,13 +96,15 @@ table_extra_grob <- function(dscale, dcolor=NULL,
 
     if(!is.null(rows_more)){
       for (rows_m_name in names(rows_more)){
+        rows_m_pre <- c()
         if(!is.null(cols)){
-          if(!is.null(cols_more)){
-            rows_m <- c("", names(rows_more), rows_more[[rows_m_name]])
-          } else {
-            rows_m <- c("", rows_more[[rows_m_name]])
-          }
+          rows_m_pre <- c(rows_m_pre, "")
         }
+        if(!is.null(cols_more)){
+          rows_m_pre <- c(rows_m_pre, rep("", length(cols_more)-1), rows_m_name)
+        } 
+
+        rows_m <- c(rows_m_pre, rows_more[[rows_m_name]])
 
         gr <- gtable_table(rows_m, name="rowmore",
                            fg_fun=theme$rowmore$fg_fun, 

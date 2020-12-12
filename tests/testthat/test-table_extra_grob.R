@@ -132,6 +132,7 @@ test_that("extra table grob on pcawg works", {
   dscale$n <- NULL
   dscale <- column_to_rownames(.data=dscale, var="Cancer.Types")
   dscale <- t(as.matrix(dscale))
+  rows_more <- list("name"=rownames(dscale))
   
   scale_breaks <- seq(from=0, to=10, by=0.1)
 
@@ -155,7 +156,7 @@ test_that("extra table grob on pcawg works", {
 
   g <- table_extra_grob(dscale=dscale, dcolor=dcolor, 
                         rows=rownames(dscale), cols=colnames(dscale),
-                        cols_more=cols_more, rows_more=NULL,
+                        cols_more=cols_more, rows_more=rows_more,
                         theme=theme)
 
   out <- plot_grob(g, name="table_extra_grob_pcawg.pdf", width=12, height=16)

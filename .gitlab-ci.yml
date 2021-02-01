@@ -13,6 +13,7 @@ variables:
 
 before_script:
   - Rscript -e 'renv::restore()'
+  - sudo apt-get install git
 
 check:
   stage: check

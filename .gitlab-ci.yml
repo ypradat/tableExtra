@@ -19,6 +19,7 @@ check:
   image: gitlab-research.centralesupelec.fr:4567/2019pradaty/tableextra_docker
   script:
     - Rscript -e 'if (!identical(devtools::check(document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
+    - Rscript -e 'covr::codecov()'
   only:
     refs:
       - master
@@ -28,6 +29,7 @@ test:
   image: gitlab-research.centralesupelec.fr:4567/2019pradaty/tableextra_docker
   script:
     - Rscript -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
+    - bash <(curl -s https://codecov.io/bash)
   only:
     refs:
       - master

@@ -19,7 +19,7 @@ check:
   image: gitlab-research.centralesupelec.fr:4567/2019pradaty/tableextra_docker
   script:
     - Rscript -e 'if (!identical(devtools::check(document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
-    - Rscript -e 'covr::codecov()'
+    - Rscript -e 'covr::codecov(token="b524d434-9189-48fc-a919-72e40de8cd22")'
   only:
     refs:
       - master

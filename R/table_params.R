@@ -8,15 +8,19 @@
 #'
 #' @author Yoann Pradat
 #' @keywords internal
-table_params <- function(d, fg_params, bg_params){
+table_params <- function(d, fg_params, bg_params=NULL, rep_mode="row"){
   nc <- ncol(d)
   nr <- nrow(d)
   n <- nc*nr
   
-  fg_params <- lapply(fg_params, rep_ifshort, n = n, nc = nc, nr = nr)
-  bg_params <- lapply(bg_params, rep_ifshort, n = n, nc = nc, nr = nr)
-  
-  return(list(fg_params=fg_params, bg_params=bg_params))
+  fg_params <- lapply(fg_params, rep_ifshort, n = n, nc = nc, nr = nr, rep_mode=rep_mode)
+
+  if (!is.null(bg_params)){
+    bg_params <- lapply(bg_params, rep_ifshort, n = n, nc = nc, nr = nr, rep_mode=rep_mode)
+    return(list(fg_params=fg_params, bg_params=bg_params))
+  } else {
+    return(list(fg_params=fg_params))
+  }
 }
 
 #' Add circle scale parameters
@@ -52,7 +56,7 @@ table_params_circle_scale <- function(d, scale_breaks=10, r_min=unit(4, "mm"), r
 #'
 #' @author Yoann Pradat
 #' @keywords internal
-table_params_circle_color <- function(d, color_palette, color_breaks=NULL){
+table_params_color <- function(d, color_palette, color_breaks=NULL){
   if (is.null(d)){
     return(list())
   } else {
@@ -75,6 +79,27 @@ table_params_circle_color <- function(d, color_palette, color_breaks=NULL){
   }
 }
 
+#' Add rect parameters
+#'
+#' @param d data.frame or matrix
+#' @param scale_breaks integer indicating the number of differently-sized circles
+#' @param r_max unit object indicating the maximum radius
+#' @param color_palette a character vector of color names
+#' @param color_breaks a numeric vector of break points
+#'
+#' @importFrom grid unit.c 
+#'
+#' @author Yoann Pradat
+#' @keywords internal
+table_params_rect <- function(dcolor, color_palette=NULL, color_breaks=NULL){
+  params <- NULL
+  if (!is.null(color_palette)){
+    params_color <- table_params_color(d=dcolor, color_palette=color_palette, color_breaks=color_breaks)
+    params <- c(params, params_color)
+  }
+  return(params)
+}
+
 #' Add circle parameters
 #'
 #' @param d data.frame or matrix
@@ -93,7 +118,7 @@ table_params_circle <- function(dscale, dcolor, scale_breaks, r_min, r_max,  col
                                             d_min=dscale_min, d_max=dscale_max)
 
   if(!missing(dcolor)){
-    params_color <- table_params_circle_color(d=dcolor, color_palette=color_palette, color_breaks=color_breaks)
+    params_color <- table_params_color(d=dcolor, color_palette=color_palette, color_breaks=color_breaks)
     params <- c(params_scale, params_color)
   } else {
     params <- params_scale
@@ -127,6 +152,8 @@ add_table_params <- function(d, params, fun, ...){
     extra_params <- table_params_circle(d, ...)
   } else if (all.equal(fun, text_grob)==T) {
     extra_params <- table_params_text(d)
+  } else if (all.equal(fun, rect_grob)==T) { 
+    extra_params <- table_params_rect(d, ...)
   } else {
     stop("unsupported value of fun")
   }

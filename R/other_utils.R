@@ -16,11 +16,19 @@ col_widths <- function(m){
     1.1*max(do.call(grid::unit.c, lapply(l, grid::grobWidth)))))
 }
 
-rep_ifshort <- function(x, n, nc, nr){
+rep_ifshort <- function(x, n, nc, nr, rep_mode){
     if(length(x) >= n){
       return(x[1:n]) 
-    } else # recycle 
-      return(rep(rep(x, length.out = nr), length.out= n)) 
+    } else {
+      # recycle
+      if (rep_mode=="row"){
+        return(rep(rep(x, length.out=nr), length.out=n)) 
+      } else if (rep_mode=="col") {
+        return(as.vector(matrix(rep(rep(x, length.out=nc), length.out=n), byrow=T, nrow=nr)))
+      } else {
+        stop(paste0("Unsupported value '", rep_mode,"' of rep_mode. Choose 'col' or 'row'"))
+      }
+    }
 }
 
 breaks_scale <- function(d, d_min=NULL, d_max=NULL, breaks=10){

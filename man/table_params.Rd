@@ -4,7 +4,7 @@
 \alias{table_params}
 \title{Build a table of parameters.}
 \usage{
-table_params(d, fg_params, bg_params)
+table_params(d, fg_params, bg_params = NULL, rep_mode = "row")
 }
 \arguments{
 \item{d}{data.frame or matrix}

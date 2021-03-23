@@ -15,4 +15,4 @@ plot_grob <- function(g, name, width=NULL, height=NULL){
 }
 
 # Aetiologies for PCAWG
-
+SBS_aetiology <- read.csv("../../data-raw/cosmic_v3_aetiologies.csv", stringsAsFactors=F)

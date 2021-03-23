@@ -13,6 +13,7 @@ ttheme_awesome(
   scale_ratio = 0.25,
   color_palette = "black",
   color_breaks = NULL,
+  rep_mode = "col",
   parse = FALSE,
   padding = unit(c(0.3, 0.3), "mm"),
   ...
@@ -34,6 +35,8 @@ ttheme_awesome(
 \item{color_palette}{color palette for core foreground grobs}
 
 \item{color_breaks}{bin breaks for color palette for core foreground grobs}
+
+\item{rep_mode}{'col' or 'row'. Used when recycling fg_params or bg_params to make a matrix of params.}
 
 \item{parse}{logical, default behaviour for parsing text as plotmath}
 

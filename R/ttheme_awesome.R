@@ -8,6 +8,7 @@
 #' @param scale_ratio ratio of minimum to maximum core foreground grobs sizes
 #' @param color_palette color palette for core foreground grobs
 #' @param color_breaks bin breaks for color palette for core foreground grobs
+#' @param rep_mode 'col' or 'row'. Used when recycling fg_params or bg_params to make a matrix of params.
 #' @param parse logical, default behaviour for parsing text as plotmath
 #' @param padding length-2 unit vector specifying the horizontal and vertical padding of text within each cell
 #' @param ... extra parameters added to the theme list
@@ -25,6 +26,7 @@ ttheme_awesome <- function(base_size=8,
                            scale_ratio=0.25,
                            color_palette="black",
                            color_breaks=NULL,
+                           rep_mode="col",
                            parse=FALSE, 
                            padding=unit(c(0.3,0.3), "mm"), ...){
 
@@ -41,6 +43,7 @@ ttheme_awesome <- function(base_size=8,
                               height=core_size_value,
                               default.units=core_size_unit,
                               lwd=0, col="white"),
+               rep_mode=rep_mode,
                size=core_size,
                scale_breaks=scale_breaks,
                scale_ratio=scale_ratio,

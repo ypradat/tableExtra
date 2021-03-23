@@ -1,4 +1,3 @@
-
 test_that("text grob", {
   g <- text_grob(label="test",
                  col="black")

@@ -3,7 +3,7 @@ test_that("legend circle grob", {
 
   theme <- ttheme_awesome(base_size=12,
                           rep_mode="col",
-                          core_size=unit(5, "mm"), 
+                          core_size=5, 
                           scale_breaks=scale_breaks,
                           color_palette=NULL, 
                           color_breaks=NULL)
@@ -21,7 +21,7 @@ test_that("legend circle grob", {
                      title_x=0.5*(length(scale_breaks)-1)*theme$core$size,
                      title_y=1.5*theme$core$size,
                      labels_gp=gpar(fontsize=6),
-                     labels_pad=unit(-1, "mm"),
+                     labels_pad=-1,
                      padding=theme$core$padding,
                      scale_breaks=theme$core$scale_breaks,
                      rep_mode=theme$core$rep_mode,
@@ -42,7 +42,7 @@ test_that("legend rect grob", {
 
   theme <- ttheme_awesome(base_size=12,
                           rep_mode="col",
-                          core_size=unit(5, "mm"), 
+                          core_size=5, 
                           color_palette=color_palette, 
                           color_breaks=color_breaks)
 
@@ -64,7 +64,7 @@ test_that("legend rect grob", {
                      title_y=1.5*theme$core$size,
                      orientation="horizontal",
                      labels_gp=gpar(fontsize=6),
-                     labels_pad=unit(-1, "mm"),
+                     labels_pad=-1,
                      padding=theme$core$padding,
                      color_breaks=color_breaks,
                      color_palette=color_palette)
@@ -83,7 +83,7 @@ test_that("legend rect grob vertical", {
 
   theme <- ttheme_awesome(base_size=12,
                           rep_mode="col",
-                          core_size=unit(5, "mm"), 
+                          core_size=5, 
                           color_palette=color_palette, 
                           color_breaks=color_breaks)
 
@@ -105,7 +105,7 @@ test_that("legend rect grob vertical", {
                      title_x=2*theme$core$size,
                      orientation="vertical",
                      labels_gp=gpar(fontsize=6),
-                     labels_pad=unit(-3, "mm"),
+                     labels_pad=-3,
                      padding=theme$core$padding,
                      color_breaks=color_breaks,
                      color_palette=color_palette)

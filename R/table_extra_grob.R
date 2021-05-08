@@ -39,7 +39,7 @@ table_extra_grob <- function(dscale, dcolor=NULL,
   widths <- rep(theme$core$size, ncol(dscale))
   heights <- rep(theme$core$size, nrow(dscale))
 
-  g <- gtable_table(dscale, name="circle",
+  g <- gtable_table(dscale, name="core",
                     widths=widths,
                     heights=heights,
                     fg_fun=theme$core$fg_fun, 

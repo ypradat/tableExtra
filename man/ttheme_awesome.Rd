@@ -8,14 +8,15 @@ ttheme_awesome(
   base_size = 8,
   base_colour = "black",
   base_family = "",
-  core_size = unit(10, "mm"),
+  core_size = 10,
   scale_breaks = 10,
   scale_ratio = 0.25,
   color_palette = "black",
   color_breaks = NULL,
   rep_mode = "col",
   parse = FALSE,
-  padding = unit(c(0.3, 0.3), "mm"),
+  size_unit = "mm",
+  padding = c(0.3, 0.3),
   ...
 )
 }
@@ -40,7 +41,10 @@ ttheme_awesome(
 
 \item{parse}{logical, default behaviour for parsing text as plotmath}
 
-\item{padding}{length-2 unit vector specifying the horizontal and vertical padding of text within each cell}
+\item{size_unit}{character vector defining the unit used for sizes. See \code{grid::unit} for all possible
+specifications.}
+
+\item{padding}{length-2 vector specifying the horizontal and vertical padding of text within each cell}
 
 \item{...}{extra parameters added to the theme list}
 }

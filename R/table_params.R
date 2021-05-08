@@ -155,7 +155,7 @@ add_table_params <- function(d, params, fun, ...){
   } else if (all.equal(fun, rect_grob)==T) { 
     extra_params <- table_params_rect(d, ...)
   } else {
-    stop("unsupported value of fun")
+    stop("Unsupported value of fun")
   }
 
   return(c(params, extra_params))

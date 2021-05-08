@@ -17,9 +17,10 @@ gtable_legend(
   title_y = NULL,
   title_label = "Title",
   title_gp = gpar(fontsize = 10),
-  labels_pad = unit(-1, "mm"),
+  labels_pad = -1,
   labels_gp = gpar(fontsize = 6),
-  padding = unit(0.3, "mm"),
+  padding = 0.3,
+  size_unit = "mm",
   name = "legend",
   vp = NULL,
   orientation = "horizontal",
@@ -47,7 +48,10 @@ gtable_legend(
 
 \item{title_label}{character vector}
 
-\item{padding}{\code{unit.list} object specifying the padding between adjacent cells.}
+\item{padding}{numeric vector specifying the padding between adjacent cells.}
+
+\item{size_unit}{character vector defining the unit used for sizes. See \code{grid::unit} for all possible
+specifications.}
 
 \item{name}{optional name of the grob}
 
@@ -64,4 +68,3 @@ Build a grob with a legend inside.
 \author{
 Yoann Pradat
 }
-\keyword{internal}

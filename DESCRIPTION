@@ -1,6 +1,6 @@
 Package: tableExtra
-Title: Draws an awesome table
-Version: 0.99.4
+Title: Draws An Awesome Table
+Version: 0.99.9
 Authors@R: 
     person(given = "Yoann",
            family = "Pradat",
@@ -15,6 +15,7 @@ RoxygenNote: 7.1.1
 Suggests: 
     testthat,
     dplyr,
+    forcats,
     tibble 
 Depends: 
     R (>= 3.5.0)

@@ -23,10 +23,10 @@
 #' @author Yoann Pradat
 #' @keywords internal
 gtable_table <- function(d, widths, heights,
-                         fg_fun = text_grob, fg_params = list(),
-                         bg_fun = NULL, bg_params = NULL,
-                         padding = unit(c(4, 4), "mm"),
-                         name = "table", vp = NULL, rep_mode="row", ...){
+                         fg_fun=text_grob, fg_params=list(),
+                         bg_fun=NULL, bg_params=NULL,
+                         padding=unit(c(4, 4), "mm"),
+                         name="table", vp=NULL, rep_mode="row", ...){
 
   d <- as.matrix(d)
 
@@ -85,7 +85,9 @@ gtable_table <- function(d, widths, heights,
 #' @param title_x \code{unit} specifying the x position of the title
 #' @param title_y \code{unit} specifying the x position of the title
 #' @param title_label character vector
-#' @param padding \code{unit.list} object specifying the padding between adjacent cells.
+#' @param padding numeric vector specifying the padding between adjacent cells.
+#' @param size_unit character vector defining the unit used for sizes. See \code{grid::unit} for all possible
+#' specifications.
 #' @param name optional name of the grob
 #' @param vp optional viewport
 #' @param ... additional parameters passed to \code{add_table_params}.
@@ -94,11 +96,14 @@ gtable_table <- function(d, widths, heights,
 #' @import gtable
 #'
 #' @author Yoann Pradat
-#' @keywords internal
+#' @export
 gtable_legend <- function(d, labels, widths, heights, fg_fun, fg_params, bg_fun=NULL, bg_params=NULL,
                           title_x=NULL, title_y=NULL, title_label="Title", title_gp=gpar(fontsize=10), 
-                          labels_pad=unit(-1,"mm"), labels_gp=gpar(fontsize=6), padding=unit(0.3, "mm"),
-                          name="legend", vp=NULL, orientation="horizontal", ...){
+                          labels_pad=-1, labels_gp=gpar(fontsize=6), padding=0.3,
+                          size_unit="mm", name="legend", vp=NULL, orientation="horizontal", ...){
+
+  labels_pad <- unit(labels_pad, size_unit)
+  padding <- unit(padding, size_unit)
 
   # legend body
   g <- gtable_table(d, name=name,
@@ -108,7 +113,7 @@ gtable_legend <- function(d, labels, widths, heights, fg_fun, fg_params, bg_fun=
                     bg_fun=bg_fun, 
                     fg_params=fg_params, 
                     bg_params=bg_params, 
-                    padding=padding, ...)
+                    padding=padding, vp=vp, ...)
 
   # legend title
   g_title <- textGrob(label=title_label, 
@@ -120,7 +125,7 @@ gtable_legend <- function(d, labels, widths, heights, fg_fun, fg_params, bg_fun=
 
   # legend labels
   if (orientation=="horizontal"){
-    x <- unit(0, attr(padding, "unit"))
+    x <- unit(0, size_unit)
     for (i in 1:length(labels)){
       g_label <- textGrob(label=labels[i], 
                           x=x,

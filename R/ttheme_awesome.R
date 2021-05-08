@@ -10,7 +10,9 @@
 #' @param color_breaks bin breaks for color palette for core foreground grobs
 #' @param rep_mode 'col' or 'row'. Used when recycling fg_params or bg_params to make a matrix of params.
 #' @param parse logical, default behaviour for parsing text as plotmath
-#' @param padding length-2 unit vector specifying the horizontal and vertical padding of text within each cell
+#' @param size_unit character vector defining the unit used for sizes. See \code{grid::unit} for all possible
+#' specifications.
+#' @param padding length-2 vector specifying the horizontal and vertical padding of text within each cell
 #' @param ... extra parameters added to the theme list
 #'
 #' @importFrom utils modifyList
@@ -21,35 +23,34 @@
 ttheme_awesome <- function(base_size=8, 
                            base_colour="black", 
                            base_family="",
-                           core_size=unit(10, "mm"),
+                           core_size=10,
                            scale_breaks=10,
                            scale_ratio=0.25,
                            color_palette="black",
                            color_breaks=NULL,
                            rep_mode="col",
                            parse=FALSE, 
-                           padding=unit(c(0.3,0.3), "mm"), ...){
+                           size_unit="mm",
+                           padding=c(0.3,0.3), ...){
 
   # The code `do.call(mapply, c(fg_params, list(FUN = fg_fun, SIMPLIFY=FALSE)))`
   # cannot accomodate variables of the class `unit`.  
   # Current fix: split the value and the unit.
-  core_size_value <- as.numeric(core_size)
-  core_size_unit <- attr(core_size, "unit")
   core <- list(fg_fun=circle_grob, 
                fg_params=list(col="white", lwd=0),
                bg_fun=rect_grob, 
                bg_params=list(fill=c("#f2f2f2","#e5e5e5"),
-                              width=core_size_value, 
-                              height=core_size_value,
-                              default.units=core_size_unit,
+                              width=core_size, 
+                              height=core_size,
+                              default.units=size_unit,
                               lwd=0, col="white"),
                rep_mode=rep_mode,
-               size=core_size,
+               size=unit(core_size,size_unit),
                scale_breaks=scale_breaks,
                scale_ratio=scale_ratio,
                color_palette=color_palette,
                color_breaks=color_breaks,
-               padding=padding)
+               padding=unit(padding, size_unit))
 
   colhead <- list(fg_fun=text_grob, 
                   fg_params=list(parse=parse, col=base_colour,
@@ -61,10 +62,10 @@ ttheme_awesome <- function(base_size=8,
                                  rot=90),
                   bg_fun=rect_grob, 
                   bg_params=list(fill=c("white"),
-                                 width=core_size_value,
-                                 default.units=core_size_unit,
+                                 width=core_size,
+                                 default.units=size_unit,
                                  lwd=0, col="white"),
-                  padding=padding)
+                  padding=unit(padding, size_unit))
 
   colmore <- list(fg_fun=text_grob, 
                   fg_params=list(parse=parse, col=base_colour,
@@ -76,10 +77,10 @@ ttheme_awesome <- function(base_size=8,
                                  rot=90),
                   bg_fun=rect_grob, 
                   bg_params=list(fill=c("white"),
-                                 width=core_size_value,
-                                 default.units=core_size_unit,
+                                 width=core_size,
+                                 default.units=size_unit,
                                  lwd=0, col="white"),
-                  padding=padding)
+                  padding=unit(padding, size_unit))
 
   rowhead <- list(fg_fun=text_grob, 
                   fg_params=list(parse=parse, col=base_colour,
@@ -90,10 +91,10 @@ ttheme_awesome <- function(base_size=8,
                                  x=0.95),
                   bg_fun=rect_grob, 
                   bg_params=list(fill=c("white"),
-                                 height=core_size_value,
-                                 default.units=core_size_unit,
+                                 height=core_size,
+                                 default.units=size_unit,
                                  lwd=0, col="white"),
-                  padding=padding)
+                  padding=unit(padding, size_unit))
 
   rowmore <- list(fg_fun=text_grob, 
                   fg_params=list(parse=parse, col=base_colour,
@@ -104,10 +105,10 @@ ttheme_awesome <- function(base_size=8,
                                  x=0),
                   bg_fun=rect_grob, 
                   bg_params=list(fill=c("white"),
-                                 height=core_size_value,
-                                 default.units=core_size_unit,
+                                 height=core_size,
+                                 default.units=size_unit,
                                  lwd=0, col="white"),
-                  padding=padding)
+                  padding=unit(padding, size_unit))
 
   default <- list(core=core,
                   colhead=colhead,

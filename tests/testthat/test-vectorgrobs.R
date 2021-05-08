@@ -78,6 +78,41 @@ test_that("circle rect grob", {
   expect_true(out$plot_success)
 })
 
+test_that("circle rect grob viewport", {
+  gc <- circle_grob(r=unit(5, "mm"),
+                    lwd=0,
+                    fill="grey80",
+                    col="black",
+                    lty="solid",
+                    cex=1)
+
+  gr <- rect_grob(width=unit(10,"mm"),
+                  height=unit(10,"mm"),
+                  fill="white",
+                  col="black",
+                  lty="solid",
+                  cex=1)
+
+
+  grDevices::pdf(file=file.path("pdfs_plots", "rect_circle_grob_vp.pdf"),
+                 width=1,
+                 height=1,
+                 onefile=T)
+
+  grid.draw(gc)
+
+  vp <- viewport(x = 0.5, y = 0.5, 
+                 width = 0.5, height = 0.5,
+                 just = c("left", "bottom"))
+  pushViewport(vp)
+  grid.draw(roundrectGrob())
+  grid.draw(gr)
+  popViewport()
+  grDevices::dev.off()
+
+  expect_true(file.exists(file.path("pdfs_plots", "rect_circle_grob_vp.pdf")))
+})
+
 test_that("circle rect grob small", {
   gc <- circle_grob(r=unit(5, "mm"),
                     lwd=0,

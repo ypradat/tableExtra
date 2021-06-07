@@ -146,7 +146,7 @@ test_that("gtable circle annotated", {
   }
 
   ind <- find_cell(g, 2, 2, "circle-bg")
-  g$grobs[ind][[1]][["gp"]] <- gpar(col = "red", lwd=3)
+  g$qrobs[ind][[1]][["gp"]] <- modifyList(g$grobs[ind][[1]][["gp"]], list(col="red", lwd=3))
 
   out <- plot_grob(g, name="gtable_circle_annotated.pdf")
   expect_true(out$plot_success)

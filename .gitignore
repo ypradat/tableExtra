@@ -1,3 +1,6 @@
+# Project specific
+tests/testthat/pdfs_plots
+
 # Tags
 *tags
 

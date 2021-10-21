@@ -40,8 +40,7 @@ z_arrange_gtables <- function (gtables, z)
   zmax <- 0
   for (i in order(z)) {
     if (nrow(gtables[[i]]$layout) > 0) {
-      gtables[[i]] <- z_normalise(gtables[[i]], zmax + 
-                                    1)
+      gtables[[i]] <- z_normalise(gtables[[i]], zmax + 1)
       zmax <- max(gtables[[i]]$layout$z)
     }
   }

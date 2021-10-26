@@ -23,12 +23,14 @@ gtable_legend(
   size_unit = "mm",
   name = "legend",
   vp = NULL,
-  orientation = "horizontal",
+  orientation = c("horizontal", "vertical"),
   ...
 )
 }
 \arguments{
 \item{d}{data.frame or matrix}
+
+\item{labels}{tick labels displayed at legend tick marks}
 
 \item{widths}{optional \code{unit.list} specifying the grob widths}
 
@@ -48,14 +50,22 @@ gtable_legend(
 
 \item{title_label}{character vector}
 
+\item{title_gp}{graphical parameters of the title}
+
+\item{labels_pad}{padding between the text labels}
+
+\item{labels_gp}{graphical parameters of the text labels}
+
 \item{padding}{numeric vector specifying the padding between adjacent cells.}
 
 \item{size_unit}{character vector defining the unit used for sizes. See \code{grid::unit} for all possible
-specifications.}
+specifications}
 
-\item{name}{optional name of the grob}
+\item{name}{name of the grob}
 
 \item{vp}{optional viewport}
+
+\item{orientation}{choose 'horizontal' or 'vertical'}
 
 \item{...}{additional parameters passed to \code{add_table_params}.}
 }

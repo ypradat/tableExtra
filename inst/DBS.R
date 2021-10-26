@@ -71,5 +71,5 @@ DBS <- list(
 
 # save data ============================================================================================================
 
-dir.create("tests/testthat/testdata", showWarnings=F, recursive=T)
-save(DBS, file="tests/testthat/testdata/DBS.rda")
+dir.create("inst/testdata", showWarnings=F, recursive=T)
+save(DBS, file="inst/testdata/DBS.rda")

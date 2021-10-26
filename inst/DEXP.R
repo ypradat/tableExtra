@@ -49,5 +49,5 @@ DEXP <- list(
 
 # save data ============================================================================================================
 
-dir.create("tests/testthat/testdata", showWarnings=F, recursive=T)
-save(DEXP, file="tests/testthat/testdata/DEXP.rda")
+dir.create("inst/testdata", showWarnings=F, recursive=T)
+save(DEXP, file="inst/testdata/DEXP.rda")

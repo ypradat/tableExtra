@@ -13,6 +13,22 @@
 #' @param size_unit character vector defining the unit used for sizes. See \code{grid::unit} for all possible
 #' specifications.
 #' @param padding length-2 vector specifying the horizontal and vertical padding of text within each cell
+#' @param show_legend (optional) set to FALSE to not draw any legend.
+#' @param legend_position (optional) choose between 'top_left', 'top_center' and 'top_right'.
+#' @param legend_layout (optional) Only 'columnwise' is supported for now.
+#' @param legend_x (optional) x position in 'npc' units of the left bottom corner of the viewport defining the scale
+#'   legend. If NULL, the function will try to set it automatically using legend_position.
+#' @param legend_y (optional) y position in 'npc' units of the left bottom corner of the viewport defining the scale
+#'   legend. If NULL, the function will try to set it automatically.
+#' @param legend_width (optional) width in 'npc' units of the viewport(s) defining legend(s). 
+#'  If NULL, the function will try to set it automatically.
+#' @param legend_height (optional) height in 'npc' units of the viewport(s) defining legend(s). 
+#'  If NULL, the function will try to set it automatically.
+#' @param legend_scale (optional) Scale factor that defines the size of the legend colorbar cells relatively to the
+#'  main plot cells.
+#' @param legend_title_fontsize (optional) if NULL, font size is set to `theme$colhead$fontsize`.
+#' @param legend_labels_fontsize (optional) if NULL, font size is set to `theme$colhead$fontsize`.
+#' @param legend_labels_pad (optional) padding between the legend labels.
 #' @param ... extra parameters added to the theme list
 #'
 #' @importFrom utils modifyList
@@ -31,8 +47,16 @@ ttheme_awesome <- function(base_size=8,
                            rep_mode="col",
                            parse=FALSE, 
                            size_unit="mm",
-                           padding=c(0.3,0.3), ...){
-
+                           padding=c(0.3,0.3),
+                           show_legend=T,
+                           legend_position=NULL,
+                           legend_layout=NULL,
+                           legend_x=NULL, legend_y=NULL,
+                           legend_width=NULL, legend_height=NULL,
+                           legend_scale=1.5,
+                           legend_title_fontsize=12,
+                           legend_labels_fontsize=10,
+                           legend_labels_pad=-1.2, ...){
   # The code `do.call(mapply, c(fg_params, list(FUN = fg_fun, SIMPLIFY=FALSE)))`
   # cannot accomodate variables of the class `unit`.  
   # Current fix: split the value and the unit.
@@ -110,11 +134,24 @@ ttheme_awesome <- function(base_size=8,
                                  lwd=0, col="white"),
                   padding=unit(padding, size_unit))
 
+  legend <- list(show=show_legend,
+                 position=legend_position,
+                 layout=legend_layout,
+                 x=legend_x,
+                 y=legend_y,
+                 width=legend_width,
+                 height=legend_height,
+                 scale=legend_scale,
+                 title_fontsize=legend_title_fontsize,
+                 labels_fontsize=legend_labels_fontsize,
+                 labels_pad=legend_labels_pad)
+
   default <- list(core=core,
                   colhead=colhead,
                   colmore=colmore,
                   rowhead=rowhead,
-                  rowmore=rowmore)
+                  rowmore=rowmore,
+                  legend=legend)
 
   modifyList(default, list(...))
 }

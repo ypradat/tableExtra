@@ -1,5 +1,6 @@
 ^renv$
 ^renv\.lock$
+^env\.yaml$
 ^LICENSE\.md$
 ^\.tool-versions$
 ^\.gitlab-ci\.yml$

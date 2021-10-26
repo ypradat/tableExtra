@@ -2,7 +2,7 @@
 % Please edit documentation in R/table_extra_grob.R
 \name{table_extra_grob}
 \alias{table_extra_grob}
-\title{Graphical display of a table with circles of varying scales and colours.
+\title{Grob underlying graphical display of a table with circles of varying scales and colours.
 
 The code is inspired by the \code{tableGrob} function \code{gridExtra}}
 \usage{
@@ -49,9 +49,6 @@ An R object of class \code{grob}
 }
 \description{
 Create a gtable containing circle grobs representing a numeric matrix.
-}
-\examples{
-library(tableExtra)
 }
 \seealso{
 \code{\link[=ttheme_awesome]{ttheme_awesome()}}

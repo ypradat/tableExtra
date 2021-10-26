@@ -1,4 +1,5 @@
 test_that("gtable text row no padding", {
+  skip_on_cran()
   theme <- ttheme_awesome(padding=c(0,0))
   d <- t(DBS$colData$description)
   widths <- rep(theme$core$size, ncol(d))
@@ -13,12 +14,15 @@ test_that("gtable text row no padding", {
                      bg_params=theme$colhead$bg_params, 
                      padding=theme$colhead$padding)
 
-  out <- plot_grob(gc, name="gtable_text_row_no_padding.pdf", width=8, height=1)
+  width <- convertUnit(sum(widths), "inches")
+  height <- convertUnit(sum(heights), "inches")
+  out <- plot_grob(gc, name="gtable_text_row_no_padding.pdf", width=width, height=height)
   expect_true(out$plot_success)
-
 })
 
+
 test_that("gtable text row with padding", {
+  skip_on_cran()
   theme <- ttheme_awesome(padding=c(2,0))
   d <- t(DBS$colData$description)
   widths <- rep(theme$core$size, ncol(d))
@@ -33,16 +37,22 @@ test_that("gtable text row with padding", {
                      bg_params=theme$colhead$bg_params, 
                      padding=theme$colhead$padding)
 
-  out <- plot_grob(gc, name="gtable_text_row_with_padding.pdf", width=8, height=1)
+  width <- convertUnit(sum(widths), "inches")
+  height <- convertUnit(sum(heights), "inches")
+  out <- plot_grob(gc, name="gtable_text_row_with_padding.pdf", width=width, height=height)
   expect_true(out$plot_success)
 })
 
+
 test_that("gtable text col", {
+  skip_on_cran()
   theme <- ttheme_awesome(padding=c(0,0))
   d <- DBS$rowData$name
+  widths <- theme$core$size
   heights <- rep(theme$core$size, length(d))
 
   gr <- gtable_table(d, name="rowhead",
+                     widths=widths,
                      heights=heights,
                      fg_fun=theme$rowhead$fg_fun, 
                      bg_fun=theme$rowhead$bg_fun, 
@@ -50,11 +60,15 @@ test_that("gtable text col", {
                      bg_params=theme$rowhead$bg_params, 
                      padding=theme$rowhead$padding)
 
-  out <- plot_grob(gr, name="gtable_text_col.pdf", width=1, height=4.5)
+  width <- convertUnit(sum(widths), "inches")
+  height <- convertUnit(sum(heights), "inches")
+  out <- plot_grob(gr, name="gtable_text_col.pdf", width=width, height=height)
   expect_true(out$plot_success)
 })
 
+
 test_that("gtable text mat no padding", {
+  skip_on_cran()
   theme <- ttheme_awesome(padding=c(0,0))
   d <- DBS$rowData$name
   d <- matrix(rep(d, 5), nrow=5, byrow=T)
@@ -70,11 +84,15 @@ test_that("gtable text mat no padding", {
                      bg_params=theme$rowhead$bg_params, 
                      padding=theme$rowhead$padding)
 
-  out <- plot_grob(gr, name="gtable_text_mat_no_padding.pdf")
+  width <- convertUnit(sum(widths), "inches")
+  height <- convertUnit(sum(heights), "inches")
+  out <- plot_grob(gr, name="gtable_text_mat_no_padding.pdf", width=width, height=height)
   expect_true(out$plot_success)
 })
 
+
 test_that("gtable text mat with padding", {
+  skip_on_cran()
   theme <- ttheme_awesome(padding=c(1,1))
   d <- DBS$rowData$name
   d <- matrix(rep(d, 5), nrow=5, byrow=T)
@@ -90,12 +108,15 @@ test_that("gtable text mat with padding", {
                      bg_params=theme$rowhead$bg_params, 
                      padding=theme$rowhead$padding)
 
-  out <- plot_grob(gr, name="gtable_text_mat_with_padding.pdf")
+  width <- convertUnit(sum(widths) + theme$core$padding[1]*(length(widths)-1), "inches")
+  height <- convertUnit(sum(heights) + theme$core$padding[2]*(length(heights)-1), "inches")
+  out <- plot_grob(gr, name="gtable_text_mat_with_padding.pdf", width=width, height=height)
   expect_true(out$plot_success)
 })
 
 
 test_that("gtable circle", {
+  skip_on_cran()
   theme <- ttheme_awesome(core_size=10, core=list(fg_params=list(fill="blue")))
 
   d <- DBS$assays$proportion
@@ -116,11 +137,15 @@ test_that("gtable circle", {
                     r_min=0.1*theme$core$size,
                     r_max=0.5*theme$core$size)
 
-  out <- plot_grob(g, name="gtable_circle.pdf")
+  width <- convertUnit(sum(widths) + theme$core$padding[1]*(length(widths)-1), "inches")
+  height <- convertUnit(sum(heights) + theme$core$padding[2]*(length(heights)-1), "inches")
+  out <- plot_grob(g, name="gtable_circle.pdf", width=width, height=height)
   expect_true(out$plot_success)
 })
 
+
 test_that("gtable circle annotated", {
+  skip_on_cran()
   theme <- ttheme_awesome()
   d <- DBS$assays$proportion
   widths <- rep(theme$core$size, ncol(d))
@@ -148,7 +173,8 @@ test_that("gtable circle annotated", {
   ind <- find_cell(g, 2, 2, "circle-bg")
   g$qrobs[ind][[1]][["gp"]] <- modifyList(g$grobs[ind][[1]][["gp"]], list(col="red", lwd=3))
 
-  out <- plot_grob(g, name="gtable_circle_annotated.pdf")
+  width <- convertUnit(sum(widths) + theme$core$padding[1]*(length(widths)-1), "inches")
+  height <- convertUnit(sum(heights) + theme$core$padding[2]*(length(heights)-1), "inches")
+  out <- plot_grob(g, name="gtable_circle_annotated.pdf", width=width, height=height)
   expect_true(out$plot_success)
 })
-

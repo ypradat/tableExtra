@@ -1,4 +1,5 @@
 test_that("rbind_2 and gtable_rbind on text row works", {
+  skip_on_cran()
   theme <- ttheme_awesome()
   d <- t(DBS$colData$description)
 
@@ -17,7 +18,9 @@ test_that("rbind_2 and gtable_rbind on text row works", {
                     padding=theme$colhead$padding)
 
   g <- rbind_2(g1, g2, "max", height=theme$core$padding[1])
-  out <- plot_grob(g, name="rbind_2_text_row.pdf", width=4, height=1)
+  width <- convertUnit(ncol(d)*theme$core$size + theme$core$padding[1]*(ncol(d)-1), "inches")
+  height <- convertUnit(nrow(d)*theme$core$size + theme$core$padding[2]*(nrow(d)-1), "inches")
+  out <- plot_grob(g, name="rbind_2_text_row.pdf", width=width, height=2*height)
   expect_true(out$plot_success)
 
   g <- gtable_rbind(g1, g2, g1, g2, size="max", height=theme$core$padding[1])
@@ -25,7 +28,9 @@ test_that("rbind_2 and gtable_rbind on text row works", {
   expect_true(out$plot_success)
 })
 
+
 test_that("rbind_2 and gtable_rbind on text mat works", {
+  skip_on_cran()
   theme <- ttheme_awesome()
   d <- DBS$rowData$name
   d <- matrix(rep(d, 5), nrow=5, byrow=T)
@@ -56,6 +61,7 @@ test_that("rbind_2 and gtable_rbind on text mat works", {
 
 
 test_that("cbind_2 on table circle works", {
+  skip_on_cran()
   theme <- ttheme_awesome()
   d <- DBS$assays$proportion
   widths <- rep(theme$core$size, ncol(d))
@@ -99,7 +105,9 @@ test_that("cbind_2 on table circle works", {
   expect_true(out$plot_success)
 })
  
+
 test_that("rbind_2 on table text - circle works", {
+  skip_on_cran()
   theme <- ttheme_awesome()
   d <- DBS$assays$proportion
   col <- t(colnames(d))
@@ -110,6 +118,11 @@ test_that("rbind_2 on table text - circle works", {
                      fg_params = theme$colhead$fg_params, 
                      bg_params = theme$colhead$bg_params, 
                      padding=theme$colhead$padding)
+
+  labels <- as.vector(col)
+  label_max <- labels[which(nchar(labels)==max(nchar(labels)))]
+  fontsize <- theme$colhead$fg_params$fontsize
+  height1 <- unit(strwidth(label_max, font=1, cex=fontsize/par()$ps, units='in'), "inches")
 
   widths <- rep(theme$core$size, ncol(d))
   heights <- rep(theme$core$size, nrow(d))
@@ -129,6 +142,10 @@ test_that("rbind_2 on table text - circle works", {
 
   g <- rbind_2(g1, g2, size="last", height=theme$core$padding[1])
 
-  out <- plot_grob(g, name="rbind_2_text_circle.pdf")
+  width <- convertUnit(sum(widths) + theme$core$padding[1]*(length(widths)-1), "inches")
+  height2 <- convertUnit(sum(heights) + theme$core$padding[2]*(length(heights)-1), "inches")
+  height <- height1 + convertUnit(theme$core$padding[[1]],"inches") + height2
+  margin <- unit(0.25,"inches")
+  out <- plot_grob(g, name="rbind_2_text_circle.pdf", width=width+margin, height=height+margin)
   expect_true(out$plot_success)
 })

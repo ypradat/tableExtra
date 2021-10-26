@@ -1,3 +1,5 @@
+image: continuumio/miniconda3:latest
+
 stages:
   - check
   - test
@@ -8,28 +10,26 @@ default:
     - docker
 
 variables:
-  RENV_PATHS_ROOT: "/opt/r_renv"
   CODECOV_TOKEN: "b524d434-9189-48fc-a919-72e40de8cd22"
 
 before_script:
-  - Rscript -e 'renv::restore()'
-  - apt-get --yes install git
+  - conda env create -f env.yaml
+  - source activate tableExtra
 
 check:
   stage: check
-  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/tableextra_docker
   script:
     - Rscript -e 'if (!identical(devtools::check(document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
-    - Rscript -e 'covr::codecov(token="b524d434-9189-48fc-a919-72e40de8cd22")'
   only:
     refs:
       - master
+      - dev
 
 test: 
   stage: test
-  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/tableextra_docker
   script:
     - Rscript -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
+    - Rscript -e 'covr::codecov(token="b524d434-9189-48fc-a919-72e40de8cd22")'
     - bash <(curl -s https://codecov.io/bash)
   only:
     refs:
@@ -37,7 +37,6 @@ test:
 
 install:
   stage: check
-  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/tableextra_docker
   script:
     - Rscript -e 'devtools::build(binary=T)'
     - Rscript -e 'devtools::install()'

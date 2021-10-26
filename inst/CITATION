@@ -1,0 +1,11 @@
+citHeader("To cite tableExtra in publications use:")
+
+citEntry(
+  entry    = "Manual",
+  title    = "tableExtra: An R package for creating publication-ready extra heatmap plots.",
+  author   = "Yoann Pradat",
+  year     = "2021",
+  note     = "R package version 1.0.0",
+  url      = "https://github.com/ypradat/tableExtra",
+  textVersion = "Pradat, Yoann (2021). tableExtra: An R package for creating publication-ready extra heatmap plots. R package version 1.0.0. Available at: https://github.com/ypradat/tableExtra"
+)

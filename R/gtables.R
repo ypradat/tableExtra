@@ -76,6 +76,7 @@ gtable_table <- function(d, widths, heights,
 #' Build a grob with a legend inside.
 #'
 #' @param d data.frame or matrix
+#' @param labels tick labels displayed at legend tick marks
 #' @param widths optional \code{unit.list} specifying the grob widths
 #' @param heights optional \code{unit.list} specifying the grob heights
 #' @param fg_fun grob-drawing function
@@ -85,10 +86,14 @@ gtable_table <- function(d, widths, heights,
 #' @param title_x \code{unit} specifying the x position of the title
 #' @param title_y \code{unit} specifying the x position of the title
 #' @param title_label character vector
+#' @param title_gp graphical parameters of the title
+#' @param labels_pad padding between the text labels
+#' @param labels_gp graphical parameters of the text labels
 #' @param padding numeric vector specifying the padding between adjacent cells.
 #' @param size_unit character vector defining the unit used for sizes. See \code{grid::unit} for all possible
-#' specifications.
-#' @param name optional name of the grob
+#'    specifications
+#' @param name name of the grob
+#' @param orientation choose 'horizontal' or 'vertical'
 #' @param vp optional viewport
 #' @param ... additional parameters passed to \code{add_table_params}.
 #' @return A gtable.
@@ -100,8 +105,9 @@ gtable_table <- function(d, widths, heights,
 gtable_legend <- function(d, labels, widths, heights, fg_fun, fg_params, bg_fun=NULL, bg_params=NULL,
                           title_x=NULL, title_y=NULL, title_label="Title", title_gp=gpar(fontsize=10), 
                           labels_pad=-1, labels_gp=gpar(fontsize=6), padding=0.3,
-                          size_unit="mm", name="legend", vp=NULL, orientation="horizontal", ...){
+                          size_unit="mm", name="legend", vp=NULL, orientation=c("horizontal", "vertical"), ...){
 
+  orientation <- match.arg(orientation)
   labels_pad <- unit(labels_pad, size_unit)
   padding <- unit(padding, size_unit)
 

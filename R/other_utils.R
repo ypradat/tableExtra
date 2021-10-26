@@ -1,4 +1,3 @@
-
 "%contains%" <- function(x, y) all(y %in% x)
 
 rep_along <- function(x, y) {
@@ -65,4 +64,48 @@ breaks_scale <- function(d, d_min=NULL, d_max=NULL, breaks=10){
   dcut <- dcut/max(dcut)
 
   dcut
+}
+
+
+
+extract_breadth_first <- function(lst, n){
+  sapply(lst, `[`, n)
+}
+
+
+extract_strwidth_max_label <- function(labels, fontsize, unit="inches"){
+  label_max <- labels[which(nchar(labels)==max(nchar(labels)))[1]]
+  label_max_width <- strwidth(label_max, font=1, cex=fontsize/12, units=unit, ps=par(ps=12))
+  unit(label_max_width, unit)
+}
+
+extract_strheight_max_label <- function(labels, fontsize, unit="inches"){
+  label_max <- labels[which(nchar(labels)==max(nchar(labels)))[1]]
+  label_max_height <- strheight(label_max, font=1, cex=fontsize/12, units=unit, ps=par(ps=12))
+  unit(label_max_height, unit)
+}
+
+
+get_value_from_unit <- function(x){
+  as.numeric(gsub("[a-zA-Z]+", "", as.character(x)))
+}
+
+get_unit_from_unit <- function(x) {
+  as.character(gsub("[0-9\\.]+", "", as.character(x)))
+}
+
+convert_unit <- function(x, to, from=NULL){
+  if (!is.unit(x) & is.null(from)){
+    stop("if unit is not specified, x has to be a grid::unit object")
+  } else if (is.unit(x)){
+    value <- get_value_from_unit(x)
+    from <- get_unit_from_unit(x)
+  } else {
+    value <- x
+  }
+
+  convert_to_cm <- list("cm"=1, "centimetre"=1, "centimeter"=1, "mm"=0.1, "in"=2.54, "inch"=2.54, "inches"=2.54,
+                        "points"=2.54/72.27, "picas"=12*2.54/72.27)
+
+  value*convert_to_cm[[from]]/convert_to_cm[[to]]
 }

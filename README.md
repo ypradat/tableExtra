@@ -14,9 +14,9 @@ repertoire of mutational signatures in human cancer**. *Nature* 2020.
 
 The figure may be customized by addition/removal of rows/columns descriptors and position of the legend.
 
-### No legend
+### No legend, no rows more
 
-![pcawg](assets/table_extra_grob_pcawg_no_legend.png)
+![pcawg](assets/table_extra_grob_pcawg_no_rows_more_no_legend.png)
 
 ### Legend top left, no rows more
 

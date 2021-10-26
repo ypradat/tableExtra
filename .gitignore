@@ -17,6 +17,7 @@ log/
 *.Rproj.user
 *.Rprofile
 renv/
+*.Rcheck
 
 # Open cached files 
 *.m~

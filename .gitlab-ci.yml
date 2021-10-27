@@ -33,6 +33,7 @@ test:
   only:
     refs:
       - master
+      - dev
 
 install:
   stage: check
@@ -43,3 +44,4 @@ install:
   only:
     refs:
       - master
+      - dev

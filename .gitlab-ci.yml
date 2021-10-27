@@ -23,10 +23,6 @@ check:
     refs:
       - master
       - dev
-    changes:
-      - R
-      - tests
-      - .gitlab-ci.yml
 
 test: 
   stage: test
@@ -39,10 +35,6 @@ test:
     refs:
       - master
       - dev
-    changes:
-      - R
-      - tests
-      - .gitlab-ci.yml
 
 
 install:
@@ -55,6 +47,3 @@ install:
     refs:
       - master
       - dev
-    changes:
-      - R
-      - .gitlab-ci.yml

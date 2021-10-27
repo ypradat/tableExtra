@@ -22,7 +22,7 @@ get_table_extra_dimensions(
 
 \item{dcolor}{(optional) a matrix of size (n,m) containing the values defining the circles' colors.}
 
-\item{theme}{a list of theme parapemters. Use an instance of \code{ttheme_awesome}.}
+\item{theme}{a list of theme parameters. Use an instance of \code{ttheme_awesome}.}
 
 \item{rows_more}{(optional) a named list of additional columns (right-part) of the plot for describing the rows. The
 list names will be used as column headers.}

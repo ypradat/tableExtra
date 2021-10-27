@@ -1,12 +1,12 @@
 #' @title Graphical display of a table with circles of varying scales and colours.
 #'
-#' Draw a heatmap of size (m,n) where heatmap cells containg circles of varying size and color. The column names are
-#' displayed on the top side and are defined by `colnames(dscale)`. Similary, row names are displayed left side and
+#' Draw a heatmap of size (m,n) with cells containing circles of varying size and color. The column names are
+#' displayed on the top side and are defined by `colnames(dscale)`. Similarly, row names are displayed left side and
 #' defined by `rownames(dscale)`.
 #' 
 #' @description Render a gtable containing circle grobs representing a numeric matrix.
 #' @param dscale a matrix of size (n,m) containing the values defining the circles' scales.
-#' @param theme a list of theme parapemters. Use an instance of `ttheme_awesome`.
+#' @param theme a list of theme parameters. Use an instance of `ttheme_awesome`.
 #' @param output path to output file. Only pdf supported for now. 
 #' @param dcolor (optional) a matrix of size (n,m) containing the values defining the circles' colors.
 #' @param dscale_min (optional) value for setting the minimum scale size of foreground grobs. Entries in the

@@ -4,8 +4,8 @@
 \alias{draw_table_extra}
 \title{Graphical display of a table with circles of varying scales and colours.
 
-Draw a heatmap of size (m,n) where heatmap cells containg circles of varying size and color. The column names are
-displayed on the top side and are defined by \code{colnames(dscale)}. Similary, row names are displayed left side and
+Draw a heatmap of size (m,n) with cells containing circles of varying size and color. The column names are
+displayed on the top side and are defined by \code{colnames(dscale)}. Similarly, row names are displayed left side and
 defined by \code{rownames(dscale)}.}
 \usage{
 draw_table_extra(
@@ -26,7 +26,7 @@ draw_table_extra(
 \arguments{
 \item{dscale}{a matrix of size (n,m) containing the values defining the circles' scales.}
 
-\item{theme}{a list of theme parapemters. Use an instance of \code{ttheme_awesome}.}
+\item{theme}{a list of theme parameters. Use an instance of \code{ttheme_awesome}.}
 
 \item{output}{path to output file. Only pdf supported for now.}
 

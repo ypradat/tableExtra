@@ -85,7 +85,7 @@
 #' plot_data <- pcawg_plot_data()
 #'
 #' # draw
-#' output <- tempfile()
+#' output <- "table_extra_grob_pcawg.pdf"
 #' draw_table_extra(dscale=plot_data$dscale, theme=plot_data$theme, output=output,
 #'                  dcolor=plot_data$dcolor, cols_more=plot_data$cols_more,
 #'                  rows_more=plot_data$rows_more,

@@ -11,8 +11,7 @@ variables:
   CODECOV_TOKEN: "b524d434-9189-48fc-a919-72e40de8cd22"
 
 before_script:
-  - ls /opt/conda/envs
-  - micromamba activate tableExtra
+  - micromamba activate base
 
 check:
   stage: check

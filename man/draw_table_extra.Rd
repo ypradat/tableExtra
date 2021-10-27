@@ -64,6 +64,7 @@ library(dplyr)
 library(tableExtra)
 library(tibble)
 
+# load data
 load(system.file("testdata", "pcawg_counts.rda", package="tableExtra"))
 load(system.file("testdata", "sbs_aetiologies.rda", package="tableExtra"))
 

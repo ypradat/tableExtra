@@ -267,6 +267,7 @@ draw_table_extra <- function(dscale, theme, output, dcolor=NULL, dscale_min=NULL
 #' @return a list with the width and the height
 #'
 #' @importFrom grid unit
+#' @importFrom graphics par strheight strwidth
 #' @author Yoann Pradat
 #' @export
 get_table_extra_dimensions <- function(dscale, dcolor, theme, rows_more=NULL, cols_more=NULL,  unit="inches",

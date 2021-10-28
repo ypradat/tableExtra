@@ -1,5 +1,5 @@
 test_that("legend circle grob", {
-  skip_on_cran()
+  
   scale_breaks <- seq(from=0, to=1, by=0.1)
   theme <- ttheme_awesome(base_size=12,
                           rep_mode="col",
@@ -37,7 +37,7 @@ test_that("legend circle grob", {
 
 
 test_that("legend rect grob", {
-  skip_on_cran()
+  
   color_palette <- c("#ffc651", "#ffa759", "#ff8962", "#ff6b6b", "#cc6999", "#9968c8", "#6767f8", "#4459ce", "#224ba5", 
                      "#013d7c")
   color_breaks <- c(0, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10, 25, 1e6)
@@ -80,7 +80,7 @@ test_that("legend rect grob", {
 
 
 test_that("legend rect grob vertical", {
-  skip_on_cran()
+  
   color_palette <- c("#ffc651", "#ffa759", "#ff8962", "#ff6b6b", "#cc6999", "#9968c8", "#6767f8", "#4459ce", "#224ba5", 
                      "#013d7c")
   color_breaks <- c(0, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10, 25, 1e6)

@@ -73,15 +73,14 @@ pcawg_plot_data <- function(){
 
 # tables needed for the plot and graphical parameters in `theme`
 plot_data <- pcawg_plot_data()
+output <- "table_extra_pcawg.pdf"
 
 # draw
-output <- "table_extra_grob_pcawg.pdf"
 draw_table_extra(dscale=plot_data$dscale, theme=plot_data$theme, output=output,
                  dcolor=plot_data$dcolor, cols_more=plot_data$cols_more,
                  rows_more=plot_data$rows_more,
                  dscale_title_legend="Prop of tumors with the signature",
                  dcolor_title_legend="Median mut/Mb due to signature")
-graphics.off()
 ```
 
 ## Example figures
@@ -90,7 +89,7 @@ The figures below were produced using this package.
 
 ### PCAWG Fig 3 SBS signatures
 
-![pcawg](assets/table_extra_grob_pcawg.png)
+![pcawg](assets/table_extra_pcawg.png)
 
 ### PCAWG Fig 3 SBS signatures variants
 
@@ -98,16 +97,16 @@ The figure may be customized by addition/removal of rows/columns descriptors and
 
 #### No legend, no rows more
 
-![pcawg](assets/table_extra_grob_pcawg_no_rows_more_no_legend.png)
+![pcawg](assets/table_extra_pcawg_no_rows_more_no_legend.png)
 
 #### Legend top left, no rows more
 
-![pcawg](assets/table_extra_grob_pcawg_no_rows_more_legend_top_left.png)
+![pcawg](assets/table_extra_pcawg_no_rows_more_legend_top_left.png)
 
 #### Legend top right, no rows more
 
-![pcawg](assets/table_extra_grob_pcawg_no_rows_more_legend_top_right.png)
+![pcawg](assets/table_extra_pcawg_no_rows_more_legend_top_right.png)
 
 #### Legend center, no rows more
 
-![pcawg](assets/table_extra_grob_pcawg_no_rows_more_legend_center.png)
+![pcawg](assets/table_extra_pcawg_no_rows_more_legend_center.png)

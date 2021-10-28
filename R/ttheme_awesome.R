@@ -30,6 +30,15 @@
 #' @param legend_labels_fontsize (optional) if NULL, font size is set to `theme$colhead$fontsize`.
 #' @param legend_labels_pad (optional) padding between the legend labels.
 #' @param ... extra parameters added to the theme list
+#' @return a list of lists with each sublist defining parameters for the corresponding part of the plot. The parts are
+#' \itemize{
+#'  \item **core**:  defines all graphical parameters for the grobs sizes, shapes and background of the table.
+#'  \item **colhead**:  defines all graphical parameters for the table column labels.
+#'  \item **colmore**:  defines all graphical parameters for the additional column descriptors.
+#'  \item **rowhead**:  defines all graphical parameters for the table row labels.
+#'  \item **rowmore**:  defines all graphical parameters for the additional row descriptors.
+#'  \item **legend**:  defines all graphical parameters for the legend.
+#' }
 #'
 #' @importFrom utils modifyList
 #'
@@ -48,7 +57,7 @@ ttheme_awesome <- function(base_size=8,
                            parse=FALSE, 
                            size_unit="mm",
                            padding=c(0.3,0.3),
-                           show_legend=T,
+                           show_legend=TRUE,
                            legend_position=NULL,
                            legend_layout=NULL,
                            legend_x=NULL, legend_y=NULL,

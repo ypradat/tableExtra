@@ -7,7 +7,9 @@
 cbind_2(x, y, size = "max", width = NULL)
 }
 \arguments{
-\item{x}{}
+\item{x}{a \code{gtable} object}
+
+\item{y}{a \code{gtable} object}
 
 \item{size}{how should the widths be calculated?
 \enumerate{
@@ -18,6 +20,9 @@ cbind_2(x, y, size = "max", width = NULL)
 }}
 
 \item{width}{padding width between grobs}
+}
+\value{
+a \code{gtable} object with containing column-binded gtables \code{x} and \code{y}
 }
 \description{
 cbind two gtables

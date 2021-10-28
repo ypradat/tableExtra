@@ -148,11 +148,11 @@ table_params_text <- function(d){
 #' @author Yoann Pradat
 #' @keywords internal
 add_table_params <- function(d, params, fun, ...){
-  if (all.equal(fun, circle_grob)==T){
+  if (all.equal(fun, circle_grob)==TRUE){
     extra_params <- table_params_circle(d, ...)
-  } else if (all.equal(fun, text_grob)==T) {
+  } else if (all.equal(fun, text_grob)==TRUE) {
     extra_params <- table_params_text(d)
-  } else if (all.equal(fun, rect_grob)==T) { 
+  } else if (all.equal(fun, rect_grob)==TRUE) { 
     extra_params <- table_params_rect(d, ...)
   } else {
     stop("Unsupported value of fun")

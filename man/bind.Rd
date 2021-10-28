@@ -26,8 +26,14 @@ gtable_cbind(..., size = "max", width = NULL, z = NULL)
 
 \item{width}{padding width between grobs}
 }
+\value{
+a \code{gtable} object
+
+a \code{gtable} object
+}
 \description{
 rbind two or more gtables
 
 cbind two or more gtables
 }
+\keyword{internal}

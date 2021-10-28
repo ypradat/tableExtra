@@ -1,5 +1,5 @@
 test_that("rbind_2 and gtable_rbind on text row works", {
-  skip_on_cran()
+  
   theme <- ttheme_awesome()
   d <- t(DBS$colData$description)
 
@@ -30,7 +30,7 @@ test_that("rbind_2 and gtable_rbind on text row works", {
 
 
 test_that("rbind_2 and gtable_rbind on text mat works", {
-  skip_on_cran()
+  
   theme <- ttheme_awesome()
   d <- DBS$rowData$name
   d <- matrix(rep(d, 5), nrow=5, byrow=T)
@@ -61,7 +61,7 @@ test_that("rbind_2 and gtable_rbind on text mat works", {
 
 
 test_that("cbind_2 on table circle works", {
-  skip_on_cran()
+  
   theme <- ttheme_awesome()
   d <- DBS$assays$proportion
   widths <- rep(theme$core$size, ncol(d))
@@ -107,7 +107,7 @@ test_that("cbind_2 on table circle works", {
  
 
 test_that("rbind_2 on table text - circle works", {
-  skip_on_cran()
+  
   theme <- ttheme_awesome()
   d <- DBS$assays$proportion
   col <- t(colnames(d))

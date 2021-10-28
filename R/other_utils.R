@@ -23,7 +23,7 @@ rep_ifshort <- function(x, n, nc, nr, rep_mode){
       if (rep_mode=="row"){
         return(rep(rep(x, length.out=nr), length.out=n)) 
       } else if (rep_mode=="col") {
-        return(as.vector(matrix(rep(rep(x, length.out=nc), length.out=n), byrow=T, nrow=nr)))
+        return(as.vector(matrix(rep(rep(x, length.out=nc), length.out=n), byrow=TRUE, nrow=nr)))
       } else {
         stop(paste0("Unsupported value '", rep_mode,"' of rep_mode. Choose 'col' or 'row'"))
       }
@@ -55,7 +55,7 @@ breaks_scale <- function(d, d_min=NULL, d_max=NULL, breaks=10){
     breaks <- (breaks-d_min)/(d_max-d_min)
   }
 
-  dint <- cut(d, labels=F, breaks=breaks, left.open=T)
+  dint <- cut(d, labels=F, breaks=breaks, left.open=TRUE)
   dint <- (breaks[dint] + breaks[dint+1])/2
   dint[is.na(dint)] <- 0
   dcut <- matrix(dint, nrow=nrow(d), byrow=F)

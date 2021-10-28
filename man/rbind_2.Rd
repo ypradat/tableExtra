@@ -7,7 +7,9 @@
 rbind_2(x, y, size = "max", height = NULL)
 }
 \arguments{
-\item{x}{}
+\item{x}{a \code{gtable} object}
+
+\item{y}{a \code{gtable} object}
 
 \item{size}{how should the widths be calculated?
 \enumerate{
@@ -18,6 +20,9 @@ rbind_2(x, y, size = "max", height = NULL)
 }}
 
 \item{height}{padding height between grobs}
+}
+\value{
+a \code{gtable} object with containing row-binded gtables \code{x} and \code{y}
 }
 \description{
 rbind two gtables

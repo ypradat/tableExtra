@@ -1,8 +1,6 @@
 ## Misc. gtable functions
 ## Note: these functions were copied from the gridExtra package.
 
-
-
 #' Insert unit
 #'
 #' Helper for [rbind_2] and [cbind_2].
@@ -60,7 +58,8 @@ z_arrange_gtables <- function (gtables, z)
 #' }
 #' @param height padding height between grobs
 #' @param z optional z level
-#' @export
+#' @return a \code{gtable} object
+#' @keywords internal
 gtable_rbind <- function(..., size = "max", height = NULL, z = NULL) {
   gtables <- list(...)
   if (!is.null(z)) {
@@ -73,7 +72,8 @@ gtable_rbind <- function(..., size = "max", height = NULL, z = NULL) {
 #'
 #' @rdname bind
 #' @param width padding width between grobs
-#' @export
+#' @return a \code{gtable} object
+#' @keywords internal
 gtable_cbind <- function(..., size = "max", width = NULL, z = NULL) {
   gtables <- list(...)
   if (!is.null(z)) {
@@ -84,7 +84,8 @@ gtable_cbind <- function(..., size = "max", width = NULL, z = NULL) {
 
 #' rbind two gtables
 #'
-#' @param x 
+#' @param x a \code{gtable} object
+#' @param y a \code{gtable} object
 #' @param size how should the widths be calculated?
 #' \enumerate{
 #'   \item \code{max} maximum of all widths
@@ -93,6 +94,7 @@ gtable_cbind <- function(..., size = "max", width = NULL, z = NULL) {
 #'   \item \code{last} widths/heights of last gtable
 #' }
 #' @param height padding height between grobs
+#' @return a \code{gtable} object with containing row-binded gtables \code{x} and \code{y}
 #'
 #' @importFrom gtable gtable_add_rows
 #'
@@ -129,7 +131,8 @@ rbind_2 <- function(x, y, size = "max", height=NULL) {
 
 #' cbind two gtables
 #'
-#' @param x 
+#' @param x a \code{gtable} object
+#' @param y a \code{gtable} object
 #' @param size how should the widths be calculated?
 #' \enumerate{
 #'   \item \code{max} maximum of all widths
@@ -138,6 +141,7 @@ rbind_2 <- function(x, y, size = "max", height=NULL) {
 #'   \item \code{last} widths/heights of last gtable
 #' }
 #' @param width padding width between grobs
+#' @return a \code{gtable} object with containing column-binded gtables \code{x} and \code{y}
 #'
 #' @importFrom gtable gtable_add_cols
 #'
@@ -171,115 +175,3 @@ cbind_2 <- function(x, y, size = "max", width=NULL) {
   
   x
 }
-
-# #'Combine gtables based on row/column names.
-# #'@param ... gtables
-# #'@aliases combine
-# #'@rdname combine
-# #'@param along dimension to align along, \code{1} = rows,
-# #'\code{2} = cols. 
-# #'@param join when x and y have different names, how should the difference be resolved? 
-# #'\code{inner} keep names that appear in both, 
-# #'\code{outer} keep names that appear in either, 
-# #'\code{left} keep names from \code{x}, 
-# #'and \code{right} keep names from \code{y}.
-# #'@export
-# gtable_combine <- function (..., along = 1L, join = "outer") 
-# {
-#   gtables <- list(...)
-#   Reduce(function(x, y) combine_2(x, y, 
-#                                     along = along, 
-#                                     join = join),
-#          gtables)
-# }
-# 
-# 
-
-# 
-# combine_2 <- function(x, y, along = 1L, join = "outer") {
-#   aligned <- align_2(x, y, along = along, join = join)
-#   switch(along,
-#          cbind_2(aligned$x, aligned$y, 
-#                                   size="max"), 
-#          rbind_2(aligned$x, aligned$y, 
-#                                   size="max"),
-#          stop("along > 2 no implemented"))
-# }
-# 
-# 
-# 
-# align_2 <- function(x, y, along = 1L, join = "outer") {
-#   join <- match.arg(join, c("left", "right", "inner", "outer"))
-#   
-#   names_x <- dimnames(x)[[along]]
-#   names_y <- dimnames(y)[[along]]
-#   
-#   if (is.null(names_x) || is.null(names_y)) {
-#     stop("Both gtables must have names along dimension to be aligned")
-#   }
-#   
-#   idx <- switch(join,
-#                 left = names_x,
-#                 right = names_y, 
-#                 inner = intersect(names_x, names_y),
-#                 outer = union(names_x, names_y)
-#   )
-#   
-#   list(
-#     x = gtable_reindex(x, idx, along), 
-#     y = gtable_reindex(y, idx, along)
-#   )
-# }
-# 
-# 
-# gtable_reindex <- function(x, index, along = 1L) {
-#   stopifnot(is.character(index))
-#   if (length(dim(x)) > 2L || along > 2L) {
-#     stop("reindex only supports 2d objects")
-#   }
-#   old_index <- switch(along, rownames(x), colnames(x))
-#   stopifnot(!is.null(old_index))
-#   
-#   if (identical(index, old_index)) {
-#     return(x)
-#   }
-#   
-#   if (!(old_index %contains% index)) {
-#     missing <- setdiff(index, old_index)
-#     # Create and add dummy space rows
-#     
-#     if (along == 1L) {
-#       spacer <- gtable(
-#         widths = unit(rep(0, ncol(x)), "cm"), 
-#         heights = rep_along(unit(0, "cm"), missing),
-#         rownames = missing)
-#       x <- rbind(x, spacer, size = "first")
-#     } else if (along == 2L){
-#       spacer <- gtable(
-#         heights = unit(rep(0, nrow(x)), "cm"), 
-#         widths = rep_along(unit(0, "cm"), missing),
-#         colnames = missing)
-#       
-#       x <- cbind(x, spacer, size = "first")
-#     }
-#   }
-#   
-#   
-#   # Reorder & subset
-#   
-#   switch(along, 
-#          x[index, ],
-#          x[, index])
-# }
-# 
-# 
-# gtable_remove_grob <- function(x, pattern, which = 1L, 
-#                                fixed = FALSE, trim=TRUE){
-#   matches <- grep(pattern, x$layout$name, fixed = fixed)
-#   tokeep <- setdiff(seq_len(length(x)), matches[which])
-#   x$layout <- x$layout[tokeep, , drop = FALSE]
-#   x$grobs <- x$grobs[tokeep]
-#   if(trim)
-#     x <- gtable_trim(x)
-#   x
-# }

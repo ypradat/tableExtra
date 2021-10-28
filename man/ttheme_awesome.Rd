@@ -17,7 +17,7 @@ ttheme_awesome(
   parse = FALSE,
   size_unit = "mm",
   padding = c(0.3, 0.3),
-  show_legend = T,
+  show_legend = TRUE,
   legend_position = NULL,
   legend_layout = NULL,
   legend_x = NULL,
@@ -85,6 +85,17 @@ main plot cells.}
 \item{legend_labels_pad}{(optional) padding between the legend labels.}
 
 \item{...}{extra parameters added to the theme list}
+}
+\value{
+a list of lists with each sublist defining parameters for the corresponding part of the plot. The parts are
+\itemize{
+\item \strong{core}:  defines all graphical parameters for the grobs sizes, shapes and background of the table.
+\item \strong{colhead}:  defines all graphical parameters for the table column labels.
+\item \strong{colmore}:  defines all graphical parameters for the additional column descriptors.
+\item \strong{rowhead}:  defines all graphical parameters for the table row labels.
+\item \strong{rowmore}:  defines all graphical parameters for the additional row descriptors.
+\item \strong{legend}:  defines all graphical parameters for the legend.
+}
 }
 \description{
 Define theme for awesome table plot.

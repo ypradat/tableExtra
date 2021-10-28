@@ -5,13 +5,10 @@ load(system.file("testdata", "DBS.rda", package="tableExtra"))
 load(system.file("testdata", "DEXP.rda", package="tableExtra"))
 load(system.file("testdata", "pcawg_counts.rda", package="tableExtra"))
 load(system.file("testdata", "sbs_aetiologies.rda", package="tableExtra"))
-# load("testdata/DBS.rda")
-# load("testdata/DEXP.rda")
-# load("testdata/pcawg_counts.rda")
-# load("testdata/sbs_aetiologies.rda")
+cat(paste("tempdir located at", tempdir(), "\n"))
 
 plot_grob <- function(g, name, width=NULL, height=NULL){
-  grDevices::pdf(file=file.path(system.file("tests", "outputs", package="tableExtra"), name),
+  grDevices::pdf(file=file.path(tempdir(), name),
                  width=width,
                  height=height,
                  onefile=T)

@@ -6,7 +6,7 @@ Authors@R:
            family = "Pradat",
            role = c("aut", "cre"),
            email = "yoann.pradat@centralesupelec.fr")
-Description: Draws an awesome table.
+Description: An easy-to-use tool for drawing paper-quality tables with double-information encoded in grobs shapes and colors.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true

@@ -70,7 +70,7 @@ specifications}
 \item{...}{additional parameters passed to \code{add_table_params}.}
 }
 \value{
-A gtable.
+A \code{gtable} object.
 }
 \description{
 Build a grob with a legend inside.
@@ -78,3 +78,4 @@ Build a grob with a legend inside.
 \author{
 Yoann Pradat
 }
+\keyword{export}

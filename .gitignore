@@ -1,5 +1,6 @@
 # Project specific
 tests/testthat/pdfs_plots
+CRAN-RELEASE
 
 # Tags
 *tags

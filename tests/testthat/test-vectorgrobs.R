@@ -1,5 +1,5 @@
 test_that("text grob", {
-  skip_on_cran()
+  
   g <- text_grob(label="test", fontsize=24, col="black", lineheight=1)
 
   expect_true(is(g, "grob"))
@@ -13,7 +13,7 @@ test_that("text grob", {
 
 
 test_that("rect grob", {
-  skip_on_cran()
+  
   g <- rect_grob(width=unit(10, "mm"),
                  height=unit(10, "mm"),
                  fill="grey80",
@@ -30,7 +30,7 @@ test_that("rect grob", {
 
 
 test_that("rect grob", {
-  skip_on_cran()
+  
   g <- rect_grob(x=unit(0.5, "mm"),
                  y=unit(0.5, "mm"),
                  width=unit(10,"mm"),
@@ -49,7 +49,7 @@ test_that("rect grob", {
 
 
 test_that("circle grob", {
-  skip_on_cran()
+  
   g <- circle_grob(r=unit(5, "mm"),
                    fill="grey80",
                    col="black",
@@ -65,7 +65,7 @@ test_that("circle grob", {
 
 
 test_that("circle rect grob", {
-  skip_on_cran()
+  
   gc <- circle_grob(r=unit(5, "mm"),
                     lwd=0,
                     fill="grey80",
@@ -89,7 +89,7 @@ test_that("circle rect grob", {
 
 
 test_that("circle rect grob viewport", {
-  skip_on_cran()
+  
   gc <- circle_grob(r=unit(5, "mm"),
                     lwd=0,
                     fill="grey80",
@@ -105,7 +105,7 @@ test_that("circle rect grob viewport", {
                   cex=1)
 
 
-  grDevices::pdf(file=file.path("../outputs", "rect_circle_grob_vp.pdf"),
+  grDevices::pdf(file=file.path(tempdir(), "rect_circle_grob_vp.pdf"),
                  width=1,
                  height=1,
                  onefile=T)
@@ -121,11 +121,11 @@ test_that("circle rect grob viewport", {
   popViewport()
   grDevices::dev.off()
 
-  expect_true(file.exists(file.path("../outputs", "rect_circle_grob_vp.pdf")))
+  expect_true(file.exists(file.path(tempdir(), "rect_circle_grob_vp.pdf")))
 })
 
 test_that("circle rect grob small", {
-  skip_on_cran()
+  
   gc <- circle_grob(r=unit(5, "mm"),
                     lwd=0,
                     fill="grey80",

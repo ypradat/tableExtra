@@ -2,7 +2,7 @@
 % Please edit documentation in R/draw_table_extra.R
 \name{draw_table_extra}
 \alias{draw_table_extra}
-\title{Graphical display of a table with gropbs of varying scales and colours.}
+\title{Graphical display of a table with grobs of varying scales and colours.}
 \usage{
 draw_table_extra(
   dscale,
@@ -57,6 +57,7 @@ Draw a table containing grobs of varying sizes and colors encoding two different
 The column names and row names of the table are displayed on the top and left sides of the table respectively.
 }
 \examples{
+\donttest{
 library(dplyr)
 library(tableExtra)
 library(tibble)
@@ -117,6 +118,7 @@ draw_table_extra(dscale=plot_data$dscale, theme=plot_data$theme, output=output,
                  rows_more=plot_data$rows_more,
                  dscale_title_legend="Prop of tumors with the signature",
                  dcolor_title_legend="Median mut/Mb due to signature")
+}
 }
 \seealso{
 \code{\link[=ttheme_awesome]{ttheme_awesome()}}, \code{\link[=gtable_table]{gtable_table()}}, \code{\link[=gtable_legend]{gtable_legend()}}

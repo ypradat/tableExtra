@@ -66,4 +66,5 @@ examples/vignettes/tests you can write to tempdir().
 
 **Correction**
 
-Use `dev.off()` instead of `graphics.off()` at the end of `draw_table_extra` function and write to `tempdir()`.
+Use `dev.off()` instead of `graphics.off()` at the end of `draw_table_extra` function and write to `tempdir()`. Change
+`dontrun `to `donttest` as the examples runs in about `8s` which is more than the `5s` limit of CRAN.

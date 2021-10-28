@@ -1,4 +1,4 @@
-#' @title Graphical display of a table with gropbs of varying scales and colours.
+#' @title Graphical display of a table with grobs of varying scales and colours.
 #'
 #' @description Draw a table containing grobs of varying sizes and colors encoding two different kinds of information.
 #' The column names and row names of the table are displayed on the top and left sides of the table respectively.
@@ -22,6 +22,7 @@
 #' @return No return value, the last instruction calls graphics.off() in order to write the plot to the .pdf file 
 #'  specified via \code{output} argument.
 #'
+#' @importFrom grDevices dev.off
 #' @importFrom grid unit
 #'
 #' @seealso [ttheme_awesome()], [gtable_table()], [gtable_legend()]
@@ -30,6 +31,7 @@
 #'
 #' @export
 #' @examples
+#' \donttest{
 #' library(dplyr)
 #' library(tableExtra)
 #' library(tibble)
@@ -90,6 +92,7 @@
 #'                  rows_more=plot_data$rows_more,
 #'                  dscale_title_legend="Prop of tumors with the signature",
 #'                  dcolor_title_legend="Median mut/Mb due to signature")
+#'}
 draw_table_extra <- function(dscale, theme, output, dcolor=NULL, dscale_min=NULL, dscale_max=NULL, cols_more=NULL,
                              rows_more=NULL, dscale_title_legend="Scale title", dcolor_title_legend="Color title",
                              margin_x=unit(1, "inches"), margin_y=unit(1, "inches")){

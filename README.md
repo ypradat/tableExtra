@@ -29,3 +29,7 @@ The figure may be customized by addition/removal of rows/columns descriptors and
 ### Legend center, no rows more
 
 ![pcawg](assets/table_extra_grob_pcawg_no_rows_more_legend_center.png)
+
+### Legend top left, no rows more, frames
+
+![pcawg](assets/table_extra_grob_pcawg_no_rows_more_legend_top_left_with_frames.png)

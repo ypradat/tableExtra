@@ -16,7 +16,7 @@ before_script:
 
 check:
   stage: check
-  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/tableextra_docker:cf0e84818d5d00d32d8dd4113d6af1628090f365
+  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/tableextra_docker:latest
   script:
     - Rscript -e 'if (!identical(devtools::check(document = FALSE, args = "--no-tests")[["errors"]], character(0))) stop("Check with Errors")'
   only:

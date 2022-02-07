@@ -16,7 +16,10 @@ draw_table_extra(
   dscale_title_legend = "Scale title",
   dcolor_title_legend = "Color title",
   margin_x = unit(1, "inches"),
-  margin_y = unit(1, "inches")
+  margin_y = unit(1, "inches"),
+  dframes = NULL,
+  colors_frames = NULL,
+  lwd_frames = 3
 )
 }
 \arguments{
@@ -47,6 +50,13 @@ list names will be used as column headers.}
 \item{margin_x}{(optional) use it to fine-tune the width of the plot if some elements are not displayed correctly.}
 
 \item{margin_y}{(optional) use it to fine-tune the height of the plot if some elements are not displayed correctly.}
+
+\item{dframes}{(optional) list of matrices of size (n,m) defining if a frame should be added to each cell or not.
+1 at position i,j indicates to add a frame, any other value is ignored.}
+
+\item{colors_frames}{(optional) list of colors. Names of this list should names of \code{dframes}.}
+
+\item{lwd_frames}{(optional) the line width of frames if any.}
 }
 \value{
 No return value, the last instruction calls graphics.off() in order to write the plot to the .pdf file

@@ -229,3 +229,29 @@ test_that("extra table grob legend top right", {
   graphics.off()
   expect_true(file.exists(output))
 })
+
+
+test_that("extra table grob cols more rows more with color and frames", {
+  skip_on_cran()
+  # get tables for plot
+  plot_data <- pcawg_plot_data()
+  plot_data$theme$legend$position <- "top_left"
+
+  # add random frames
+  dframes <- list(test=matrix(0, nrow=nrow(plot_data$dscale), ncol=ncol(plot_data$dscale),
+                              dimnames=list(rownames(plot_data$dscale), colnames(plot_data$dscale))))
+  dframes[["test"]][1,1] <- 1
+  dframes[["test"]][10,5] <- 1
+  colors_frames <- list(test="#E5383B")
+
+  # draw
+  output <- file.path(system.file("tests", "outputs", package="tableExtra"),
+                      "table_extra_grob_pcawg_no_rows_more_legend_top_left_with_frames.pdf")
+  draw_table_extra(dscale=plot_data$dscale, theme=plot_data$theme, output=output,
+                   dcolor=plot_data$dcolor, cols_more=plot_data$cols_more, rows_more=NULL,
+                   dscale_title_legend="Prop of tumors with the signature",
+                   dcolor_title_legend="Median mut/Mb due to signature",
+                   dframes=dframes, colors_frames=colors_frames)
+  graphics.off()
+  expect_true(file.exists(output))
+})

@@ -21,6 +21,10 @@
 #' @param dcolor_title_legend (optional) title for the colorbar providing a legend for colors 
 #' @param margin_x (optional) use it to fine-tune the width of the plot if some elements are not displayed correctly.
 #' @param margin_y (optional) use it to fine-tune the height of the plot if some elements are not displayed correctly.
+#' @param dframes (optional) list of matrices of size (n,m) defining if a frame should be added to each cell or not.
+#'    1 at position i,j indicates to add a frame, any other value is ignored.
+#' @param colors_frames (optional) list of colors. Names of this list should names of \code{dframes}.
+#' @param lwd_frames (optional) the line width of frames if any.
 #'
 #' @importFrom grid unit
 #'
@@ -95,7 +99,8 @@
 #' }
 draw_table_extra <- function(dscale, theme, output, dcolor=NULL, dscale_min=NULL, dscale_max=NULL, cols_more=NULL,
                              rows_more=NULL, dscale_title_legend="Scale title", dcolor_title_legend="Color title",
-                             margin_x=unit(1, "inches"), margin_y=unit(1, "inches")){
+                             margin_x=unit(1, "inches"), margin_y=unit(1, "inches"), dframes=NULL,
+                             colors_frames=NULL, lwd_frames=3){
 
   # set legend position and layout according to rows_more
   if (is.null(theme$legend$position)){
@@ -117,6 +122,9 @@ draw_table_extra <- function(dscale, theme, output, dcolor=NULL, dscale_min=NULL
 
   # for some legend positions, the space available for legend is not enough. To increase space available,
   # whitespaces may be added to the rownames or colnames of dscale or to rows_more/cols_more
+  # in order to position frames (if any), we need to preserve original row and col names
+  rownames_dscale <- rownames(dscale)
+  colnames_dscale <- colnames(dscale)
   rownames(dscale) <- dims$rows
   colnames(dscale) <- dims$cols
   rows_more <- dims$rows_more
@@ -135,6 +143,30 @@ draw_table_extra <- function(dscale, theme, output, dcolor=NULL, dscale_min=NULL
                         rows=rownames(dscale), cols=colnames(dscale),
                         cols_more=cols_more, rows_more=rows_more,
                         theme=theme)
+
+  # add frames to highlight some cells if any
+  if (!is.null(dframes)){
+    I <- nrow(dscale)
+    for (name in names(dframes)){
+      color <- colors_frames[[name]]
+      dframe <- dframes[[name]]
+      for (row_name in rownames(dframe)){
+        for (col_name in colnames(dframe)){
+          show_frame <- (dframe[row_name, col_name]==1) &
+            (row_name %in% rownames_dscale) &
+            (col_name %in% colnames_dscale)
+          if (show_frame){
+            i <- which(rownames_dscale==row_name)
+            j <- which(colnames_dscale==col_name)
+            l <- g$layout
+            st <- which(l$name=="core-bg")[1]
+            ind <- st + i-1 + I*(j-1)
+            g$grobs[ind][[1]][["gp"]] <- modifyList(g$grobs[ind][[1]][["gp"]], list(col=color, lwd=lwd_frames))
+          }
+        }
+      }
+    }
+  }
 
   # render core plot
   grid.draw(g)

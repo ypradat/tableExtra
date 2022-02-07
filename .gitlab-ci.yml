@@ -26,7 +26,7 @@ check:
 
 test: 
   stage: test
-  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/tableextra_docker:cf0e84818d5d00d32d8dd4113d6af1628090f365
+  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/tableextra_docker:latest
   script:
     - Rscript -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
     - Rscript -e 'Sys.setenv(NOT_CRAN = "true");covr::codecov(token="b524d434-9189-48fc-a919-72e40de8cd22")'
@@ -39,7 +39,7 @@ test:
 
 install:
   stage: check
-  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/tableextra_docker:cf0e84818d5d00d32d8dd4113d6af1628090f365
+  image: gitlab-research.centralesupelec.fr:4567/2019pradaty/tableextra_docker:latest
   script:
     - Rscript -e 'devtools::build(binary=T)'
     - Rscript -e 'devtools::install()'

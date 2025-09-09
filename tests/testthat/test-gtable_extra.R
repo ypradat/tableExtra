@@ -3,10 +3,9 @@ test_that("extra table grob", {
   theme <- ttheme_awesome(core_size=5)
   d <- DBS$assays$proportion
 
-  g <- table_extra_grob(d, rows=rownames(d), cols=colnames(d),
-                        theme=theme)
+  g <- gtable_extra(d, rows=rownames(d), cols=colnames(d), theme=theme)
 
-  out <- plot_grob(g, name="table_extra_grob.pdf", width=4, height=4)
+  out <- plot_grob(g, name="gtable_extra.pdf", width=4, height=4)
   expect_true(out$plot_success)
 })
 
@@ -16,11 +15,9 @@ test_that("extra table grob cols more", {
   theme <- ttheme_awesome(core_size=5)
   d <- DBS$assays$proportion
 
-  g <- table_extra_grob(d, rows=rownames(d), cols=colnames(d),
-                        cols_more=list("n="=DBS$colData$description),
-                        theme=theme)
+  g <- gtable_extra(d, rows=rownames(d), cols=colnames(d), cols_more=list("n="=DBS$colData$description), theme=theme)
 
-  out <- plot_grob(g, name="table_extra_grob_cols_more.pdf", width=4, height=4)
+  out <- plot_grob(g, name="gtable_extra_cols_more.pdf", width=4, height=4)
   expect_true(out$plot_success)
 })
 
@@ -32,10 +29,7 @@ test_that("extra table grob cols more rows more no color annotated", {
   cols_more <- list("n="=DBS$colData$description)
   rows_more <- list("Proposed aetiology"=DBS$rowData$description)
 
-  g <- table_extra_grob(d, rows=rownames(d), cols=colnames(d),
-                        cols_more=cols_more, rows_more=rows_more,
-                        theme=theme)
-
+  g <- gtable_extra(d, rows=rownames(d), cols=colnames(d), cols_more=cols_more, rows_more=rows_more, theme=theme)
 
   find_cell <- function(g, row, col, name){
     l <- g$layout
@@ -45,14 +39,14 @@ test_that("extra table grob cols more rows more no color annotated", {
   ind <- find_cell(g, 3, 3, "core-bg")
   g$grobs[ind][[1]][["gp"]] <- gpar(col = "red", lwd=3)
 
-  out <- plot_grob(g, name="table_extra_grob_cols_more_rows_more_no_color_annotated.pdf", width=5, height=4)
+  out <- plot_grob(g, name="gtable_extra_cols_more_rows_more_no_color_annotated.pdf", width=5, height=4)
   expect_true(out$plot_success)
 })
 
 
 test_that("extra table grob cols more rows more with color", {
   skip_on_cran()
-  color_palette <- c("#ffc651", "#ffa759", "#ff8962", "#ff6b6b", "#cc6999", "#9968c8", "#6767f8", "#4459ce", "#224ba5", 
+  color_palette <- c("#ffc651", "#ffa759", "#ff8962", "#ff6b6b", "#cc6999", "#9968c8", "#6767f8", "#4459ce", "#224ba5",
                      "#013d7c")
   color_breaks <- c(0, 0.001,0.005,0.008,0.01,0.02,0.03,0.05,0.1,0.5,1)
 
@@ -62,12 +56,12 @@ test_that("extra table grob cols more rows more with color", {
   cols_more <- list("n="=DBS$colData$description)
   rows_more <- list("Proposed aetiology"=DBS$rowData$description)
 
-  g <- table_extra_grob(dscale=dscale, dcolor=dcolor, 
-                        rows=rownames(dscale), cols=colnames(dscale),
-                        cols_more=cols_more, rows_more=rows_more,
-                        theme=theme)
+  g <- gtable_extra(dscale=dscale, dcolor=dcolor,
+                    rows=rownames(dscale), cols=colnames(dscale),
+                    cols_more=cols_more, rows_more=rows_more,
+                    theme=theme)
 
-  out <- plot_grob(g, name="table_extra_grob_cols_more_rows_more_with_color.pdf", width=5, height=4)
+  out <- plot_grob(g, name="gtable_extra_cols_more_rows_more_with_color.pdf", width=5, height=4)
   expect_true(out$plot_success)
 })
 
@@ -81,14 +75,14 @@ test_that("extra table grob genes work", {
   dscale <- -log10(DEXP$assays$pvalue) + 1
   dcolor <- DEXP$assays$sign
 
-  g <- table_extra_grob(dscale=dscale, dcolor=dcolor, 
-                        rows=rownames(dscale), cols=colnames(dscale),
-                        cols_more=list("n1="=DBS$colData$description, 
-                                       "n2="=DBS$colData$description), 
-                        rows_more=NULL,
-                        theme=theme)
+  g <- gtable_extra(dscale=dscale, dcolor=dcolor,
+                    rows=rownames(dscale), cols=colnames(dscale),
+                    cols_more=list("n1="=DBS$colData$description,
+                                   "n2="=DBS$colData$description),
+                    rows_more=NULL,
+                    theme=theme)
 
-  out <- plot_grob(g, name="table_extra_grob_genes.pdf", width=5, height=12)
+  out <- plot_grob(g, name="gtable_extra_genes.pdf", width=5, height=12)
   expect_true(out$plot_success)
 })
 
@@ -99,20 +93,20 @@ test_that("extra table grob genes with dscale_min and dscale_max works", {
   color_breaks <- c(-2, 0, 2)
 
   theme <- ttheme_awesome(core_size=5,
-                          color_palette=color_palette, 
+                          color_palette=color_palette,
                           color_breaks=color_breaks)
   dscale <- -log10(DEXP$assays$pvalue) + 1
   dcolor <- DEXP$assays$sign
 
-  g <- table_extra_grob(dscale=dscale, dcolor=dcolor, 
-                        rows=rownames(dscale), cols=colnames(dscale),
-                        cols_more=list("n1="=DBS$colData$description), 
-                        rows_more=NULL,
-                        dscale_min=-log10(0.05),
-                        dscale_max=NULL,
-                        theme=theme)
+  g <- gtable_extra(dscale=dscale, dcolor=dcolor,
+                    rows=rownames(dscale), cols=colnames(dscale),
+                    cols_more=list("n1="=DBS$colData$description),
+                    rows_more=NULL,
+                    dscale_min=-log10(0.05),
+                    dscale_max=NULL,
+                    theme=theme)
 
-  out <- plot_grob(g, name="table_extra_grob_genes_dmin_dmax.pdf", width=5, height=12)
+  out <- plot_grob(g, name="gtable_extra_genes_dmin_dmax.pdf", width=5, height=12)
   expect_true(out$plot_success)
 })
 
@@ -123,22 +117,22 @@ test_that("extra table grob genes with scale breaks works", {
   color_breaks <- c(-2, 0, 2)
   scale_breaks <- c(1, 2, 5)
 
-  theme <- ttheme_awesome(core_size=5, 
+  theme <- ttheme_awesome(core_size=5,
                           scale_breaks=scale_breaks,
-                          color_palette=color_palette, 
+                          color_palette=color_palette,
                           color_breaks=color_breaks)
   dscale <- -log10(DEXP$assays$pvalue) + 1
   dcolor <- DEXP$assays$sign
 
-  g <- table_extra_grob(dscale=dscale, dcolor=dcolor, 
-                        rows=rownames(dscale), cols=colnames(dscale),
-                        cols_more=list("n1="=DBS$colData$description), 
-                        rows_more=NULL,
-                        dscale_min=NULL,
-                        dscale_max=NULL,
-                        theme=theme)
+  g <- gtable_extra(dscale=dscale, dcolor=dcolor,
+                    rows=rownames(dscale), cols=colnames(dscale),
+                    cols_more=list("n1="=DBS$colData$description),
+                    rows_more=NULL,
+                    dscale_min=NULL,
+                    dscale_max=NULL,
+                    theme=theme)
 
-  out <- plot_grob(g, name="table_extra_grob_genes_dmin_dmax_with_scale_breaks.pdf", width=5, height=12)
+  out <- plot_grob(g, name="gtable_extra_genes_dmin_dmax_with_scale_breaks.pdf", width=5, height=12)
   expect_true(out$plot_success)
 })
 
@@ -149,7 +143,7 @@ test_that("extra table grob with rows more", {
   plot_data <- pcawg_plot_data()
 
   # draw
-  output <- file.path(system.file("tests", "outputs", package="tableExtra"), "table_extra_grob_pcawg.pdf")
+  output <- file.path(system.file("tests", "outputs", package="tableExtra"), "gtable_extra_pcawg.pdf")
   draw_table_extra(dscale=plot_data$dscale, theme=plot_data$theme, output=output,
                    dcolor=plot_data$dcolor, cols_more=plot_data$cols_more, rows_more=plot_data$rows_more,
                    dscale_title_legend="Prop of tumors with the signature",
@@ -167,7 +161,7 @@ test_that("extra table grob without rows more no legend", {
 
   # draw
   output <- file.path(system.file("tests", "outputs", package="tableExtra"),
-                      "table_extra_grob_pcawg_no_rows_more_no_legend.pdf")
+                      "gtable_extra_pcawg_no_rows_more_no_legend.pdf")
   draw_table_extra(dscale=plot_data$dscale, theme=plot_data$theme, output=output,
                    dcolor=plot_data$dcolor, cols_more=plot_data$cols_more, rows_more=NULL,
                    dscale_title_legend="Prop of tumors with the signature",
@@ -185,7 +179,7 @@ test_that("extra table grob without rows more legend center", {
 
   # draw
   output <- file.path(system.file("tests", "outputs", package="tableExtra"),
-                      "table_extra_grob_pcawg_no_rows_more_legend_center.pdf")
+                      "gtable_extra_pcawg_no_rows_more_legend_center.pdf")
   draw_table_extra(dscale=plot_data$dscale, theme=plot_data$theme, output=output,
                    dcolor=plot_data$dcolor, cols_more=plot_data$cols_more, rows_more=NULL,
                    dscale_title_legend="Prop of tumors with the signature",
@@ -203,7 +197,7 @@ test_that("extra table grob legend top left", {
 
   # draw
   output <- file.path(system.file("tests", "outputs", package="tableExtra"),
-                      "table_extra_grob_pcawg_no_rows_more_legend_top_left.pdf")
+                      "gtable_extra_pcawg_no_rows_more_legend_top_left.pdf")
   draw_table_extra(dscale=plot_data$dscale, theme=plot_data$theme, output=output,
                    dcolor=plot_data$dcolor, cols_more=plot_data$cols_more, rows_more=NULL,
                    dscale_title_legend="Prop of tumors with the signature",
@@ -221,7 +215,7 @@ test_that("extra table grob legend top right", {
 
   # draw
   output <- file.path(system.file("tests", "outputs", package="tableExtra"),
-                      "table_extra_grob_pcawg_no_rows_more_legend_top_right.pdf")
+                      "gtable_extra_pcawg_no_rows_more_legend_top_right.pdf")
   draw_table_extra(dscale=plot_data$dscale, theme=plot_data$theme, output=output,
                    dcolor=plot_data$dcolor, cols_more=plot_data$cols_more, rows_more=NULL,
                    dscale_title_legend="Prop of tumors with the signature", margin_x=unit(0.5, "inches"),
@@ -246,7 +240,7 @@ test_that("extra table grob cols more rows more with color and frames", {
 
   # draw
   output <- file.path(system.file("tests", "outputs", package="tableExtra"),
-                      "table_extra_grob_pcawg_no_rows_more_legend_top_left_with_frames.pdf")
+                      "gtable_extra_pcawg_no_rows_more_legend_top_left_with_frames.pdf")
   draw_table_extra(dscale=plot_data$dscale, theme=plot_data$theme, output=output,
                    dcolor=plot_data$dcolor, cols_more=plot_data$cols_more, rows_more=NULL,
                    dscale_title_legend="Prop of tumors with the signature",

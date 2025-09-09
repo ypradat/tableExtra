@@ -49,4 +49,3 @@ Compute the width and height in user-specified unit required for drawing the plo
 \author{
 Yoann Pradat
 }
-\keyword{internal}

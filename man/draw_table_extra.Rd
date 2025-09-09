@@ -7,7 +7,7 @@
 draw_table_extra(
   dscale,
   theme,
-  output,
+  output = NULL,
   dcolor = NULL,
   dscale_min = NULL,
   dscale_max = NULL,
@@ -27,7 +27,8 @@ draw_table_extra(
 
 \item{theme}{a list of theme parameters. Use an instance of \code{ttheme_awesome}.}
 
-\item{output}{path to output file. Only pdf supported for now.}
+\item{output}{(optional) path to output file. If NULL (default), the plot is drawn to the active graphics device.
+If a path is provided, a PDF is saved.}
 
 \item{dcolor}{(optional) a matrix of size (n,m) containing the values defining the grobs colors.}
 
@@ -78,17 +79,17 @@ load(system.file("testdata", "sbs_aetiologies.rda", package="tableExtra"))
 
 pcawg_plot_data <- function(){
   scale_breaks <- seq(from=0, to=1, by=0.1)
-  color_palette <- c("#ffc651", "#ffa759", "#ff8962", "#ff6b6b", "#cc6999", "#9968c8", 
+  color_palette <- c("#ffc651", "#ffa759", "#ff8962", "#ff6b6b", "#cc6999", "#9968c8",
                      "#6767f8", "#4459ce", "#224ba5","#013d7c")
   color_breaks <- c(0, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10, 25, 1e6)
   color_bg <- c("#f8f9fa", "#e9ecef")
 
   theme <- ttheme_awesome(base_size=12,
                           rep_mode="col",
-                          core_size=5, 
+                          core_size=5,
                           scale_breaks=scale_breaks,
-                          color_palette=color_palette, 
-                          color_breaks=color_breaks, 
+                          color_palette=color_palette,
+                          color_breaks=color_breaks,
                           core=list(bg_params=list(fill=color_bg)))
 
   # define dscale and cols_more from PCAWG data
@@ -102,7 +103,7 @@ pcawg_plot_data <- function(){
   dscale$n <- NULL
   dscale <- column_to_rownames(.data=dscale, var="Cancer.Types")
   dscale <- t(as.matrix(dscale))
-  
+
   # define dcolor and rows_more from PCAWG data
   mask <- sbs_aetiologies$Signature \%in\% rownames(dscale)
   rows_more <- list("Aetiology"=sbs_aetiologies[mask, "Aetiology"])

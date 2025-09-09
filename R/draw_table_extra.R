@@ -5,7 +5,8 @@
 #'
 #' @param dscale a matrix containing the values defining the grobs scales.
 #' @param theme a list of theme parameters. Use an instance of `ttheme_awesome`.
-#' @param output path to output file. Only pdf supported for now. 
+#' @param output (optional) path to output file. If NULL (default), the plot is drawn to the active graphics device.
+#'    If a path is provided, a PDF is saved.
 #' @param dcolor (optional) a matrix of size (n,m) containing the values defining the grobs colors.
 #' @param dscale_min (optional) value for setting the minimum scale size of foreground grobs. Entries in the
 #'    \code{dscale} matrix below \code{dscale_min} will have a scale of 0 (no grob).
@@ -16,17 +17,18 @@
 #' @param cols_more (optional) a named list of additional rows (top-part) of the plot for describing the columns The
 #'    list names will be used as row headers.
 #' @param dscale_title_legend (optional) title for the colorbar providing a legend for scales.
-#' @param dcolor_title_legend (optional) title for the colorbar providing a legend for colors 
+#' @param dcolor_title_legend (optional) title for the colorbar providing a legend for colors
 #' @param margin_x (optional) use it to fine-tune the width of the plot if some elements are not displayed correctly.
 #' @param margin_y (optional) use it to fine-tune the height of the plot if some elements are not displayed correctly.
 #' @param dframes (optional) list of matrices of size (n,m) defining if a frame should be added to each cell or not.
 #'    1 at position i,j indicates to add a frame, any other value is ignored.
 #' @param colors_frames (optional) list of colors. Names of this list should names of \code{dframes}.
 #' @param lwd_frames (optional) the line width of frames if any.
-#' @return No return value, the last instruction calls graphics.off() in order to write the plot to the .pdf file 
+#' @return No return value, the last instruction calls graphics.off() in order to write the plot to the .pdf file
 #'  specified via \code{output} argument.
 #'
-#' @importFrom grDevices dev.off
+#' @importFrom grDevices pdf dev.off
+#' @importFrom ragg agg_png
 #' @importFrom grid unit
 #'
 #' @seealso [ttheme_awesome()], [gtable_table()], [gtable_legend()]
@@ -46,43 +48,43 @@
 #'
 #' pcawg_plot_data <- function(){
 #'   scale_breaks <- seq(from=0, to=1, by=0.1)
-#'   color_palette <- c("#ffc651", "#ffa759", "#ff8962", "#ff6b6b", "#cc6999", "#9968c8", 
+#'   color_palette <- c("#ffc651", "#ffa759", "#ff8962", "#ff6b6b", "#cc6999", "#9968c8",
 #'                      "#6767f8", "#4459ce", "#224ba5","#013d7c")
 #'   color_breaks <- c(0, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10, 25, 1e6)
 #'   color_bg <- c("#f8f9fa", "#e9ecef")
-#' 
+#'
 #'   theme <- ttheme_awesome(base_size=12,
 #'                           rep_mode="col",
-#'                           core_size=5, 
+#'                           core_size=5,
 #'                           scale_breaks=scale_breaks,
-#'                           color_palette=color_palette, 
-#'                           color_breaks=color_breaks, 
+#'                           color_palette=color_palette,
+#'                           color_breaks=color_breaks,
 #'                           core=list(bg_params=list(fill=color_bg)))
-#' 
+#'
 #'   # define dscale and cols_more from PCAWG data
 #'   dscale <- pcawg_counts %>%
 #'     group_by(Cancer.Types) %>%
 #'     mutate(n=n()) %>%
 #'     summarize_at(vars(-Sample.Names, -Accuracy), ~sum(.x>0)) %>%
 #'     mutate_at(vars(-Cancer.Types,-n), ~./n)
-#' 
+#'
 #'   cols_more <- list("n="=dscale$n)
 #'   dscale$n <- NULL
 #'   dscale <- column_to_rownames(.data=dscale, var="Cancer.Types")
 #'   dscale <- t(as.matrix(dscale))
-#'   
+#'
 #'   # define dcolor and rows_more from PCAWG data
 #'   mask <- sbs_aetiologies$Signature %in% rownames(dscale)
 #'   rows_more <- list("Aetiology"=sbs_aetiologies[mask, "Aetiology"])
-#' 
+#'
 #'   dcolor <- pcawg_counts %>%
 #'     group_by(Cancer.Types) %>%
 #'     summarize_at(vars(-Sample.Names, -Accuracy), ~median(.[.!=0]*1e6/3.2e9)) %>%
 #'     replace(is.na(.),0)
-#' 
+#'
 #'   dcolor <- column_to_rownames(.data=dcolor, var="Cancer.Types")
 #'   dcolor <- t(as.matrix(dcolor))
-#' 
+#'
 #'   list(dscale=dscale, dcolor=dcolor, cols_more=cols_more, rows_more=rows_more, theme=theme)
 #' }
 #'
@@ -97,7 +99,7 @@
 #'                  dscale_title_legend="Prop of tumors with the signature",
 #'                  dcolor_title_legend="Median mut/Mb due to signature")
 #'}
-draw_table_extra <- function(dscale, theme, output, dcolor=NULL, dscale_min=NULL, dscale_max=NULL, cols_more=NULL,
+draw_table_extra <- function(dscale, theme, output=NULL, dcolor=NULL, dscale_min=NULL, dscale_max=NULL, cols_more=NULL,
                              rows_more=NULL, dscale_title_legend="Scale title", dcolor_title_legend="Color title",
                              margin_x=unit(1, "inches"), margin_y=unit(1, "inches"), dframes=NULL,
                              colors_frames=NULL, lwd_frames=3){
@@ -116,8 +118,8 @@ draw_table_extra <- function(dscale, theme, output, dcolor=NULL, dscale_min=NULL
   }
 
   # get output plot dimensions
-  dims <- get_table_extra_dimensions(dscale=dscale, dcolor=dcolor, theme=theme, rows_more=rows_more, 
-                                     cols_more=cols_more, unit="inches", margin_x=margin_x, margin_y=margin_y, 
+  dims <- get_table_extra_dimensions(dscale=dscale, dcolor=dcolor, theme=theme, rows_more=rows_more,
+                                     cols_more=cols_more, unit="inches", margin_x=margin_x, margin_y=margin_y,
                                      dscale_title_legend=dscale_title_legend, dcolor_title_legend=dcolor_title_legend)
 
   # for some legend positions, the space available for legend is not enough. To increase space available,
@@ -132,17 +134,27 @@ draw_table_extra <- function(dscale, theme, output, dcolor=NULL, dscale_min=NULL
   margin_x <- convert_unit(margin_x, "inches")
   margin_y <- convert_unit(margin_y, "inches")
 
-  # init device
-  grDevices::pdf(file=output,
-                 width=as.numeric(dims$width),
-                 height=as.numeric(dims$height),
-                 onefile=TRUE)
+  # If an output path is provided, open the PDF device
+  if (!is.null(output)){
+    if (grepl(".pdf$", output)){
+      pdf(file=output,
+          width=as.numeric(dims$width),
+          height=as.numeric(dims$height),
+          onefile=TRUE)
+    } else if (grepl(".png$",  output)){
+      agg_png(file=output,
+          width=as.numeric(dims$width),
+          height=as.numeric(dims$height),
+          units="in",
+          res=300)
+    }
+  }
 
   # main plot
-  g <- gtable_extra(dscale=dscale, dcolor=dcolor, 
-                        rows=rownames(dscale), cols=colnames(dscale),
-                        cols_more=cols_more, rows_more=rows_more,
-                        theme=theme)
+  g <- gtable_extra(dscale=dscale, dcolor=dcolor,
+                    rows=rownames(dscale), cols=colnames(dscale),
+                    cols_more=cols_more, rows_more=rows_more,
+                    theme=theme)
 
   # add frames to highlight some cells if any
   if (!is.null(dframes)){
@@ -168,7 +180,6 @@ draw_table_extra <- function(dscale, theme, output, dcolor=NULL, dscale_min=NULL
     }
   }
 
-  # render core plot
   grid.draw(g)
 
   if (theme$legend$show){
@@ -193,10 +204,10 @@ draw_table_extra <- function(dscale, theme, output, dcolor=NULL, dscale_min=NULL
                         labels=scale_breaks,
                         widths=rep(theme$legend$core$size, length(scale_breaks)-1),
                         heights=theme$legend$core$size,
-                        fg_fun=theme$legend$core$fg_fun, 
-                        bg_fun=theme$legend$core$bg_fun, 
-                        fg_params=theme$legend$core$fg_params, 
-                        bg_params=theme$legend$core$bg_params, 
+                        fg_fun=theme$legend$core$fg_fun,
+                        bg_fun=theme$legend$core$bg_fun,
+                        fg_params=theme$legend$core$fg_params,
+                        bg_params=theme$legend$core$bg_params,
                         title_label=dscale_title_legend,
                         title_gp=gpar(fontsize=theme$legend$title_fontsize),
                         title_x=0.5*(length(scale_breaks)-1)*theme$legend$core$size,
@@ -244,7 +255,7 @@ draw_table_extra <- function(dscale, theme, output, dcolor=NULL, dscale_min=NULL
 
     if (is.null(theme$legend$width)) theme$legend$width <- dims$width_legend
     if (is.null(theme$legend$height)) theme$legend$height <- dims$height_legend
-    
+
     # legend x
     if (is.null(theme$legend$x)){
       if (theme$legend$position=="top_right"){
@@ -261,7 +272,7 @@ draw_table_extra <- function(dscale, theme, output, dcolor=NULL, dscale_min=NULL
         just2 <- c("center", "top")
       }
     }
-    
+
     # legend y
     if (is.null(theme$legend$y)){
       if (theme$legend$position %in% c("top_left", "top_right")){
@@ -272,14 +283,14 @@ draw_table_extra <- function(dscale, theme, output, dcolor=NULL, dscale_min=NULL
     }
 
 
-    vp1 <- viewport(x=theme$legend$x, y=theme$legend$y, 
+    vp1 <- viewport(x=theme$legend$x, y=theme$legend$y,
                     width=dims$width_legend/dims$width, height=2*dims$height_legend_one/dims$height,
                     just=just1)
     pushViewport(vp1)
     grid.draw(g1)
     popViewport()
 
-    vp2 <- viewport(x=theme$legend$x, y=theme$legend$y, 
+    vp2 <- viewport(x=theme$legend$x, y=theme$legend$y,
                     width=dims$width_legend/dims$width, height=2*dims$height_legend_one/dims$height,
                     just=just2)
     pushViewport(vp2)
@@ -287,21 +298,27 @@ draw_table_extra <- function(dscale, theme, output, dcolor=NULL, dscale_min=NULL
     popViewport()
   }
 
-  dev.off()
+  # If an output path was provided, close the device to finish writing the file
+  if (!is.null(output)){
+    dev.off()
+  }
+
+  invisible(g)
 }
 
 
 #' @title Get width and height of the plot.
 #'
 #' @description Compute the width and height in user-specified unit required for drawing the plot.
-#' @inheritParams draw_table_extra 
+#' @inheritParams draw_table_extra
 #' @param unit (optional) choose any unit that is valid for `grid::unit`.
 #' @return a list with dimensions of the global plot and of parts of the plot.
 #'
 #' @importFrom grid unit
 #' @importFrom graphics par strheight strwidth
 #' @author Yoann Pradat
-#' @keywords internal
+#'
+#' @export
 get_table_extra_dimensions <- function(dscale, dcolor, theme, rows_more=NULL, cols_more=NULL,  unit="inches",
                                        dscale_title_legend=NULL, dcolor_title_legend=NULL, margin_x=unit(1, "inches"),
                                        margin_y=unit(1, "inches")){
@@ -313,7 +330,7 @@ get_table_extra_dimensions <- function(dscale, dcolor, theme, rows_more=NULL, co
   #### width
 
   # width of core plot
-  width <- convert_unit(sum(rep(theme$core$size, ncol(dscale))), unit) + 
+  width <- convert_unit(sum(rep(theme$core$size, ncol(dscale))), unit) +
     convert_unit(sum(rep(theme$core$padding[[1]], ncol(dscale)-1)), unit)
 
   # width of row labels
@@ -352,7 +369,7 @@ get_table_extra_dimensions <- function(dscale, dcolor, theme, rows_more=NULL, co
         nspaces_required <- ceiling((width_legend-width_rows_more)/width_space)+1
         text_spaces <- paste(rep(" ", nspaces_required), collapse="")
         rows_more <- lapply(rows_more, function(x) paste(x, text_spaces))
-        width_rows_more <- width_rows_more + width_space*nspaces_required 
+        width_rows_more <- width_rows_more + width_space*nspaces_required
       }
     }
   }
@@ -373,7 +390,7 @@ get_table_extra_dimensions <- function(dscale, dcolor, theme, rows_more=NULL, co
   #### height
 
   # height of core plot
-  height <- convert_unit(sum(rep(theme$core$size, nrow(dscale))), unit) + 
+  height <- convert_unit(sum(rep(theme$core$size, nrow(dscale))), unit) +
     convert_unit(sum(rep(theme$core$padding[[2]], nrow(dscale)-1)), unit)
 
   # height of col labels
@@ -382,9 +399,9 @@ get_table_extra_dimensions <- function(dscale, dcolor, theme, rows_more=NULL, co
 
   # height needed for legend
   if (theme$legend$show){
-    height_legend_one <- convert_unit(theme$core$size, unit) * theme$legend$scale + 
+    height_legend_one <- convert_unit(theme$core$size, unit) * theme$legend$scale +
       strheight(dscale_title_legend, font=1, cex=theme$legend$title_fontsize/12, units=unit, ps=par(ps=12))
-    # height_legend_one <- convert_unit(theme$core$size, unit) * theme$legend$scale + 
+    # height_legend_one <- convert_unit(theme$core$size, unit) * theme$legend$scale +
     #   strheight(dscale_title_legend, font=1, cex=theme$legend$title_fontsize/12, units=unit, ps=par(ps=12)) +
     #   strheight("0", font=1, cex=theme$legend$labels_fontsize/12, units=unit, ps=par(ps=12)) +
     #   2*convert_unit(unit(abs(theme$legend$labels_pad), "mm"), unit)
@@ -427,7 +444,7 @@ get_table_extra_dimensions <- function(dscale, dcolor, theme, rows_more=NULL, co
 
   height <- height_cols + height +  height_cols_more + convert_unit(margin_y, unit)
 
-  list(width=width, height=height, unit=unit, width_rows=width_rows, width_rows_more=width_rows_more, 
+  list(width=width, height=height, unit=unit, width_rows=width_rows, width_rows_more=width_rows_more,
        height_cols=height_cols, height_cols_more=height_cols_more, width_legend=width_legend,
        width_legend_one=width_legend_one, height_legend=height_legend, height_legend_one=height_legend_one,
        rows=rows, cols=cols, rows_more=rows_more, cols_more=cols_more)

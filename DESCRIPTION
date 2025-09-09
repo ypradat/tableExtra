@@ -1,23 +1,24 @@
 Package: tableExtra
 Title: Draws an Awesome Table
-Version: 1.0.2
-Authors@R: 
+Version: 1.1
+Authors@R:
     person(given = "Yoann",
            family = "Pradat",
            role = c("aut", "cre"),
-           email = "yoann.pradat@centralesupelec.fr")
+           email = "yoann.pradat@gustaveroussy.fr")
 Description: An easy-to-use tool for drawing paper-quality tables with double-information encoded in grobs shapes and colors.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
-Suggests: 
+RoxygenNote: 7.3.3
+Suggests:
     testthat,
     dplyr,
-    tibble 
-Depends: 
+    tibble
+Depends:
     R (>= 3.5.0)
-Imports: 
+Imports:
     gtable,
-    grid
+    grid,
+    ragg

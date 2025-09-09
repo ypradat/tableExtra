@@ -1,11 +1,13 @@
 # Project specific
 tests/testthat/pdfs_plots
+tests/outputs
+tests/testthat/Rplots.pdf
 CRAN-RELEASE
 
 # Tags
 *tags
 
-# Logs 
+# Logs
 log/
 *.log
 *.coverage
@@ -20,7 +22,7 @@ log/
 renv/
 *.Rcheck
 
-# Open cached files 
+# Open cached files
 *.m~
 *.*swp
 *.*swo

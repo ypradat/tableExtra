@@ -22,7 +22,6 @@
 #' @param margin_y (optional) use it to fine-tune the height of the plot if some elements are not displayed correctly.
 #' @param dframes (optional) list of matrices of size (n,m) defining if a frame should be added to each cell or not.
 #'    1 at position i,j indicates to add a frame, any other value is ignored.
-#' @param colors_frames (optional) list of colors. Names of this list should names of \code{dframes}.
 #' @param lwd_frames (optional) the line width of frames if any.
 #' @return No return value, the last instruction calls graphics.off() in order to write the plot to the .pdf file
 #'  specified via \code{output} argument.
@@ -101,8 +100,7 @@
 #'}
 draw_table_extra <- function(dscale, theme, output=NULL, dcolor=NULL, dscale_min=NULL, dscale_max=NULL, cols_more=NULL,
                              rows_more=NULL, dscale_title_legend="Scale title", dcolor_title_legend="Color title",
-                             margin_x=unit(1, "inches"), margin_y=unit(1, "inches"), dframes=NULL,
-                             colors_frames=NULL, lwd_frames=3){
+                             margin_x=unit(1, "inches"), margin_y=unit(1, "inches"), dframes=NULL, lwd_frames=3){
 
   # set legend position and layout according to rows_more
   if (is.null(theme$legend$position)){
@@ -160,13 +158,13 @@ draw_table_extra <- function(dscale, theme, output=NULL, dcolor=NULL, dscale_min
   if (!is.null(dframes)){
     I <- nrow(dscale)
     for (name in names(dframes)){
-      color <- colors_frames[[name]]
       dframe <- dframes[[name]]
       for (row_name in rownames(dframe)){
         for (col_name in colnames(dframe)){
-          show_frame <- (dframe[row_name, col_name]==1) &
+          show_frame <- (dframe[row_name, col_name]!="") & (is.null(dframe[row_name, col_name])) &
             (row_name %in% rownames_dscale) &
             (col_name %in% colnames_dscale)
+          color <- dframe[row_name, col_name]
           if (show_frame){
             i <- which(rownames_dscale==row_name)
             j <- which(colnames_dscale==col_name)

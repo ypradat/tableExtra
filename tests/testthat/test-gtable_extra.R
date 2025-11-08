@@ -234,9 +234,8 @@ test_that("extra table grob cols more rows more with color and frames", {
   # add random frames
   dframes <- list(test=matrix(0, nrow=nrow(plot_data$dscale), ncol=ncol(plot_data$dscale),
                               dimnames=list(rownames(plot_data$dscale), colnames(plot_data$dscale))))
-  dframes[["test"]][1,1] <- 1
-  dframes[["test"]][10,5] <- 1
-  colors_frames <- list(test="#E5383B")
+  dframes[["test"]]["SBS1","Biliary-AdenoCA"] <- "black"
+  dframes[["test"]][10,5] <- "#E5383B"
 
   # draw
   output <- file.path(system.file("tests", "outputs", package="tableExtra"),
@@ -245,7 +244,7 @@ test_that("extra table grob cols more rows more with color and frames", {
                    dcolor=plot_data$dcolor, cols_more=plot_data$cols_more, rows_more=NULL,
                    dscale_title_legend="Prop of tumors with the signature",
                    dcolor_title_legend="Median mut/Mb due to signature",
-                   dframes=dframes, colors_frames=colors_frames)
+                   dframes=dframes)
   graphics.off()
   expect_true(file.exists(output))
 })

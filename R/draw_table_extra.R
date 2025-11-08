@@ -161,7 +161,7 @@ draw_table_extra <- function(dscale, theme, output=NULL, dcolor=NULL, dscale_min
       dframe <- dframes[[name]]
       for (row_name in rownames(dframe)){
         for (col_name in colnames(dframe)){
-          show_frame <- (dframe[row_name, col_name]!="") & (is.null(dframe[row_name, col_name])) &
+          show_frame <- (dframe[row_name, col_name]!="") & (!is.null(dframe[row_name, col_name])) &
             (row_name %in% rownames_dscale) &
             (col_name %in% colnames_dscale)
           color <- dframe[row_name, col_name]

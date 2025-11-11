@@ -388,8 +388,10 @@ get_table_extra_dimensions <- function(dscale, dcolor, theme, rows_more=NULL, co
   #### height
 
   # height of core plot
-  height <- convert_unit(sum(rep(theme$core$size, nrow(dscale))), unit) +
-    convert_unit(sum(rep(theme$core$padding[[2]], nrow(dscale)-1)), unit)
+  height <- convert_unit(sum(rep(theme$core$size, nrow(dscale))), unit)
+  if (nrow(dscale)>1) {
+    height <- height + convert_unit(sum(rep(theme$core$padding[[2]], nrow(dscale)-1)), unit)
+  }
 
   # height of col labels
   fontsize <- theme$colhead$fg_params$fontsize
